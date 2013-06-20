@@ -76,7 +76,7 @@
 
 
 
-<form action="/news.NewsActionHandler.listMail" method="get" name="form1" id="form1">
+<form action="/news.NewsActionHandler.listMail" method="post" name="form1" id="form1">
 
 <input type="hidden" id="tag_ids" name="tag_ids2" value="${tag_ids2}" />
 <input type="hidden" id="objId" name="objId" value="" />
@@ -156,7 +156,7 @@ $(function(){
         <td><input type="text" id="orderby" name="orderby" value=" importance asc , posttime desc " /></td>
 
 		<td>输出文章数：</td>
-        <td><input type="text" id="pagesize" name="pagesize" value="20" /></td>
+        <td><input type="text" id="pagesize" name="pagesize" value="${pageVariable.pagesize}" /></td>
 
     </tr>
     <tr>
@@ -233,10 +233,6 @@ $(".unselect_all").click(function(){
     </tr>
 </table>
 
-<div class="pages_bar">
-<div class="pages_left">共 <span class="orange">${pageVariable.totalpage}</span> 页 | 第 <span class="orange">${pageVariable.npage+1}</span> 页</div>
-<div class="pages_right"><m:page action="news.NewsActionHandler.list" size="30" /></div>
-</div>
 
 </form>
 </body>

@@ -26,6 +26,7 @@ import sand.annotation.CandoCheck;
 import sand.depot.job.QuartzManager;
 import sand.depot.tool.system.ControllableException;
 import sand.depot.tool.system.ErrorException;
+import sand.depot.tool.system.SystemKit;
 import sand.mail.MailServer;
 import sand.service.basic.service.TagService;
 import sand.service.news.NewsService;
@@ -95,14 +96,19 @@ public class NewsActionHandler extends ActionHandler {
 		Map<String,List> newtags = new HashMap();
 		
 		if(tagstr.equals("")) tagstr=this.getParameter("tags");
+		
+		//log("ok  ,  tags is "+tagstr);
+		
+		if(tagstr.equals("")) throw new ErrorException("您没有选择 tag");
 		String tag[] = tagstr.split(",");
 		for(String s:tag){
 			if(s.equals("")) continue;
+			
 			List<BizObject> onetags = new ArrayList();
 			
 			for(int i=0 ; i<v.size();i++){
 				BizObject b=v.get(i);
-				log("tags is"+b.getString("tags"));
+				//log("tags is "+b.getString("tags"));
 				if(b.getString("tags").indexOf(s)>=0){
 					b.set("tag", s);
 					onetags.add(b);
@@ -117,7 +123,7 @@ public class NewsActionHandler extends ActionHandler {
 		
 	//	this._request.setAttribute("taglist", tagList);
 		this.setParam();
-		this.log("tagstr is "+tagstr);
+		//this.log("tagstr is "+tagstr);
 		this._request.setAttribute("tags", tagstr);
 		
 		this._nextUrl = "/template/news/render.jsp";
@@ -126,6 +132,7 @@ public class NewsActionHandler extends ActionHandler {
 
 	@CandoCheck("session")
 	public void listMail() throws SQLException{
+		log("list mail tag "+this.getParameter("tags2"));
 		List<BizObject> objList = queryList();
 		String[] str = this.getParameter("tag_ids2").split(",");
 
@@ -740,7 +747,10 @@ public class NewsActionHandler extends ActionHandler {
 		return new String(b);
 	}
 	public  void render2() throws IOException, ServletException, SQLException, TemplateException{
-		 Configuration cfg; 
+	   
+		log("ok  ,  tags is "+this.getParameter("tags"));
+		this.render();
+		Configuration cfg; 
        cfg = new Configuration();
        // - Templates are stoted in the WEB-INF/templates directory of the Web app.
        cfg.setServletContextForTemplateLoading(this._context  , "WEB-INF/templates");
@@ -750,8 +760,8 @@ public class NewsActionHandler extends ActionHandler {
        Map root = new HashMap();
        root.put("message", "Hello World!");
 
-       this.render();
-       root.put("www_url", "http://192.168.36.33:18080");
+       
+       root.put("www_url", SystemKit.getParamById("system_core", "www_url"));
        root.put("objList", _request.getAttribute("objList"));
        root.put("tags",this.getParameter("tags"));
        root.put("subject", this.getParameter("subject"));

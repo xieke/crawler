@@ -6,13 +6,16 @@
 <%@ taglib prefix="m" uri="/WEB-INF/sand-html.tld"%>
 <%@ page contentType="text/html;charset=utf-8" %>
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
 	<title><m:tool>sys_name</m:tool> <m:tool>sys_edition</m:tool></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<!-- Bootstrap -->
     <link href="<m:tool>www_url</m:tool>/css/bootstrap.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="<m:tool>www_url</m:tool>/css/theme.css" />
     <link rel="stylesheet" type="text/css" href="<m:tool>www_url</m:tool>/css/blog.css" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+
+</head>
 <script>
 	function preview(){
 //		$("#form1").attr("action","news.NewsActionHandler.render2");
@@ -38,7 +41,7 @@
         </div>
       </div>
     </div>
-<form action="/news.NewsActionHandler.sendMail" method="get" name="form1" id="form1" onsumit="" >
+<form action="/news.NewsActionHandler.sendMail" method="post" name="form1" id="form1" onsumit="" >
 
     <div id="blog_wrapper">
         <div class="container">
