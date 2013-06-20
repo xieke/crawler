@@ -1,0 +1,6 @@
+INFO (sand.actionhandler.weibo.UdaClient:606)- location Location: http://116.236.101.196:18080/weibo.WeiBoAH.weibo?code=1469903e8f6323c44be5f245a2cd719a
+INFO (sand.actionhandler.weibo.UdaClient:610)- retUrl  http://116.236.101.196:18080/weibo.WeiBoAH.weibo?code=1469903e8f6323c44be5f245a2cd719a
+INFO (sand.actionhandler.weibo.UdaClient:606)- location Location: http://116.236.101.196:18080/weibo.WeiBoAH.weibo?code=518d05a3a529e4cb2898b46d548bc638
+INFO (sand.actionhandler.weibo.UdaClient:610)- retUrl  http://116.236.101.196:18080/weibo.WeiBoAH.weibo?code=518d05a3a529e4cb2898b46d548bc638
+INFO (sand.actionhandler.weibo.UdaClient:606)- location Location: http://116.236.101.196:18080/weibo.WeiBoAH.weibo?code=40028474abf4b1b3acbc6055078aa9d7
+INFO (sand.actionhandler.weibo.UdaClient:610)- retUrl  http://116.236.101.196:18080/weibo.WeiBoAH.weibo?code=40028474abf4b1b3acbc6055078aa9d7

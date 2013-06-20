@@ -1,0 +1,44 @@
+地址：	http://121.199.6.117:8080/news.NewsActionHandler.post
+	不做权限判断
+	成功返回：ok
+	失败返回：null 或 失败
+
+参数：
+	网站名		web_site	*
+	网站域名	web_url		*
+	频道标签	catalog		*
+	采集入口【D】			
+	入口比对【D】
+	媒体分类标签	media_type	*
+	地区标签	area		*
+	语言		lang		*
+	读取频率【D】
+	标题		title		#
+	内容		content		#
+	评论【?】
+	内容摘要	summary		@
+	发表时间	posttime	#
+	作者		author		@
+	网站标签	from_tags	@
+	评论次数【D】
+	阅读次数【D】
+	分享次数【D】
+	采集源地址	copyfromurl	#
+
+区别：	新增 8 个字段（网站名、网站域名、频道标签、媒体分类标签
+		       地区标签、语言、内容摘要、网站标签）
+	删除 2 个字段（栏目名称fname、来源地址copyfrom）
+
+图释：	【D】：删除忽略
+	【?】：删除忽略，评论很难采集
+	  *  ：有值，手工设置
+	  #  ：有值，采集获得
+	  @  ：可选，视采集内容而定
+
+日期：	2013-06-18
+
+FTP:
+	121.199.6.117
+	ftp
+	flzx3qc,141hl9t
+

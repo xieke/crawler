@@ -1,0 +1,62 @@
+@charset "utf-8";
+/* CSS Document */
+body{ margin:0; padding:0}
+textarea,input[type='text'],input[type='password']{ border:1px solid #abadb3; padding:2px 4px; margin:1px}
+textarea:hover,input[type='text']:hover,input[type='password']:hover{ border:2px solid #52afee; margin:0}
+textarea:focus,input[type='text']:focus,input[type='password']:focus{ border:2px solid #1e85ca; margin:0}
+
+div.ui_head{ width:95%; height:25px;border:1px solid #464646;background:#6795B4; margin:0 auto}
+div.submenu{ border:1px solid #EFEFEF; width:95%; margin:7px auto 5px auto; overflow:auto}
+div.submenu span.button{ padding:2px 3px; overflow:auto; display:block; height:auto}
+table.ui .button,table.edit input[type='button'],table.edit input[type='submit'],span.button a{
+	font-size: 12px;
+	color: #174B73;
+	height: 20px;
+	line-height:20px;
+	width: 99px;
+	background-image: url(/images/button10.gif);
+	border: 0px;
+	display:block;
+	text-decoration:none;
+	float:left; margin:2px 12px 2px 0;
+	text-align:center
+}
+table.edit input[type='button']:hover,table.edit input[type='submit']:hover,span.button a:hover{ text-decoration:underline}
+table.ui{ width:95%; margin:7px auto 10px auto}
+table.ui{ border:1px solid #464646; border-collapse:collapse; font-size:12px}
+table.ui td,table.ui th{ padding:4px 12px}
+table.ui tr.no_padding td{ padding:0px 12px}
+table.ui th{ background:#eee; font-weight:normal}
+table.ui tr.title td,table.ui tr.title th{ background:#6795B4; color:#fff; padding:5px 12px}
+table.ui img{ vertical-align:middle}
+table.edit td{ border:0px}
+table.edit input[type='button'],table.edit input[type='submit']{ margin:8px 20px 8px 0;}
+table.list{}
+table.list td{ border-left:0; border-right:0; border-bottom:1px dotted #ccc}
+table.ui tr.odd{ background:#fff}
+table.ui tr.even{ background:#f1f1f1}
+table.ui tr.edit td{ padding:20px 0 10px 0; text-align:center}
+table.ui .button{ float:none; display:inherit}
+table.ui a{ color:#174B73; text-decoration:none}
+table.ui a:hover{ text-decoration:underline}
+.orange{color: #F26521; font-weight:bolder}
+div.pages_bar{ width:95%; margin:4px auto; overflow:auto; font-size:12px}
+div.pages_left{ float:left}
+div.pages_right{ float:right}
+div.pages a{ border:1px solid #87a3c1; background:url(/images/button04.gif) -1px -1px; color:#174b73; padding:1px 6px; text-decoration:none}
+div.pages a.select{ border:1px solid #FFF; background:none}
+div.div_select_all{ width:95%; padding:10px 0px; margin:0 auto}
+table.edit td.content_side{background:#f1f1f1; border-left:1px solid #ccc; padding:0}
+div.title{ background:#6795B4; border-top:1px solid #ccc; padding:4px 12px; color:#fff}
+table.edit td table.item_sa td{ padding:2px 4px}
+table.edit td.content_side textarea{ width:288px; font-size:12px}
+#tag_text{width:282px; height:204px; overflow:hidden; background:#fff;display:none; position:absolute; border:1px solid #87a3c1; margin-top:-3px}
+#tag_text div.search{ height:28px; width:280px; padding:2px 0 0 2px; overflow:hidden; background:#87a3c1}
+#tag_text div.result{width:270px; height:170px;overflow-x:hidden; overflow-y:scroll;padding:2px 6px;}
+#tag_text div.result input[type='checkbox']{ float:right}
+#tag_text div.result label{ overflow:auto; display:block; height:16px; line-height:16px; overflow:hidden}
+#tag_text div.result label:hover{ background:#c4e6ff}
+.order_{padding-right:20px; background:url(/images/orderdown.png) no-repeat right center}
+.order_up{ background-image:url(/images/orderbydown.png)}
+.order_down{ background-image:url(/images/orderbyup.png)}
+input[plugin='date2']{ background:url(/plugin/jquery.datepick.package-4.0.5/calendar.gif) #f5fafd 150px 2px no-repeat; width:160px}

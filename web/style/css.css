@@ -1,0 +1,27 @@
+ 
+  .index_txt { width: auto; border: 1px #666666 solid} 
+  .index_font_write9 { font-size: 9pt; color: #FFFFFF} .list_font9 { font-size: 
+9pt; color: #FFFFFF; text-decoration: none} .main_black9 { font-size: 9pt; color: 
+#0033CC; text-decoration: none} .list_zi9 { font-size: 9pt; color: #CCCCCC; 
+  text-decoration: none}
+A.title2:link {
+	font-size: 9pt; COLOR: #FFFFFF; TEXT-DECORATION: none
+}
+A.title2:visited {
+	font-size: 9pt; COLOR: #CCCCCC; TEXT-DECORATION: none
+}
+A.title2:active {
+	font-size: 9pt; COLOR: #ff0000; TEXT-DECORATION: none
+}
+A.title2:hover {
+	font-size: 9pt; COLOR: #ff0000; TEXT-DECORATION: none
+}
+.calltxt {  font-size: 9pt; color: #666666; border: 1px solid #666666; height: 20px; width: 100px}
+.waring {  font-size: 9pt; color: #FF0000}
+A.title1:link {  font-size: 9pt; color: #FFCC00; text-decoration: none}
+A.title1:active {  font-size: 9pt; color: #FFFF00; text-decoration: none}
+A.title1:visited {  font-size: 9pt; color: #FFCC99; text-decoration: none}
+A.title1:hover {  font-size: 9pt; color: #FFCC00; text-decoration: none}
+.calltxt2 { font-size: 9pt; color: #666666; border: 1px solid #666666; width: 260px}
+.calltxt1 { font-size: 9pt; color: #666666; border: 1px solid #666666; height: 18px; width: 260px}
+.txt9 {  font-family: "宋体"; font-size: 9pt; color: #FFFFFF}

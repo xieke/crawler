@@ -1,0 +1,36 @@
+<HTML><HEAD><TITLE>表格</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<STYLE type=text/css>TD {
+	FONT-SIZE: 10.8pt
+}
+BODY {
+	FONT-SIZE: 10.8pt
+}
+BUTTON {
+	WIDTH: 5em
+}
+</STYLE>
+
+<SCRIPT language=JavaScript event=onclick for=Ok>
+  window.returnValue = selrow.value+"*"+selcol.value;
+  window.close();
+</SCRIPT>
+
+<META content="MSHTML 6.00.2600.0" name=GENERATOR></HEAD>
+<BODY bgColor=menu>
+<DIV align=center>
+<CENTER><BR>
+<TABLE cellSpacing=10 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD align=middle colSpan=2>输入表格</TD></TR>
+  <TR>
+    <TD align=middle>行数: </TD>
+    <TD align=middle>列数：</TD></TR>
+  <TR>
+    <TD><INPUT id=selrow size=7></TD>
+    <TD><INPUT id=selcol size=7></TD>
+  <TR>
+    <TD align=middle colSpan=2><BUTTON id=Ok 
+      type=submit>确定</BUTTON>&nbsp;<BUTTON 
+  onclick=window.close();>取消</BUTTON></TD></TR></TBODY></TABLE></CENTER></DIV></BODY></HTML>

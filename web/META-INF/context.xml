@@ -1,0 +1,38 @@
+<Context privileged="true" reloadable="true" allowLinking="true">
+
+  <Environment name="servername" type="java.lang.String" value="front"/>
+  <Environment name="cachemode" type="java.lang.String" value="JCS"/>
+  <Environment name="schema" type="java.lang.String" value="basic"/>
+
+<!--
+<Resource auth="Container" driverClassName="oracle.jdbc.driver.OracleDriver" factory="org.apache.commons.dbcp.BasicDataSourceFactory" maxActive="50" maxIdle="10" maxWait="-1" name="jdbc/depot" password="my" removeAbandoned="true" removeAbandonedTimeout="60" type="javax.sql.DataSource" url="jdbc:oracle:thin:@10.38.128.105:1521:hnair" username="my"/>-->
+
+<Resource name="jdbc/depot"
+      auth="Container"
+      type="javax.sql.DataSource"
+      factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+      testWhileIdle="true"
+      testOnBorrow="true"
+      testOnReturn="false"
+      validationQuery="SELECT 1"
+      validationInterval="30000"
+      timeBetweenEvictionRunsMillis="30000"
+      maxActive="200"
+      minIdle="10"
+      maxWait="10000"
+      initialSize="10"
+      removeAbandonedTimeout="6000"
+      removeAbandoned="true"
+      logAbandoned="true"
+      minEvictableIdleTimeMillis="30000"
+      jmxEnabled="true"
+      jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
+      username="root"
+      password="ceshiku"
+      driverClassName="com.mysql.jdbc.Driver"
+      url="jdbc:mysql://192.168.168.240:3309/basic?zeroDateTimeBehavior=convertToNull"/>
+
+<!--<Manager className="org.apache.catalina.session.MemcachedManager" serverlist="172.16.250.2:11211" snaidPerfix="snaid" snaidFlag="true" />-->
+
+</Context>
+

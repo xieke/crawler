@@ -1,0 +1,54 @@
+BODY {
+	FONT-FAMILY: 宋体; FONT-SIZE: 9pt; SCROLLBAR-HIGHLIGHT-COLOR: buttonface; SCROLLBAR-SHADOW-COLOR: buttonface; SCROLLBAR-3DLIGHT-COLOR: buttonhighlight; SCROLLBAR-TRACK-COLOR: #eeeeee; SCROLLBAR-DARKSHADOW-COLOR: buttonshadow
+}
+TD {
+	FONT-FAMILY: 宋体; FONT-SIZE: 9pt
+}
+DIV {
+	FONT-FAMILY: 宋体; FONT-SIZE: 9pt
+}
+FORM {
+	FONT-FAMILY: 宋体; FONT-SIZE: 9pt
+}
+OPTION {
+	FONT-FAMILY: 宋体; FONT-SIZE: 9pt
+}
+P {
+	FONT-FAMILY: 宋体; FONT-SIZE: 9pt
+}
+TD {
+	FONT-FAMILY: 宋体; FONT-SIZE: 9pt
+}
+BR {
+	FONT-FAMILY: 宋体; FONT-SIZE: 9pt
+}
+A:visited {
+	COLOR: #e76518; TEXT-DECORATION: none
+}
+A:active {
+	COLOR: #9c4108; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #9c4108; TEXT-DECORATION: underline
+}
+A:link {
+	COLOR: #e76518; TEXT-DECORATION: none
+}
+.table1a {
+	BACKGROUND-COLOR: #0099cc; COLOR: #000000
+}
+.table1b {
+	BACKGROUND-COLOR: #99ccff; COLOR: #000000
+}
+.table2a {
+	BACKGROUND-COLOR: #777777; COLOR: #000000
+}
+.table2b {
+	BACKGROUND-COLOR: #e8f4ff; COLOR: #000000
+}
+.table2c {
+	BACKGROUND-COLOR: #f2f8ff; COLOR: #000000
+}
+.input {
+	BACKGROUND-COLOR: #f2f8ff; BORDER-BOTTOM: #ff8e4a 1px solid; BORDER-LEFT: #ff8e4a 1px solid; BORDER-RIGHT: #ff8e4a 1px solid; BORDER-TOP: #ff8e4a 1px solid; FONT-SIZE: 9pt
+}

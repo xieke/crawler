@@ -1,0 +1,131 @@
+BODY {
+	BORDER-BOTTOM: #ffffff 0px solid; BORDER-LEFT: #808080 0px solid; BORDER-RIGHT: #ffffff 0px solid; BORDER-TOP: #808080 0px solid; FONT-SIZE: 12px; MARGIN: 0px; PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px; SCROLLBAR-FACE-COLOR: #e0dfe4; SCROLLBAR-HIGHLIGHT-COLOR: #ffffff; SCROLLBAR-SHADOW-COLOR: #999999; SCROLLBAR-3DLIGHT-COLOR: e0dfe4; SCROLLBAR-ARROW-COLOR: #000000; SCROLLBAR-TRACK-COLOR: #e0dfe4; SCROLLBAR-DARKSHADOW-COLOR: e0dfe4
+}
+.borderoff {
+	BORDER-BOTTOM: #ffffff 1px solid; BORDER-LEFT: #808080 1px solid; BORDER-RIGHT: #ffffff 1px solid; BORDER-TOP: #808080 1px solid; FONT-SIZE: 12px
+}
+.borderon {
+	BORDER-BOTTOM: #808080 1px solid; BORDER-LEFT: #ffffff 1px solid; BORDER-RIGHT: #808080 1px solid; BORDER-TOP: #ffffff 1px solid; FONT-SIZE: 12px
+}
+.button {
+	BEHAVIOR: url(images/test.htc); BORDER-BOTTOM: #d4d0c8 1px solid; BORDER-LEFT: #d4d0c8 1px solid; BORDER-RIGHT: #d4d0c8 1px solid; BORDER-TOP: #d4d0c8 1px solid; CURSOR: default
+}
+TD {
+	FONT-SIZE: 12px
+}
+.menu {
+	BEHAVIOR: url(images/menu.htc); BORDER-BOTTOM: #ffffff 1px solid; BORDER-LEFT: #ffffff 1px solid; BORDER-RIGHT: #ffffff 1px solid; BORDER-TOP: #ffffff 1px solid; CURSOR: hand; HEIGHT: 20px; PADDING-LEFT: 3px; PADDING-TOP: 3px
+}
+.child {
+	BORDER-BOTTOM: #ffffff 1px solid; BORDER-LEFT: #ffffff 1px solid; BORDER-RIGHT: #ffffff 1px solid; BORDER-TOP: #ffffff 1px solid; DISPLAY: none; HEIGHT: 20px; PADDING-LEFT: 3px; PADDING-TOP: 3px
+}
+.shadow {
+	FILTER: DropShadow(Color=#999999, OffX=2, OffY=2, Positive=1); LEFT: -1px; POSITION: relative; TOP: -1px
+}
+.borderall {
+	BORDER-BOTTOM: #f27900 1px solid; BORDER-LEFT: #f27900 1px solid; BORDER-RIGHT: #f27900 1px solid; BORDER-TOP: #f27900 1px solid
+}
+.tden {
+	FONT-FAMILY: "Verdana", "Arial", "Helvetica", "sans-serif"; FONT-SIZE: 9px; FONT-WEIGHT: normal
+}
+.up {
+	BORDER-BOTTOM: buttonshadow 1px solid; BORDER-LEFT: buttonhighlight 1px solid; BORDER-RIGHT: buttonshadow 1px solid; BORDER-TOP: buttonhighlight 1px solid
+}
+.up1 {
+	BORDER-BOTTOM: #999999 1px solid; BORDER-LEFT: buttonhighlight 0px solid; BORDER-RIGHT: #999999 0px solid; BORDER-TOP: buttonhighlight 0px solid
+}
+.down {
+	BORDER-BOTTOM: buttonhighlight 1px solid; BORDER-LEFT: buttonshadow 1px solid; BORDER-RIGHT: buttonhighlight 1px solid; BORDER-TOP: buttonshadow 1px solid
+}
+.down1 {
+	BORDER-BOTTOM: buttonhighlight 1px solid; BORDER-LEFT: buttonshadow 0px solid; BORDER-RIGHT: buttonhighlight 1px solid; BORDER-TOP: buttonshadow 0px solid
+}
+.no {
+	BORDER-BOTTOM: #efefef 1px solid; BORDER-LEFT: #efefef 1px solid; BORDER-RIGHT: #efefef 1px solid; BORDER-TOP: #efefef 1px solid
+}
+.sline {
+	BORDER-BOTTOM: #bbbbbb 1px solid; BORDER-LEFT: #bbbbbb 0px solid; BORDER-RIGHT: #bbbbbb 1px solid; BORDER-TOP: #bbbbbb 0px solid; PADDING-LEFT: 2px; PADDING-RIGHT: 2px
+}
+A:link {
+	COLOR: #333333; FONT-FAMILY: "宋体"; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #333333; TEXT-DECORATION: none
+}
+A:active {
+	BACKGROUND-COLOR: #bbbbbb; COLOR: #ffffff; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #ff4400; TEXT-DECORATION: none
+}
+.over {
+	BACKGROUND-COLOR: #b6bdd2; BORDER-BOTTOM: #b6bdd2 1px solid; BORDER-LEFT: #b6bdd2 1px solid; BORDER-RIGHT: #b6bdd2 1px solid; BORDER-TOP: #b6bdd2 1px solid
+}
+.overx {
+	
+}
+.myborder {
+	BACKGROUND-COLOR: #ffffff; BORDER-BOTTOM: #666666 1px solid; BORDER-LEFT: #666666 1px solid; BORDER-RIGHT: #666666 1px solid; BORDER-TOP: #666666 1px solid; FONT-FAMILY: "宋体"; FONT-SIZE: 9pt
+}
+.mybutton {
+	BORDER-BOTTOM: #666666 1px solid; BORDER-LEFT: #666666 1px solid; BORDER-RIGHT: #666666 1px solid; BORDER-TOP: #666666 1px solid; FONT-SIZE: 9pt
+}
+
+.nodisplay {
+	display: none;
+}
+
+label {
+	float: left;
+	font: normal 12px Arial;
+	width: 80px;
+}
+
+#s {
+	width: 300px;
+}
+
+#results {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 300px;
+}
+
+#results ul {
+	border: 1px solid #bfbfbf;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	width: 100%;
+}
+
+#results ul li {
+
+}
+
+#results ul li a {
+	display: block;
+	color: #444;
+	background: #fff;
+	font: normal 12px arial;
+	text-decoration: none;
+	padding: 1px 4px 2px 6px;
+}
+
+* html #results ul li a {
+	width: 100%;
+}
+
+#results ul li a strong {
+	color: red;
+}
+
+#results ul li a:hover, #results ul li a.hover {
+	background: #0056f4;
+	color: #fff;
+}
+
+#results ul li a:hover strong, #results ul li a.hover strong {
+	color: #fff;
+}
