@@ -60,3 +60,4 @@ table.edit td.content_side textarea{ width:288px; font-size:12px}
 .order_up{ background-image:url(/images/orderbydown.png)}
 .order_down{ background-image:url(/images/orderbyup.png)}
 input[plugin='date2']{ background:url(/plugin/jquery.datepick.package-4.0.5/calendar.gif) #f5fafd 150px 2px no-repeat; width:160px}
+.dx{ display:none}

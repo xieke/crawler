@@ -3,7 +3,7 @@ select `i`.`iKEY` AS `id`,`i`.`NAME` AS `name`,`i`.`DICID` AS `dicId`,`i`.`ODB` 
 
 union select DISTINCT '0','N','news_status','0' from dual  -- 状态(未处理)
 union select DISTINCT '1','Y','news_status','1' from dual  -- (已处理)
-union select DISTINCT '2','D','news_status','2' from dual  -- (删除)
+-- union select DISTINCT '2','D','news_status','2' from dual  -- (删除)
 
 union select DISTINCT '','全部','news_status_all','0' from dual	 -- 状态(增加一个默认值)
 union select DISTINCT '0','N','news_status_all','2' from dual 
@@ -70,6 +70,24 @@ union
 select '0','knowledge','sort_all','2' from dual		
 union
 select '1','information','sort_all','1' from dual
+
+
+union
+select 'c','中文','lang','0' from dual  -- 语言分类(增加一个默认值)
+union
+select 'e','英文','lang','2' from dual		
+union
+select 'ce','中英文','lang','1' from dual
+
+union
+select '','all','postjob_status','0' from dual   -- 任务状态(增加一个默认值)
+union
+select '1','enable','postjob_status','1' from dual		
+
+union
+select '0','disable','postjob_status','2' from dual  
+
+
 
 union
 select '1','激活','active','' from dual  

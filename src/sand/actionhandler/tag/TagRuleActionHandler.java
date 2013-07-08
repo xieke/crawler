@@ -67,6 +67,15 @@ public class TagRuleActionHandler extends ActionHandler {
 		this.list();
 	}
 	
+	public void show() throws SQLException{
+		QueryFactory qf = new QueryFactory("tag_rule");
+		BizObject tag_rule = qf.getByID(this._objId);
+		List<BizObject> list = this.getTagService().openAllWithSelectedTagByTagIds(tag_rule.getString("tag_id"));
+		this._request.setAttribute("tagsList", list);
+		this._request.setAttribute("obj", tag_rule);
+		this._nextUrl = "/template/tagging_rule/edit2.jsp";
+	}
+	
 	public void delete() throws SQLException{
 		String id = this.getParameter("id");
 		if(StringUtils.isBlank(id)) throw new ErrorException("要删除的记录不存在,请重新操作!");

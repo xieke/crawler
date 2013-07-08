@@ -1,4 +1,4 @@
-ï»¿<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="m" uri="/WEB-INF/sand-html.tld"%>
 <%@ page contentType="text/html;charset=gbk" %>
 <%@ page import="java.util.*"%>
@@ -66,14 +66,14 @@ function saveRecord()
 <input type="hidden" name="TEST" value="good">
   <table width="75%" border="1" align="center">
     <tr> 
-      <td><div align="center">é‚®ä»¶é…ç½®æ–‡ä»¶ï¼š
+      <td><div align="center">ÓÊ¼þÅäÖÃÎÄ¼þ(UTF-8¸ñÊ½)£º
           <input type="FILE" name="FILE1" size="30">
         </div></td>
     </tr>
 
     <tr> 
       <td><div align="center">
-          <input type="submit" name="Submit" value="ä¸Šä¼ ">
+          <input type="submit" name="Submit" value="ÉÏ´«">
         </div></td>
     </tr>
   </table>

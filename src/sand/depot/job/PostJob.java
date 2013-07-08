@@ -7,9 +7,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -17,7 +20,9 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
+import sand.actionhandler.news.GpMailAH;
 import sand.actionhandler.system.ActionHandler;
+import sand.actionhandler.system.AdminAH;
 import sand.actionhandler.weibo.UdaClient;
 import sand.depot.tool.system.ControllableException;
 import sand.depot.tool.system.SystemKit;
@@ -39,9 +44,11 @@ import weibo4j.model.WeiboException;
 public class PostJob extends BaseJob {
 
 	private static Map<String,Object> renderMap = new HashMap();
+	public static List<BizObject>  postList;
 	
+	static Logger logger = Logger.getLogger(PostJob.class);
 
-	private String constructCycleSql(String cycle){
+	private static  String constructCycleSql(String cycle){
 		String sql="";
 		if(cycle.trim().equals("D")){
 			sql=" posted=0";
@@ -58,7 +65,7 @@ public class PostJob extends BaseJob {
 	 * @param tags
 	 * @return
 	 */
-	private String constructTagSql(String tags){
+	private  static String constructTagSql(String tags){
 		String tag[]=tags.split(",");
 		
 		String tag_sql="";
@@ -71,9 +78,82 @@ public class PostJob extends BaseJob {
 			}
 			
 		}
-		if(!tag_sql.equals("")) tag_sql=tag_sql+")";
+		if(!tag_sql.equals("")) 
+			tag_sql=tag_sql+")";
+		else
+			tag_sql = " tags is not null ";
 		
 		return tag_sql;
+	}
+	
+	public static  Map<String ,List> getPosts(int i) throws SQLException{
+		BizObject  s = PostJob.parseMailList().get(i);
+		s.set("posttime", getLastPostTime(i));
+		Map<String ,List> v = PostJob.getQryPosts(s);
+		//this.setAttribute("objid",i);
+		BizObject post = new BizObject("post");
+		post.set("mailid", i);
+		post.set("posted", 0);
+		post=post.getQF().getOne(post);
+		
+		if(post!=null)
+			log(" newsids "+post.getString("newsids"));
+			//Map m = new HashMap(); 
+			for(Object o : v.keySet()){ 
+			    List<BizObject> l=v.get(o);
+			    String newsids="";
+				
+			    List <BizObject> deletel= new ArrayList();
+			    for(BizObject b:l){
+			    	
+			    	if(post!=null){
+			    		log(b.getId()+"    "+post.getString("newsids").indexOf(b.getId()));
+				    	if(post.getString("newsids").indexOf(b.getId())>=0)
+				    		b.set("checked", "true");
+				    	else{
+				    		
+				    		b.set("checked", "false");
+				    		deletel.add(b);
+				    	}				    					    		
+			    	}
+			    	else
+			    		b.set("checked", "true");			    		
+			    }
+			    l.removeAll(deletel);
+			} 
+			return v;
+	}
+	
+	/**
+	 * 取最后发送时间
+	 * @param i
+	 * @return
+	 * @throws SQLException
+	 */
+	public static String getLastPostTime(int i) throws SQLException{
+		BizObject  s = PostJob.parseMailList().get(i);
+		String email = s.getString("address");
+		String date;
+		BizObject post = new BizObject("post");
+		post.set("postmail", email);
+		post.set("posted", "1");
+		post.setOrderBy("posttime desc");
+		post =post.getQF().getOne(post);
+		
+		if(post==null){
+			//if(StringUtils.isNotBlank(job) && job.equals("default")){
+				//如果是从最外层点进去的列表链接,则是查询默认近两天的日期的记录
+				//endDate = DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDDHHMMSS);
+				Calendar c = Calendar.getInstance();
+				c.add(Calendar.DAY_OF_YEAR, -2);
+				date = DateUtils.formatDate(c.getTime(), DateUtils.PATTERN_YYYYMMDDHHMMSS);
+			//}
+
+		}
+		else
+			date=DateUtils.formatDate(post.getDate("posttime"), DateUtils.PATTERN_YYYYMMDDHHMMSS);
+		return date;
+		
 	}
 	/**
 	 * 取待发送的post列表。 每次限取20条
@@ -84,17 +164,25 @@ public class PostJob extends BaseJob {
 	 * @return
 	 * @throws SQLException
 	 */
-	private Map<String,List> getPosts(String tags,String cycle,String urgent,String limit ) throws SQLException{
+	public static  Map<String,List> getQryPosts(BizObject post) throws SQLException{
+		//BizObject post;
+		String tags=post.getString("tags");
+		String cycle=post.getString("cycle");
+		String urgent=post.getString("urgent");
+		String limit = post.getString("limit");
+		String lang= post.getString("lang");
+		String posttime=post.getString("posttime");
+		String address = post.getString("address");
 		
-		String sql="select id from news where (1=1) ";
-		String key = tags+cycle+urgent+ limit;
-		
+		String sql="select * from news where status=1  and issue=1  ";
+		int now = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)+Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+		String key = tags+cycle+urgent+ limit+lang+now;
+		//log("key is "+key+"   ");
 		
 		
 		if(renderMap.get(key)==null){
 			
-			Map<String ,List> m=new HashMap();
-			
+			//Map<String ,List> m=new HashMap();			
 			
 			String tagsql=constructTagSql(tags);
 			
@@ -104,20 +192,34 @@ public class PostJob extends BaseJob {
 			
 			if(!cyclesql.equals("")) sql=sql+" and "+cyclesql;
 			//sql=sql+" and "+constructCycleSql(cycle);
+			if(StringUtils.isNotBlank(urgent))
+				sql= sql +" and  posted not like '%"+address+"%'";
 			
-			sql=sql+" and "+" urgent>="+urgent.trim();
+			if(StringUtils.isNotBlank(urgent))
+				sql=sql+" and "+" urgent>="+urgent.trim();
+			
+			if(StringUtils.isNotBlank(posttime))
+				sql=sql+(" and posttime>=STR_TO_DATE('")+(posttime)+("','%Y-%m-%d %H:%i:%s')");
+			
+			
 			sql=sql+"  order by  importance asc , posttime desc limit 0,"+limit;
-			log("sql is "+sql);
+			//log("sql is "+sql);
 			List<BizObject> v = QueryFactory.executeQuerySQL(sql);
 			
-			for(BizObject b:v){
-				b.refresh();
-			}
+//			for(BizObject b:v){
+//				b.refresh();
+//			}
 			
-
-			Map<String,List> newtags = new HashMap();
 			
+			if(tags.trim().equals("")) tags=GpMailAH.expTags();
+			
+			//log("tags is "+tags);
 			String tag[]=tags.split(",");
+			
+			Map<String,List> newtags = new LinkedHashMap ();
+			
+			
+			
 			//if(tagstr.equals("")) tagstr=this.getParameter("tags");
 			//String tag[] = tagstr.split(",");
 			for(String s:tag){
@@ -126,15 +228,32 @@ public class PostJob extends BaseJob {
 				
 				for(int i=0 ; i<v.size();i++){
 					BizObject b=v.get(i);
-					log("tags is"+b.getString("tags"));
+					
+					/**
+					 * 根据配置文件决定文章归在哪一类tag,并决定语言显示summary
+					 */
 					if(b.getString("tags").indexOf(s)>=0){
 						b.set("tag", s);
+						if(lang==null||lang.equals("c")||lang.equals("")){
+							b.set("summary",b.getString("c_summary"));
+						}
+						else if(lang.equals("e")){
+							b.set("summary",b.getString("summary"));
+						}
+						else if(lang.equals("ce")){
+							b.set("summary",b.getString("c_summary")+"<br>"+b.getString("summary"));
+						}
+						else if(lang.equals("ec")){
+							b.set("summary",b.getString("summary")+"<br>"+b.getString("c_summary"));
+						}
+						
+						//log("put  "+s+"  "+);
 						onetags.add(b);
 						v.remove(b);
 						i--;
 					}
 				}	
-				log("put "+s+"  "+onetags.size());
+				//log("put "+s+"  "+onetags.size());
 				newtags.put(s, onetags);
 			
 			
@@ -146,9 +265,10 @@ public class PostJob extends BaseJob {
 			return newtags;
 		
 	}
+		else
 		return (Map<String,List>) renderMap.get(key);
 	}
-	private String render(Map<String ,List> postv, String greeting, String ending) throws IOException, TemplateException{
+	public  static String render(Map<String ,List> postv, String greeting, String ending) throws IOException, TemplateException, SQLException{
 		
 		 Configuration cfg; 
 	        cfg = new Configuration();
@@ -162,7 +282,7 @@ public class PostJob extends BaseJob {
 	        root.put("name", greeting);
 	        root.put("date",ending);
 	        //this.render();
-	        root.put("www_url", "http://192.168.36.33:18080");
+	        root.put("www_url", SystemKit.getParamById("system_core","www_url"));
 	        root.put("objList", postv);
 	       // this.renderHtml();
 	        
@@ -236,6 +356,59 @@ public class PostJob extends BaseJob {
 		System.out.print(s);
 		}
 	
+	public static  List<BizObject> parseMailList(){
+		
+		
+		if(postList!=null)  return postList;
+		
+		MailConfig mc=null;
+		List<String> mailv = mc.readTxtFile("/root/erp.upload/maillist");
+		int i=0;
+
+		List<BizObject> v = new ArrayList();
+		for(String s:mailv){
+			if(s.indexOf("#")>=0) continue;
+			logger.info(s);
+			String[] mailinfo=s.split(";");
+			if(mailinfo.length!=13){
+				logger.info(i+" txt解析错误 "+mailinfo[0]);
+				//ret=ret+i+" txt解析错误 "+mailinfo[0];
+				continue;
+			}
+			String serialno=mailinfo[0].trim();
+			String name=mailinfo[1].trim();
+			String address=mailinfo[2].trim();
+			String tags=mailinfo[3].trim();
+			String cycle=mailinfo[4].trim();
+			String limit=mailinfo[5].trim();
+			String enable=mailinfo[6].trim();
+			String subject=mailinfo[7].trim();
+			String greeting=mailinfo[8].trim();
+			String ending=mailinfo[9].trim();
+			String urgent=mailinfo[10].trim();
+			String telphone=mailinfo[11].trim();
+			String lang=mailinfo[12].trim();
+			
+			BizObject email = new BizObject("email");
+			email.set("serialno", serialno);
+			email.set("name", name);
+			email.set("address", address);
+			email.set("cycle", cycle);
+			email.set("limit", limit);
+			email.set("enable", enable);
+			email.set("subject", subject);
+			email.set("greeting", greeting);
+			email.set("ending", ending);
+			email.set("urgent", urgent);
+			email.set("telphone", telphone);
+			email.set("lang", lang.toLowerCase());
+			v.add(email);
+		}
+		
+		postList=v;
+		return postList;
+	}
+	
 	@Override
 	public String run() throws Exception {
 		
@@ -245,57 +418,43 @@ public class PostJob extends BaseJob {
 		
 //		this.addOldTags();
 //		if(1==1) return "ok";
-		List<String> mailv = mc.readTxtFile("/root/erp.upload/maillist");
+		//List<String> mailv = mc.readTxtFile("/root/erp.upload/maillist");
 		int i=0;
+		
+		List<BizObject> mailv=parseMailList();
 
 
 
-		for(String s:mailv){
-			if(s.indexOf("#")>=0) continue;
-			log(s);
-			String[] mailinfo=s.split(";");
-			if(mailinfo.length!=13){
-				this.log(i+" txt解析错误 "+mailinfo[0]);
-				ret=ret+i+" txt解析错误 "+mailinfo[0];
-				continue;
-			}
-			String serialno=mailinfo[0];
-			String name=mailinfo[1];
-			String address=mailinfo[2];
-			String tags=mailinfo[3];
-			String cycle=mailinfo[4];
-			String limit=mailinfo[5];
-			String enable=mailinfo[6];
-			String title=mailinfo[7];
-			String greeting=mailinfo[8];
-			String ending=mailinfo[9];
-			String urgent=mailinfo[10];
-			String telphone=mailinfo[11];
-			String lang=mailinfo[12];
+		for(BizObject s:mailv){
+
 			
 			BizObject email = new BizObject("email");
 
 			// address=mailinfo[1];
-			email.set("toaddr", address);
-			Map<String ,List> v = this.getPosts(tags, cycle, urgent, limit);
+			email.set("toaddr", s.getString("address"));
+			//Map<String ,List> v = this.getQryPosts(s.getString("tags"), s.getString("cycle"), s.getString("urgent"), s.getString("limit"),s.getString("lang"));
+			Map<String ,List> v  = this.getPosts(i);
+			String greeting=s.getString("greeting").replaceAll("@name",s.getString("name"));
+			String ending=s.getString("ending").replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDDHHMMSS));
 			
-			greeting=greeting.replaceAll("@name",name);
-			ending=ending.replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDDHHMMSS));
-			
-			String content=this.render(v,name,DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDDHHMMSS));
+			String content=this.render(v,greeting,ending);
 			email.set("content",content);
-			title=title.replaceAll("@name",name);
-			log("title "+title);
+			String subject=s.getString("subject").replaceAll("@name",s.getString("name"));
+		//	log("title "+subject);
 			//email.set("title", title);
-			email.set("subject", title);
+			email.set("subject", subject);
 			
 			
 
 			boolean success =MailServer.sendMailSyn(email);//.sendMailSyn(email);
 			
 			BizObject post = new BizObject("post");
-			post.set("tags", tags);
-			post.set("postmail", address);
+			//post.set("postmail", o)
+			post.set("postmail", s.getString("address"));
+			post.set("posted", "0");
+			
+			post.set("tags", s.getString("tags"));
+			
 			post.set("posttime", new Date());
 			
 			String newsids="";
@@ -312,7 +471,7 @@ public class PostJob extends BaseJob {
 			} 
 			post.set("newsids", newsids);
 			post.set("success", success); //是否成功发送
-			post.set("name", name);
+			post.set("name", s.getString("name"));
 			
 			this._jdo.add(post);
 			

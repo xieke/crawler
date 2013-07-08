@@ -137,16 +137,30 @@ $(function(){
 				</tr>
 				<tr>
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="/erp.upload/maillist" target="mainFrame" class="left-font03 class_2">邮件配置文件</a></td>
-				</tr>
-				<tr>
-				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="/news.GpMailAH.upload" target="mainFrame" class="left-font03 class_2">上传邮件配置文件</a></td>
+				  <td width="91%"><a href="/news.GpMailAH.expTags" target="mainFrame" class="left-font03 class_2">导出所有tag列表</a></td>
 				</tr>
 
 				<tr>
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="/news.GpMailAH.listPost" target="mainFrame" class="left-font03 class_2">邮件发送记录</a></td>
+				  <td width="91%"><a href="/erp.upload/maillist" target="mainFrame" class="left-font03 class_2">邮件配置文件</a></td>
+				</tr>
+				<tr>
+				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
+				  <td width="91%"><a href="/news.GpMailAH.listPost" target="mainFrame" class="left-font03 class_2">邮件发送审核</a></td>
+				</tr>
+
+				<tr>
+				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
+				  <td width="91%"><a href="/news.GpMailAH.upload" target="mainFrame" class="left-font03 class_2">上传邮件配置文件</a></td>
+				</tr>
+				<tr>
+				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
+				  <td width="91%"><a href="/post.PostJobAH.listPostJob" target="mainFrame" class="left-font03 class_2">邮件发送任务</a></td>
+				</tr>
+
+				<tr>
+				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
+				  <td width="91%"><a href="/news.GpMailAH.listPosted" target="mainFrame" class="left-font03 class_2">邮件发送记录</a></td>
 				</tr>
 
 				<tr>

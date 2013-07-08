@@ -9,37 +9,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <%@ include file="/template/basic/common_head.jsp"%>
 <title>采集内容管理</title>
-<!--日期控件 开始-->
-<script type="text/javascript" src="/plugin/jquery.datepick.package-4.0.5/jquery.datepick.js"></script>
-<link href="/plugin/jquery.datepick.package-4.0.5/jquery.datepick-adobe.css" rel="stylesheet" type="text/css" />
-<!--日期控件 结束-->
+<!--日期控件 **带时分** 开始-->
+<script type="text/javascript" src="/plugin/jquery-calendar.js"></script>
+<!--日期控件 **带时分** 结束-->
 <script type="text/javascript">
 	$(function(){
 		refreshTags();
 	});
 	
-	function refreshTags(){
-	
-		var tagsname = "";
-		var tagsid = "";
-		var i=0;
-		$("#tag_text :checked").each(function(){
-			if(i>0){
-				tagsname += ",";
-				tagsid += ","
-			}
-			tagsname += $(this).attr("tagsname");
-			tagsid += "'"+$(this).attr("tagsid")+"'";
-			
-			++i;
-		});	
-		$("#tag_ids").attr("value",tagsid);
-		$("#tags").val(tagsname);
-	}
-	
-	function show(id){
+	function show(id,rownum){
 		$("#reqType").attr("value","news.NewsActionHandler.show");
 		$("#objId").attr("value",id);
+		$("#rownum").attr("value",rownum);
+		$("#page").attr("value",$("#ttpages").val()-1);
 		$("#form1").submit();
 	}
 	function querylist(){
@@ -75,14 +57,16 @@
 <input type="hidden" id="objId" name="objId" value="" />
 <input type="hidden" id="orderby" name="orderby" value="${orderby}"/>
 <input type="hidden" id="order" name="order" value="${order}"/>
+<input type="hidden" id="rownum" name="rownum" value=""/>
+
 
 <table class="ui edit">
 <tr class="title"><td colspan="4">查询条件</td></tr>
     <tr>
         <td width="10%">发布时间：</td>
-        <td><input type="text" id="s_time" name="startDate" value="${startDate}" readonly="readonly" plugin="date" start="start" />
+        <td><input type="text" id="s_time" name="startDate" value="${startDate}" readonly="readonly" plugin="date2" start="start" />
 <span class="newfont06">-</span>
-<input type="text" id="e_time" name="endDate" value="${endDate}" readonly="readonly" plugin="date" end="start" /></td>
+<input type="text" id="e_time" name="endDate" value="${endDate}" readonly="readonly" plugin="date2" end="start" /></td>
         <td>状态：</td>
         <td><m:radio type="news_status_all" name="status" value="${status}" /></td>
     </tr>
@@ -101,49 +85,21 @@
     <tr>
         <td>标签：</td>
         <td><input type="text" size="50" id="tags" name="tags2" value="" />
-<input type="button" value="选择标签" id="select_tag" class="button" style="display:inline; float:none" />
+<c:set var="tagsList_pf" value="${tags}" />
+<%@ include file="/template/tag/tag_plugin.jsp"%>
 <script type="text/javascript">
 $(function(){
-	$("#select_tag").click(function(){
-		if($(this).val()=="选择标签"){
-			$(this).val("完成选择").css("color","red");
-			$("#tag_text").slideDown();
-		}else{
-			$(this).val("选择标签").css("color","#174B73");;
-			$("#tag_text").slideUp();
-		}
-	});
 	$("#dels").click(function(){
 		if(confirm('你确定要删除吗?')){
 			$("#reqType").attr("value","news.NewsActionHandler.deletes");
+			
+			$("#rownum").attr("value",rownum);
+			$("#page").attr("value",$("#ttpages").val()-1);
 			$("#form1").submit();
 		}
 	});
-	
-	$("#search_tag").keyup(function(){
-			search_tag($(this));
-		}).blur(function(){
-			search_tag($(this));
-		}).focus(function(){
-			search_tag($(this));
-		});
-	});
-	function search_tag(obj){
-		if(obj.val()!=""){
-			$("#tag_text .result label").hide();
-			$("#tag_text .result label:contains("+obj.val()+")").show();
-		}else
-			$("#tag_text .result label").show()
-	}
+});
 </script>
-<div id="tag_text" style="margin-left:200px">
-	<div class="search"> &nbsp;模糊搜索：<input id="search_tag" type="text" /> &nbsp;<a href="javascript:void(0)" onclick="$('#search_tag').val('').focus()">重填</a></div>
-    <div class="result">
-    <c:forEach var="detail" items="${tags}" varStatus="status">
-		<label>${detail.level}${detail.name}<input type="checkbox" id="${detail.id}" tagsid="${detail.id}" tagsname="${detail.name}" name="tag$id" value="${detail.id}" ${detail.checked} onclick="refreshTags()" /></label>
-	</c:forEach>
-    </div>
-</div>
         </td>
         <td>文章分类：</td>
         <td><m:radio type="sort_all" name="sort" value="${sort}" /></td>
@@ -155,7 +111,7 @@ $(function(){
     </tr>
 </table>
 <table class="ui list">
-	<tr class="title"><td class="title" colspan="12">信息手动处理</td><td class="title" ><a style=" color: #FFFFFF" href="/news.NewsActionHandler.showAdd" >Add文章</a></td></tr>
+	<tr class="title"><td class="title" colspan="12">信息手动处理</td><td class="title" ><a style=" color: #FFFFFF" href="/news.NewsActionHandler.showAdd?job=default" >Add文章</a></td></tr>
     <tr class="effect">
         <th>选择</th>
         <th>序号</th>
@@ -197,7 +153,7 @@ $(function(){
     <td><m:out type="urgent" value="${detail.urgent}" /></td>
     <td><m:out type="importance" value="${detail.importance}" /></td>
     <td><m:out type="news_status" value="${detail.status}" /></td>
-    <td><a href="javascript:void(0)" onclick="show('${detail.id}')" ><img src="/images/button_edit.png" /></a> <c:if test="${detail.his_news_id!='' && detail.his_news_id!=null}">| <a href="/news.NewsActionHandler.showHis?objId=${detail.his_news_id}" >原文</a></c:if></td>
+    <td><a href="javascript:void(0)" onclick="show('${detail.id}','${pageVariable.npage*pageVariable.pagesize+status.index}')" ><img src="/images/button_edit.png" /></a> <c:if test="${detail.his_news_id!='' && detail.his_news_id!=null}">| <a href="/news.NewsActionHandler.showHis?objId=${detail.his_news_id}" >原文</a></c:if></td>
   </tr>
 </c:forEach>
 	<tr class="edit">

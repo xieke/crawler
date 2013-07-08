@@ -8,6 +8,7 @@ import tool.dao.BizObject;
 public interface NewsService {
 	public static final String TABLE_NAME = "news";
 	public static final String HIS_TABLE_NAME = "his_news";
+	public static final String NEWS_CONTENT = "news_content";
 	public static final String COPYFORM_TABLE_NAME = "ben.origin_news";
 	
 	/**
@@ -18,7 +19,11 @@ public interface NewsService {
 	 */
 	public List<BizObject> copyfromNews() throws SQLException;
 	
+	public List<String> getTagIdsByNewsId(String news_id) throws SQLException;
+	
 	public void addNews(List<BizObject> copyfromNews) throws SQLException;
+	
+	public void addNews(BizObject news) throws SQLException ;
 	
 	/**
 	 * 删除新闻采集表

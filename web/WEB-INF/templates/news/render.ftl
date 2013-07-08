@@ -17,10 +17,9 @@ ${greeting!""}<br><br>
                 <#list objList?keys as key>
 					<#assign item = objList[key]>
 					<#if item?size!=0 > 
-${key}<br>
+[${key}]<br>
 							<#list item as e>
-${(e.c_summary)?default("N/A")}<br>
-<a href="${www_url}/news.NewsActionHandler.showIt?objId=${e.id}" class="more" target="_blank">more</a><br><br>
+${(e.summary)?default("")}    <a href="${www_url}/news.NewsActionHandler.showIt?objId=${e.id}" class="more" target="_blank">more</a><br><br>
 							</#list>
                             <br>
 					</#if>

@@ -16,6 +16,20 @@
 			$("#form1").submit();
 		});
 		
+		$("#save_next").click(function(){
+			editor.sync();
+			$("#operator").attr("value","next");
+			$("#reqType").attr("value","news.NewsActionHandler.save");
+			$("#form1").submit();
+		});
+		
+		$("#save_last").click(function(){
+			editor.sync();
+			$("#operator").attr("value","last");
+			$("#reqType").attr("value","news.NewsActionHandler.save");
+			$("#form1").submit();
+		});
+		
 		$("#commit").click(function(){
 			editor.sync();
 			$("#reqType").attr("value","news.NewsActionHandler.addComments");
@@ -29,24 +43,16 @@
 				merger_text+= $(this).attr("value");
 			})
 			$("#c_summary").val(merger_text);
-			alert("合并完成!");
+
 		})
 		
 		refreshTags();
+		
+		
+		
+		$("#tag_text").css("margin","-7px 0 0 0")
+		
 	});
-	
-	function refreshTags(){
-		var tagsname = "";
-		var tagsid = "";
-		$("#tag_text :checked").each(function(){
-			tagsname += $(this).attr("tagsname")+",";
-			tagsid += $(this).attr("tagsid")+",";
-		});	
-		$("#tag_ids").attr("value",tagsid);
-		$("#tags").val(tagsname);
-	}
-	
-	
 </script>
 </head>
 
@@ -58,6 +64,7 @@
             <input type="hidden" id="objId" name="objId" value="${obj.id}" />
             <input type="hidden" id="news_id" name="news$id" value="${obj.id}" />
             <input type="hidden" id="merger_c_summary" name="merger_c_summary" value="${obj.c_summary}" />
+
             
 
 
@@ -67,7 +74,7 @@
         <td valign="top" style="background:#f1f1f1">
 <div style="padding:10px 5px 12px">新闻标题：<input type="text" style="width:420px" id="title" name="news$title" value="${obj.title}" /></div>
 <div style="padding:10px 5px 12px">&nbsp;&nbsp;&nbsp;&nbsp;作者：<input type="text" style="width:80px" id="news_author" name="news$author" value="${obj.author}" />&nbsp;&nbsp;&nbsp;原文地址：<input type="text" id="news_copyfrom" name="news$copyfrom" value="${obj.copyfrom}" /></div>
-<div style="padding:10px 5px 12px">原文URL：&nbsp;<input type="text" id="news_copyfromurl" name="news_copyfromurl" value="${obj.copyfromurl}" style="width:420px"  /></div>
+<div style="padding:10px 5px 12px">原文URL：&nbsp;<input type="text" id="news_copyfromurl" name="news$copyfromurl" value="${obj.copyfromurl}" style="width:420px"  /></div>
 <c:if test="${obj.his_news_id!='' && obj.his_news_id!=null}">
 	<div style="padding:10px 5px 12px">查看原文：<a href="${obj.copyfromurl}" target="_blank" >${obj.copyfromurl}</a></div>
 </c:if>
@@ -82,6 +89,7 @@
             resizeType : 1,
             allowPreviewEmoticons : false,
             allowImageUpload : false,
+			autoHeightMode : true,
             items : [
                 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
                 'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
@@ -91,48 +99,14 @@
 </script>
                 <!--富文本编辑控件引入文件 结束-->
         <textarea rows="1" cols="1" id="content" name="news$content" style="width: 90%; height: 450px; visibility: hidden;">${obj.content}</textarea>
+        <input type="hidden" name="news_content$id" value="${news_content.id}" />
 </div>
         </td>
         <td width="300" valign="top" class="content_side">
 <div class="title">分类</div>
 <div><textarea id="tags" name="tags" ></textarea></div>
-<div><a href="javascript:void(0)" id="select_tag" class="button">选择标签</a></div>
-<script type="text/javascript">
-$(function(){
-	$("#select_tag").click(function(){
-		if($(this).html()=="选择标签"){
-			$(this).html("完成选择").css("color","red");
-			$("#tag_text").slideDown();
-		}else{
-			$(this).html("选择标签").css("color","#174B73");;
-			$("#tag_text").slideUp();
-		}
-	});
-	$("#search_tag").keyup(function(){
-		search_tag($(this));
-	}).blur(function(){
-		search_tag($(this));
-	}).focus(function(){
-		search_tag($(this));
-	});
-});
-function search_tag(obj){
-	if(obj.val()!=""){
-		$("#tag_text .result label").hide();
-		$("#tag_text .result label:contains("+obj.val()+")").show();
-	}else
-		$("#tag_text .result label").show()
-}
-</script>
-<div id="tag_text">
-	<div class="search"> &nbsp;模糊搜索：<input id="search_tag" type="text" /> &nbsp;<a href="javascript:void(0)" onclick="$('#search_tag').val('').focus()">重填</a></div>
-    <div class="result">
-	<c:forEach var="detail" items="${objList}" varStatus="status">
-		<label>${detail.level}${detail.name}<input type="checkbox" id="${detail.id}" tagsid="${detail.id}" tagsname="${detail.name}" name="tag$id" value="${detail.id}" ${detail.checked} onclick="refreshTags()" /></label>
-	</c:forEach>
-    </div>
-</div>
-
+<c:set var="tagsList_pf" value="${objList}" />
+<%@ include file="/template/tag/tag_plugin.jsp"%>
 
 
 <div style="margin-top:5px" class="title">参数设置</div>
@@ -142,16 +116,26 @@ function search_tag(obj){
     <td><m:radio type="news_status" name="news$status" value="${obj.status}" defaultValue="0" /></td>
 </tr>
 <tr>
-	<td>发布：</td>
+	<td>是否发邮件：</td>
     <td><label><input type="radio" id="issue" name="news$issue" <c:if test="${obj.issue=='1'}">checked</c:if> value="1" />Y</label>&nbsp;&nbsp;<label><input type="radio" id="issue" name="news$issue" <c:if test="${obj.issue=='0'||obj.issue==null}">checked</c:if> value="0" />N</label></td>
 </tr>
 <tr>
 	<td>客户重要度：</td>
     <td><m:radio type="urgent" name="news$urgent" value="${obj.urgent}" defaultValue="0" /></td>
+    <!--<td>
+    	<c:forEach var="detail" items="${urgentList}" varStatus="status">
+        	<m:checkbox name="news$urgent" value="${detail.id}" checkValue="${detail.checkedValue}"/>${detail.name}
+        </c:forEach>-->
+    </td>
 </tr>
 <tr>
 	<td>GP重要度：</td>
     <td><m:radio type="importance" name="news$importance" value="${obj.importance}" defaultValue="0" /></td>
+ <!--   <td>
+    	<c:forEach var="detail" items="${importanceList}" varStatus="status">
+        	<m:checkbox name="news$importance" value="${detail.id}" checkValue="${detail.checkedValue}"/>${detail.name}
+        </c:forEach>
+    </td>-->
 </tr>
 <tr>
 	<td>文章分类：</td>
@@ -171,7 +155,7 @@ function search_tag(obj){
     </c:forEach>
     <textarea id="content" name="newcomments$content" ></textarea>
     <input style="margin-left:10px" type="button" id="commit" name="commit" value="Commit" />
-    <input style="margin-left:10px" style="display:none" type="button" id="merger" name="merger" value="Merger" />
+  <!--  <input style="margin-left:10px" style="display:none" type="button" id="merger" name="merger" value="Merger" />-->
 </div>
 
 
@@ -180,8 +164,13 @@ function search_tag(obj){
         </td>
     </tr>
     <tr>
-    	<td colspan="2" style="border-top:1px solid #ccc; text-align:right">
+    	<!--<td></td>-->
+    	<td style="border-top:1px solid #ccc;">
         	<input type="button" id="save" name="save" class="button" value="完成处理" />　
+            <!--
+        	<input type="button" id="save_next" name="save_next" class="button" value="完成处理_next" />　
+            <input type="button" id="save_last" name="save_last" class="button" value="完成处理_last" />　
+            -->
 			<input type="button" name="Submit2" value="放弃保存" class="button" onclick="window.history.go(-1);"/></td>
     </tr>
 </table>
@@ -201,6 +190,11 @@ function search_tag(obj){
     <input type="hidden" name="tag_ids2" value="${tag_ids2}" />
 	<input type="hidden" id="orderby" name="orderby" value="${orderby }"/>
 	<input type="hidden" id="order" name="order" value="${order }"/>
+	<input type="hidden" id="rownum" name="rownum" value="${rownum}" />
+	<input type="hidden" id="operator" name="operator" value="" />
+	<input type="hidden" id="pagesize" name="pagesize" value="${pagesize}" />
+	<input type="hidden" id="page" name="page" value="${page}" />
+	<input type="hidden" id="job" name="job" value="${job}" />
 </div>
 
 

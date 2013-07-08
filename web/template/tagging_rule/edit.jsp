@@ -13,26 +13,6 @@
 <link href="/plugin/jquery.datepick.package-4.0.5/jquery.datepick-adobe.css" rel="stylesheet" type="text/css" />
 <!--日期控件 结束-->
 <title>TAG</title>
-<script type="text/javascript">
-function refreshTags(){
-	
-		var tagsname = "";
-		var tagsid = "";
-		var i=0;
-		$("#tag_text :checked").each(function(){
-			if(i>0){
-				tagsname += ",";
-				tagsid += ","
-			}
-			tagsname += $(this).attr("tagsname");
-			tagsid += $(this).attr("tagsid");
-			
-			++i;
-		});	
-		$("#tag_ids").attr("value",tagsid);
-		$("#tags").val(tagsname);
-	}
-</script>
 </head>
 
 <body>
@@ -47,7 +27,7 @@ function refreshTags(){
 <table class="ui edit">
 <tr class="title"><td colspan="2">新建TAG标签</td></tr>
     <tr>
-        <td width="10%">条件域：</td>
+        <td width="75">条件域：</td>
         <td><input type="radio" name="tag_rule$type" value="0" checked="checked" />来源URL &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="tag_rule$type" value="1" />正文或标题</td>
     </tr>
     <tr>
@@ -59,33 +39,8 @@ function refreshTags(){
         <td>
         
 <input type="text" size="50" id="tags" name="tag_rule$tag_name" value="" />
-<input type="button" value="选择标签" id="select_tag" class="button" style="display:inline; float:none" />
-<script type="text/javascript">
-$(function(){
-	$("#select_tag").click(function(){
-		if($(this).val()=="选择标签"){
-			$(this).val("完成选择").css("color","red");
-			$("#tag_text").slideDown();
-		}else{
-			$(this).val("选择标签").css("color","#174B73");;
-			$("#tag_text").slideUp();
-		}
-	});
-});
-</script>
-<div id="tag_text" style="margin-left:200px">
-	<c:forEach var="detail" items="${tagsList}" varStatus="status">
-		<label>${detail.level}${detail.name}<input type="checkbox" id="${detail.id}" tagsid="${detail.id}" tagsname="${detail.name}" name="tag$id" value="${detail.id}" ${detail.checked} onclick="refreshTags()" /></label>
-	</c:forEach>
-</div>
-        
-        
-        <!--    <select name="tag_rule$tag_id">
-            		<option value="">根</option>
-                <c:forEach var="detail" items="${tagsList}" varStatus="status">
-                    <option value="${detail.id}">${detail.level}${detail.name}</option>
-                </c:forEach>
-            </select>-->
+<c:set var="tagsList_pf" value="${tagsList}" />
+<%@ include file="/template/tag/tag_plugin.jsp"%>
         </td>
     </tr>
     <tr>
@@ -102,7 +57,7 @@ $(function(){
         <th width="29%">条件域</th>
         <th width="30%">包含关键字</th>
         <th width="11%">标签</th>
-        <th width="11%">删除</th>
+        <th width="11%">操作</th>
     </tr>
 <c:forEach var="detail" items="${objList}" varStatus="status">
     <tr class="effect">
@@ -111,7 +66,7 @@ $(function(){
         <td><c:if test="${detail.type=='0'}">来源URL</c:if><c:if test="${detail.type=='1'}">正文或标题</c:if></td>
         <td>${detail.keyword}</td>
         <td align="center">${detail.tag_name}</td>
-        <td align="center"><a href="/tag.TagRuleActionHandler.delete?job=delete&id=${detail.id}" onclick="return confirm('你确实要删除吗?');"><img alt="点击删除" src="/images/del_icon2.gif" /></a></td>
+        <td align="center"><a href="/tag.TagRuleActionHandler.show?job=edit&objId=${detail.id}" onclick="return confirm('你确实要编辑吗?');"><img alt="点击编辑" src="/images/button_edit.png" /></a><a href="/tag.TagRuleActionHandler.delete?job=delete&id=${detail.id}" onclick="return confirm('你确实要删除吗?');"><img alt="点击删除" src="/images/del_icon2.gif" /></a></td>
     </tr>
 </c:forEach>
 	<tr class="edit">

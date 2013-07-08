@@ -1,171 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="m" uri="/WEB-INF/sand-html.tld"%>
 <%@ page contentType="text/html;charset=utf-8" %>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%@ include file="/template/basic/common_head.jsp"%>
+<title>邮件配置管理</title>
+<!--日期控件 **带时分** 开始-->
+<script type="text/javascript" src="/plugin/jquery-calendar.js"></script>
+<!--日期控件 **带时分** 结束-->
+<script type="text/javascript">
 
-	<!-- start: Meta -->
-	<meta charset="utf-8" />
-	<title>GpCore</title> 
+		function render(){
+			//alert("abcd");
+			form1.action="/news.NewsActionHandler.render";
+			form1.submit();
+		
+		}
 
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
-    <link href="css/bootstrap-responsive.css" rel="stylesheet" type="text/css" />
-	<link href="css/style_2.css" rel="stylesheet" type="text/css" />
-	<link href="css/layerslider.css" rel="stylesheet" type="text/css" />
+
 	
-	<!--[if lt IE 9 ]>
-	  <link href="css/styleIE.css" rel="stylesheet">
-	<![endif]-->
+	function show(id){
+		//alert('abcd');
+		$("#form1").attr("action","news.GpMailAH.showPost");
+		$("#objId").attr("value",id);
+		$("#form1").submit();
+	}
+	function querylist(){
+		$("#reqType").attr("value","news.NewsActionHandler.list");
+		$("#form1").submit();
+	}
 	
-	<!--[if IE 9 ]>
-	  <link href="css/styleIE9.css" rel="stylesheet">
-	<![endif]-->
-	
-	<!-- end: CSS -->
 
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+</script>
+</head>
 
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 <body>
-	
-	<!--start: Header -->
-	<header>
-		
-		<!--start: Container -->
-		<div class="container">
-			
-			<!--start: Navigation -->
-			<div class="navbar navbar-inverse">
-	    		<div class="navbar-inner">
-	          		<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-	            		<span class="icon-bar"></span>
-	            		<span class="icon-bar"></span>
-	            		<span class="icon-bar"></span>
-	          		</a>
-					<a class="brand" href="javascript:void(0)">GpCore</a>
-
-	          		<div class="nav-collapse collapse">
-	            		<ul class="nav">
-							<li class="active"><a href="javascript:void(0)">发送记录</a></li>
-	              			<li><a href="javascript:void(0)">欢迎您使用！</a></li>
-	            		</ul>
-	          		</div>
-	        	</div>
-	      	</div>	
-			<!--end: Navigation -->
-			
-		</div>
-		<!--end: Container-->			
-			
-	</header>
-	<!--end: Header-->
-	<!--start: Container -->
-	<div class="container">
-				
-		<!--start: Wrapper-->
-		<div id="wrapper">
-		
-			<!-- start: Wall -->
-			<div id="wall" class="row-fluid">
+<div class="ui_head"></div>
 
 
 
+<form action="/news.NewsActionHandler.listMail" method="post" name="form1" id="form1">
+
+<input type="hidden" id="tag_ids" name="tag_ids2" value="${tag_ids2}" />
+<input type="hidden" id="objId" name="objId" value="" />
+<input type="hidden" id="orderby" name="orderby" value="${orderby}"/>
+<input type="hidden" id="order" name="order" value="${order}"/>
 
 
+<table class="ui list">
+	<tr class="title"><td class="title" colspan="12">邮件配置手动处理</td></tr>
+    <tr class="effect">
 
+        <th>序号</th>
+        <th>subject</th>
+        <th>name</th>
+        <th>发送周期</th>
+        <th>文章数</th>
+        <th>问候语</th>
+        <th>结束语</th>
+        <th>状态</th>
+        <th>重要度</th>
+        <th>语言</th>
+        <th>联系电话</th>
+        <th>上次发送时间</th>
+        <th>操作</th>
+    </tr>
+<c:forEach var="detail" items="${objList}" varStatus="status">
+  <tr class="effect">
 
-
-
-
-
-
-<c:forEach var="obj" items="${objList}">
-				<div class="span3 item">
-					<div class="picture">
-					<c:if test="${!empty (obj.picurl)}">
-						<img src="${obj.picurl}" alt="" />
-						</c:if>
-						<div class="description">
-						    <c:forEach var="detail" items="${obj.newsids}" varStatus="status">
-							<a href="/news.NewsActionHandler.show?objId=${detail}" >文章${status.index}</a>
-							</c:forEach>
-						</div>
-						<div class="meta">
-							<span><i class="fa-icon-calendar"></i>${obj.postmail}</span>
-							<span><i class="fa-icon-calendar"></i>${obj.name}</span>
-							<span><i class="fa-icon-user"></i> <a href="#">${obj.tags}</a></span>							
-
-							<span><i class="fa-icon-heart-empty"></i> ${obj.posttime}</span>
-							<span><i class="fa-icon-user"></i> <a href="#">${obj.success}</a></span>
-						</div>
-					</div>	
-				</div>
+    <td>${detail.serialno}</td>
+    <td>${detail.subject}</td>
+    <td>${detail.name}  ${detail.address}</td>
+    <td>${detail.cycle} </td>
+    <td>${detail.limit}</td>
+    <td>${detail.greeting}</td>
+    <td>${detail.ending}</td>
+    <td>${detail.enable}</td>
+    <td>${detail.urgent}</td>
+    <td>${detail.lang}</td>
+    <td>${detail.telphone}</td>
+    <td><fmt:formatDate value="${detail.posttime}" pattern="yyyy-MM-dd HH:mm"/></td>
+    <td><a href="javascript:void(0)" onclick="javascript:show('${status.index}')" ><img src="/images/button_edit.png" /></a></td>
+  </tr>
 </c:forEach>
+	<tr class="edit">
+    	<td colspan="12">
 
 
+        </td>
+    </tr>
+</table>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			</div>
-			<!-- end: Wall -->				
-					
-		</div>
-		<!--end: Container-->
-	
-	</div>
-	<!-- end: Wrapper  -->			
-
-
-
-<!-- start: Java Script -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="js/jquery-1.8.2.js"></script>
-<script src="js/isotope.js"></script>
-<script src="js/jquery.imagesloaded.js"></script>
-<script src="js/bootstrap.js"></script>
-<script src="js/flexslider.js"></script>
-<script src="js/carousel.js"></script>
-<script src="js/jquery.cslider.js"></script>
-<script src="js/slider.js"></script>
-<script src="js/fancybox.js"></script>
-<script src="js/twitter.js"></script>
-<script src="js/jquery.placeholder.min.js"></script>
-
-<script src="js/jquery-easing-1.3.js"></script>
-<script src="js/layerslider.kreaturamedia.jquery.js"></script>
-
-<script src="js/excanvas.js"></script>
-<script src="js/jquery.flot.js"></script>
-<script src="js/jquery.flot.pie.min.js"></script>
-<script src="js/jquery.flot.stack.js"></script>
-<script src="js/jquery.flot.resize.min.js"></script>
-
-<script defer src="js/modernizr.js"></script>
-<script defer src="js/retina.js"></script>
-<script defer src="js/custom.js"></script>
-<!-- end: Java Script -->
-
-    <form name="form1" action="<c:url value='/weibo.WeiBoAH.listWeibo'/>" method="post"/>
-    <div class="ui_showpage"><m:page action="weibo.WeiBoAH.listWeibo" /></div>
+</form>
 </body>
 </html>

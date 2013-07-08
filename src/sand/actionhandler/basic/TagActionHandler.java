@@ -98,12 +98,18 @@ public class TagActionHandler extends ActionHandler {
 //		if(StringUtils.isBlank(tag.getString("name"))) throw new ErrorException("要添加的标签名不能为空,请重新操作!");
 		String[] str = tag.getString("name").split(",");
 		if(str.length<=0) throw new ErrorException("要添加的标签名不能为空,请重新操作!");
+		QueryFactory qf = new QueryFactory("tag");
 		
 		for(String s : str){
 			if(StringUtils.isNotBlank(s.trim())){
+				qf.setHardcoreFilter("name='"+s.trim()+"' and isvalid='1'");
+				if(qf.query().size()>0) throw new ErrorException("要添加的标签名:'"+s.trim()+"'已经存在,不能重复添加!");
+				
 				tag.setID("");
 				tag.set("name", s.trim());
 				tag.set("isvalid", BasicContext.IS_VALID_YES);
+				if(StringUtils.isBlank(tag.getString("orderby")))
+					tag.set("orderby", 9999);
 				if(StringUtils.isBlank(tag.getString("parent_id")))
 					tag.set("parent_id", "root");
 				this.getJdo().addOrUpdate(tag);

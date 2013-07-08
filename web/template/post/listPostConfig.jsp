@@ -64,7 +64,7 @@
 
 
 
-<form action="/news.NewsActionHandler.listMail" method="post" name="form1" id="form1">
+<form action="/news.GpMailAH.listPostConfig" method="post" name="form1" id="form1">
 
 <input type="hidden" id="tag_ids" name="tag_ids2" value="${tag_ids2}" />
 <input type="hidden" id="objId" name="objId" value="" />
@@ -74,66 +74,24 @@
 <table class="ui edit">
 <tr class="title"><td colspan="4">查询条件</td></tr>
     <tr>
-        <td width="10%">发布时间：</td>
+        <td width="10%">执行时间：</td>
         <td><input type="text" id="s_time" name="startDate" value="${startDate}" readonly="readonly" plugin="date2" start="start" />
 <span class="newfont06">-</span>
 <input type="text" id="e_time" name="endDate" value="${endDate}" readonly="readonly" plugin="date2" end="start" /></td>
         <td>状态：</td>
-        <td><m:radio type="news_status_all" name="status" value="${status}" /></td>
+        <td><m:radio type="post_status" name="status" value="${status}" /></td>
     </tr>
     <tr>
-        <td width="10%">最后更新时间：</td>
-        <td><input type="text" id="s_time1" name="startDate1" value="${startDate1}" readonly="readonly" plugin="date2" start="start" />
-		</td>
-        <td></td>
-        <td></td>
-    </tr>    
-    <tr>
-        <td>标题：</td>
+        <td>任务编号：</td>
         <td><input type="text" id="title" name="title" value="${title}" /></td>
-        <td>客户重要度：</td>
+        <td>生效状态：</td>
         <td><m:radio type="urgent_all" name="urgent" value="${urgent}" /></td>
     </tr>
     <tr>
-        <td>作者：</td>
+        <td>任务名称：</td>
         <td><input type="text" id="author" name="author" value="${author}" /></td>
-        <td>GP重要度：</td>
-        <td><m:radio type="importance_all" name="importance" value="${importance}" /></td>
-    </tr>
-    <tr>
-        <td>标签：</td>
-
-        <td><input type="text" size="50" id="tags" name="tags2" value="" />
-<c:set var="tagsList_pf" value="${tags}" />
-<%@ include file="/template/tag/tag_plugin.jsp"%>
-        </td>
-
-
-        <td>文章分类：</td>
-        <td><m:radio type="sort_all" name="sort" value="${sort}" /></td>
-    </tr>
-    <tr>
-        <td>排序：</td>
-        <td><input type="text" id="orderby" name="orderby" value=" importance asc , posttime desc " /></td>
-
-		<td>输出文章数：</td>
-        <td><input type="text" id="pagesize" name="pagesize" value="${pagesize}" /></td>
-
-    </tr>
-    <tr>
-        <td>摘要:</td>
-        <td><input type="text" id="summary" name="summary" value=" 非空 " /></td>
-
-		<td>发布：</td>
-        <td><m:radio type="news_status_all" name="issue" value="${issue}" /></td>
-
-    </tr>
-    <tr>
-    	        <td>语言：</td>
-        <td><m:radio type="lang" name="lang" value="${lang}" /></td>
-
-        <td>标签:</td>
-        <td><input type="text" id="tag" name="tag" value=" 非空 " /></td>
+        <td>客户邮件：</td>
+        <td><input type="text" id="author" name="author" value="${author}" /></td>
     </tr>
     <tr>
     	        <td></td>

@@ -22,7 +22,7 @@
 <table class="ui edit">
 <tr class="title"><td colspan="2">新建TAG标签</td></tr>
     <tr>
-        <td width="8%">TAG名称：</td>
+        <td width="70">TAG名称：</td>
         <td><input type="text" name="tag$name" />(可使用逗号 , 分隔批量添加)</td>
     </tr>
     <tr>
@@ -49,8 +49,8 @@
 <table class="ui list">
 	<tr class="title"><td class="title" colspan="5">编辑TAG标签库</td></tr>
     <tr class="effect">
-        <th width="29%">TAG名称</th>
-        <th width="40%">描述</th>
+        <th>TAG名称</th>
+        <th>描述</th>
         <th width="11%">排序</th>
         <th width="9%">编辑</th>
         <th width="11%">删除</th>

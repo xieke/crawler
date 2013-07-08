@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>采集内容管理</title>
+<title>邮件内容管理</title>
 <link href="/css/css.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="/plugin/jquery-1.5.1.min.js"></script>
 
@@ -16,11 +16,28 @@
 <!--日期控件 结束-->
 
 </head>
+<script type="text/javascript">
+	$(function(){
+		$("#modify").click(function(){
+			//editor.sync();
+			$("#reqType").attr("value","news.GpMailAH.listModify");
 
+			$("#form1").submit();
+		});
+		$("#sendmail").click(function(){
+			//editor.sync();
+			$("#reqType").attr("value","news.GpMailAH.sendMail");
+			$("#form1").submit();
+		});
+	});
+
+</script>
+		
 
 <body>
 <form action="GeneralHandleSvt" method="post" name="form1" id="form1">
 <input type="hidden" id="reqType" name="reqType" value="news.NewsActionHandler.list">
+<input type="hidden" id="objId" name="objId" value="${obj.id}">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td height="30">      <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -42,32 +59,24 @@
                 <td height="40" class="font42">
 				<table width="100%" border="0" cellpadding="4" cellspacing="1" bgcolor="#464646" class="newfont03">
 				 <tr class="CTitle" >
-                    	<td height="22" colspan="7" align="center" style="font-size:16px">查看采集原文</td>
+                    	<td height="22" colspan="7" align="center" style="font-size:16px">预览邮件</td>
                   </tr>
                   <tr bgcolor="#EEEEEE">
-    <th width="100">标题：</th>
-    <th>${obj.title}</th>
-                  </tr>
-  <tr bgcolor="#FFFFFF">
-  	<td align="center">内容：</td>
-    <td>${obj.content}</td>
-  </tr>
-  <tr bgcolor="#FFFFFF">
-  	<td align="center">作者：</td>
-    <td>${obj.author}</td>
-  </tr>
-  <tr bgcolor="#FFFFFF">
-  	<td align="center">采集时间：</td>
-    <td>${obj.posttime}</td>
-  </tr>
-  <tr bgcolor="#FFFFFF">
-  	<td align="center">来源网站：</td>
-    <td>${obj.copyfrom}</td>
-  </tr>
-  <tr bgcolor="#FFFFFF">
-  	<td align="center">原始链接：</td>
-    <td><a href="${obj.copyfromurl}" target="_blank">${obj.copyfromurl}</a></td>
-  </tr>
+					<th align="center">subject：</th>
+					<th>${obj.subject}
+					    <input style="margin-left:10px" type="button" id="modify" name="modify" value="修改" />
+					    <input style="margin-left:10px" type="button" id="sendmail" name="sendmail" value="发送" />
+					</th>
+								  </tr>
+				  <tr bgcolor="#FFFFFF">
+					<td align="center">邮箱：</td>
+					<td>${obj.name}  | ${obj.toaddr}</td>
+				  </tr>
+
+				  <tr bgcolor="#FFFFFF">
+					<td align="center">内容</td>
+					<td>${obj.content}</td>
+				  </tr>
             </table></td>
         </tr>
       </table>

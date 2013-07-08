@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,6 +65,21 @@ public class NewsActionHandler extends ActionHandler {
 			BizObject b = new BizObject("news");
 			b.setID(id);
 			b.refresh();
+			log(" lang is "+this.getParameter("lang"));
+			String lang=this.getParameter("lang");
+			if (lang.equals("")) lang="c";
+			if(lang.equals("c")){
+				b.set("summary",b.getString("c_summary"));
+			}
+			else if(lang.equals("e")){
+				b.set("summary",b.getString("summary"));
+			}
+			else if(lang.equals("ce")){
+				b.set("summary",b.getString("c_summary")+"<br>"+b.getString("summary"));
+			}
+			else if(lang.equals("ec")){
+				b.set("summary",b.getString("summary")+"<br>"+b.getString("c_summary"));
+			}
 			v.add(b);
 		}
 
@@ -82,7 +98,7 @@ public class NewsActionHandler extends ActionHandler {
 			
 			
 			for(BizObject biz : list){
-				if(tagList.contains("'"+biz.getId()+"'")) {
+				if(tagList.contains(biz.getId())) {
 					
 					biz.set("checked", "checked");
 					String tagname=biz.getString("name");
@@ -93,14 +109,18 @@ public class NewsActionHandler extends ActionHandler {
 			}
 			
 		}
-		Map<String,List> newtags = new HashMap();
+		Map<String,List> newtags = new LinkedHashMap ();
 		
 		if(tagstr.equals("")) tagstr=this.getParameter("tags");
 		
 		//log("ok  ,  tags is "+tagstr);
 		
-		if(tagstr.equals("")) throw new ErrorException("您没有选择 tag");
+		if(tagstr.equals("")){			
+			tagstr=GpMailAH.expTags();
+		} 
+		//throw new ErrorException("您没有选择 tag");
 		String tag[] = tagstr.split(",");
+		int j=0;
 		for(String s:tag){
 			if(s.equals("")) continue;
 			
@@ -113,12 +133,18 @@ public class NewsActionHandler extends ActionHandler {
 					b.set("tag", s);
 					onetags.add(b);
 					v.remove(b);
+					j++;
 					i--;
 				}
 			}	
 			log("put "+s+"  "+onetags.size());
 			newtags.put(s, onetags);
 		}
+		log("j is "+j+"   v size is "+v.size());
+		for(BizObject b:v){
+			log(b.getString("tags")+"   "+b.getString("title"));
+		}
+		
 		this._request.setAttribute("objList",newtags);
 		
 	//	this._request.setAttribute("taglist", tagList);
@@ -145,7 +171,7 @@ public class NewsActionHandler extends ActionHandler {
 			for(String s : str) tagList.add(s);
 			
 			for(BizObject biz : list){
-				if(tagList.contains("'"+biz.getId()+"'")){
+				if(tagList.contains(biz.getId())){
 					biz.set("checked", "checked");
 					//tagstr=tagstr+"  "+biz.getString("name");
 					
@@ -170,7 +196,7 @@ public class NewsActionHandler extends ActionHandler {
 			List<String> tagList = new ArrayList<String>();
 			for(String s : str) tagList.add(s);
 			for(BizObject biz : list){
-				if(tagList.contains("'"+biz.getId()+"'")) biz.set("checked", "checked");
+				if(tagList.contains(biz.getId())) biz.set("checked", "checked");
 			}
 		}
 		
@@ -272,8 +298,17 @@ public class NewsActionHandler extends ActionHandler {
 //		return objList;
 //	}	
 	private List<BizObject> queryList() throws SQLException{
+		
+		//PageVariable pv 
+		List<BizObject> objList = QueryFactory.executeQuerySQL(this.getQuerySQL(),this.preparePageVar());
+		
+		return objList;
+	}
+	
+	private String getQuerySQL() throws SQLException{
 		String job = this.getParameter("job");
 		String startDate = this.getParameter("startDate");
+		String startDate1 = this.getParameter("startDate1");
 		String endDate = this.getParameter("endDate");
 		String status = this.getParameter("status");
 		String title = this.getParameter("title");
@@ -286,6 +321,11 @@ public class NewsActionHandler extends ActionHandler {
 		String order = this.getParameter("order");
 		String summary = this.getParameter("summary");
 		String issue = this.getParameter("issue");
+		String lang=this.getParameter("lang");
+		String[] tag_ids = null;
+		if(StringUtils.isNotBlank(tag_ids2))
+			tag_ids = tag_ids2.split(",");
+		String tag = this.getParameter("tag");
 		
 		if(StringUtils.isNotBlank(job) && job.equals("default")){
 			//如果是从最外层点进去的列表链接,则是查询默认近两天的日期的记录
@@ -296,16 +336,30 @@ public class NewsActionHandler extends ActionHandler {
 		}
 		
 		StringBuilder sql = new StringBuilder("");
-		if(StringUtils.isBlank(tag_ids2)) sql.append("select DISTINCT n.id,n.title,n.posttime,n.fname,n.author,n.copyfrom,n.copyfromurl," +
+//		if(StringUtils.isBlank(tag_ids2)) 
+			sql.append("select DISTINCT n.id,n.title,n.posttime,n.fname,n.author,n.copyfrom,n.copyfromurl," +
 				"n.category_id,n.status,n.issue,n.hits,n.isrecommend,n.istop,n.isautotag,n.summary,n.c_summary,n.importance," +
-				"n.urgent,n.sort,n.his_news_id,n.createdate from basic.news n where 1=1 ");
-		else sql.append("select DISTINCT n.id,n.title,n.posttime,n.fname,n.author,n.copyfrom,n.copyfromurl," +
-				"n.category_id,n.status,n.issue,n.hits,n.isrecommend,n.istop,n.isautotag,n.summary,n.c_summary,n.importance," +
-				"n.urgent,n.sort,n.his_news_id,n.createdate from basic.news n left join basic.re_bill_tag r on n.id=r.bill_id where r.tag_id in (")
-				.append(tag_ids2).append(")");
+				"n.urgent,n.sort,n.his_news_id,n.tags,n.createdate from basic.news n where 1=1 ");
+//		else sql.append("select DISTINCT n.id,n.title,n.posttime,n.fname,n.author,n.copyfrom,n.copyfromurl," +
+//				"n.category_id,n.status,n.issue,n.hits,n.isrecommend,n.istop,n.isautotag,n.summary,n.c_summary,n.tags,n.importance," +
+//				"n.urgent,n.sort,n.his_news_id,n.createdate from basic.news n left join basic.re_bill_tag r on n.id=r.bill_id where r.tag_id in (")
+//				.append(tag_ids2).append(")");
+			
+		if(tag_ids!=null && tag_ids.length>0){
+			sql.append(" and (");
+			for(int i=0;i<tag_ids.length;i++){
+				if(i>0) sql.append(" or ");
+				sql.append("tag_ids like '%").append(tag_ids[i]).append("%'");
+			}
+			sql.append(")");
+		}
+//		else sql.append("select DISTINCT n.id,n.title,n.posttime,n.fname,n.author,n.copyfrom,n.copyfromurl," +
+//				"n.category_id,n.status,n.issue,n.hits,n.isrecommend,n.istop,n.isautotag,n.summary,n.c_summary,n.tags,n.importance," +
+//				"n.urgent,n.sort,n.his_news_id,n.createdate from basic.news n left join basic.re_bill_tag r on n.id=r.bill_id where r.tag_id in (")
+//				.append(tag_ids2).append(")");
 		
 		//STR_TO_DATE('2013-05-27','%Y-%m-%d')>=posttime
-		
+		if(StringUtils.isNotBlank(startDate1)) sql.append(" and n.modifydate>=STR_TO_DATE('").append(startDate1).append("','%Y-%m-%d %H:%i:%s')");
 		if(StringUtils.isNotBlank(startDate)) sql.append(" and n.posttime>=STR_TO_DATE('").append(startDate).append("','%Y-%m-%d %H:%i:%s')");
 		if(StringUtils.isNotBlank(endDate)) sql.append(" and n.posttime<=STR_TO_DATE('").append(endDate).append("','%Y-%m-%d %H:%i:%s')");
 		if(StringUtils.isNotBlank(status)) sql.append(" and n.status='").append(status).append("'");
@@ -314,8 +368,20 @@ public class NewsActionHandler extends ActionHandler {
 		if(StringUtils.isNotBlank(author)) sql.append(" and n.author like '%").append(author).append("%'");
 		if(StringUtils.isNotBlank(importance)) sql.append(" and n.importance='").append(importance).append("'");
 		if(StringUtils.isNotBlank(sort)) sql.append(" and n.sort='").append(sort).append("'");
-		if(StringUtils.isNotBlank(summary)) sql.append(" and n.c_summary is not null "); //输出html的时候，没有summary无意义
+		
+		if(StringUtils.isNotBlank(summary)){
+			if(lang.equals("c"))
+				sql.append(" and (n.c_summary is not null) "); //输出html的时候，没有summary无意义
+			else if(lang.equals("e"))
+				sql.append(" and (n.summary is not null) "); //输出html的时候，没有summary无意义
+			else //if(lang.equals("ce"))
+				sql.append(" and (n.c_summary is not null or n.summary is not null) "); //输出html的时候，没有summary无意义
+			//else
+		} 
+			
+			
 		if(StringUtils.isNotBlank(issue)) sql.append(" and n.issue ='").append(issue).append("'"); //输出html的时候，没有summary无意义
+		if(StringUtils.isNotBlank(tag)) sql.append(" and n.tags is not null "); //输出html的时候，没有summary无意义
 		
 		if(StringUtils.isNotBlank(orderby)) sql.append(" order by ").append(orderby);
 		else sql.append(" order by n.posttime");
@@ -323,15 +389,15 @@ public class NewsActionHandler extends ActionHandler {
 		else sql.append(" desc");
 
 		System.out.println(sql.toString());
+		log("sql is "+sql.toString());
 		//PageVariable pv 
-		List<BizObject> objList = QueryFactory.executeQuerySQL(sql.toString(),this.preparePageVar());
-		
-		return objList;
+		return sql.toString();
 	}
 	
 	private void setParam() throws SQLException{
 		String job = this.getParameter("job");
 		String startDate = this.getParameter("startDate");
+		String startDate1 = this.getParameter("startDate1");
 		String endDate = this.getParameter("endDate");
 		String status = this.getParameter("status");
 		String title = this.getParameter("title");
@@ -340,9 +406,14 @@ public class NewsActionHandler extends ActionHandler {
 		String importance = this.getParameter("importance");
 		String tags2 = this.getParameter("tags2");
 		String sort = this.getParameter("sort");
+		String lang = this.getParameter("lang");
+		String pagesize = this.getParameter("pagesize");
+		if(pagesize.equals("") ) pagesize="1000";
 		String tag_ids2 = this.getParameter("tag_ids2");
 		String orderby = this.getParameter("orderby");
 		String order = this.getParameter("order");
+		String rownum = this.getParameter("rownum");
+		String page = this.getParameter("page");
 		
 		if(StringUtils.isBlank(orderby)) orderby="posttime";
 		if(StringUtils.isBlank(order)) order="desc";
@@ -356,6 +427,7 @@ public class NewsActionHandler extends ActionHandler {
 		}
 		
 		this._request.setAttribute("startDate", startDate);
+		this._request.setAttribute("startDate1", startDate1);
 		this._request.setAttribute("endDate", endDate);
 		this._request.setAttribute("status", status);
 		this._request.setAttribute("title", title);
@@ -364,37 +436,16 @@ public class NewsActionHandler extends ActionHandler {
 		this._request.setAttribute("importance", importance);
 		this._request.setAttribute("tags2", tags2);
 		this._request.setAttribute("sort", sort);
+		this._request.setAttribute("lang", lang);
+		this._request.setAttribute("pagesize", pagesize);
 		this._request.setAttribute("tag_ids2", tag_ids2);
 		this._request.setAttribute("orderby", orderby);
 		this._request.setAttribute("order", order);
+		this._request.setAttribute("rownum", rownum);
+		this._request.setAttribute("page", page);
 	}
 	
-	public void list2(int i) throws SQLException{
-		String[] str = null;
-		if(i==0){//==0表示是需要标签作为查询条件的,==1是不需要标签条件的,因为是保存等方法进行的调用
-			String tag_ids = this.getParameter("tag_ids");//这个参数的值为:   'ssss','dddd','dddd','ddd'
-			str = tag_ids.split(",");
-			if(StringUtils.isNotBlank(tag_ids))
-				this.setHardcoreFilter(" id in (select bill_id from basic.re_bill_tag where tag_id in ("+tag_ids+"))");
-		}
-		this.setOrderBy("createdate desc");
-		this.listObj("news");
-		
-		List<BizObject> list = this.getTagService().openAllWithSelectedTag("");
-		
-		if(str!=null && str.length>0){
-			List<String> tags = new ArrayList<String>();
-			for(String s : str){
-				tags.add(s);
-			}
-			for(BizObject biz : list){
-				if(tags.contains("'"+biz.getId()+"'"))
-					biz.set("checked", "checked");
-			}
-		}
-		this._request.setAttribute("tags", list);
-		this._nextUrl = "/template/news/list.jsp";
-	}
+
 	
 	public void showIt() throws SQLException{
 		QueryFactory qf = new QueryFactory("news");
@@ -427,23 +478,113 @@ public class NewsActionHandler extends ActionHandler {
 	public void show() throws SQLException{
 		QueryFactory qf = new QueryFactory("news");
 		BizObject biz = qf.getByID(this._objId);
+//		BizObject news_content = new BizObject("news_content");
+//		news_content.set("news_id", biz.getId());
+//		news_content = QueryFactory.getInstance("news_content").getOne(news_content);
 		
 		List<BizObject> list = this.getTagService().openAllWithSelectedTag(this._objId);
-//		List<BizObject> retags = this.getTagService().queryTagsByBillId(this._objId);
 		
-		biz.set("content", biz.getString("content").replaceAll("'","&#039;"));
-		biz.set("content", biz.getString("content").replaceAll("&","&amp;"));
-		biz.set("content", biz.getString("content").replaceAll("\"","&quot;"));
-		biz.set("content", biz.getString("content").replaceAll("<","&lt;"));
-		biz.set("content", biz.getString("content").replaceAll(">","&gt;"));
+		if(biz!=null){
+			biz.set("content", biz.getString("content").replaceAll("'","&#039;"));
+			biz.set("content", biz.getString("content").replaceAll("&","&amp;"));
+			biz.set("content", biz.getString("content").replaceAll("\"","&quot;"));
+			biz.set("content", biz.getString("content").replaceAll("<","&lt;"));
+			biz.set("content", biz.getString("content").replaceAll(">","&gt;"));
+		}
 		
 		this._request.setAttribute("obj", biz);
+//		this._request.setAttribute("news_content", news_content);
 //		this._request.setAttribute("retags", retags);
 		this._request.setAttribute("objList", list);
 		this._request.setAttribute("commentsList", this.getComments(this._objId));
+
+//		this._request.setAttribute("importanceList", this.queryImportances(biz.getString("importance")));
+//		this._request.setAttribute("urgentList", this.queryUrgents(biz.getString("urgent")));
 		this.setParam();
 		this._nextUrl = "/template/news/edit.jsp";
 	}
+	
+	public void show_operator() throws SQLException{
+		String operator = this.getParameter("operator");
+		String rownum = this.getParameter("rownum");
+		int rows = 0;
+		
+		try{
+			rows = Integer.parseInt(rownum);
+		}catch(Exception e){
+			e.printStackTrace();
+			rows = 0;
+		}
+		if(operator.equals("next")){
+			rows += 1;
+		}else if(operator.equals("last")){
+			if(rows>0) rows -= 1;
+			else {
+				this.list();
+				return;
+			}
+		}else{
+			this.list();
+			return;
+		}
+		log("行与："+rows);
+		StringBuilder sql = new StringBuilder("");
+		sql.append(this.getQuerySQL());
+		sql.append(" limit ").append(rows).append(",1");
+		log("打印sql:"+sql.toString());
+		
+		QueryFactory qf = new QueryFactory("news");
+		List<BizObject> rowslist = qf.executeQuerySQL(sql.toString());
+		if(rowslist.size()>0){
+			BizObject biz = qf.getByID(rowslist.get(0).getString("id"));
+	//		BizObject news_content = new BizObject("news_content");
+	//		news_content.set("news_id", biz.getId());
+	//		news_content = QueryFactory.getInstance("news_content").getOne(news_content);
+			
+			List<BizObject> list = this.getTagService().openAllWithSelectedTag(this._objId);
+			
+			if(biz!=null){
+				biz.set("content", biz.getString("content").replaceAll("'","&#039;"));
+				biz.set("content", biz.getString("content").replaceAll("&","&amp;"));
+				biz.set("content", biz.getString("content").replaceAll("\"","&quot;"));
+				biz.set("content", biz.getString("content").replaceAll("<","&lt;"));
+				biz.set("content", biz.getString("content").replaceAll(">","&gt;"));
+			}
+			
+			this._request.setAttribute("obj", biz);
+	//		this._request.setAttribute("news_content", news_content);
+			this._request.setAttribute("objList", list);
+			this._request.setAttribute("commentsList", this.getComments(this._objId));
+			this.setParam();
+			
+//			this._request.setAttribute("importanceList", this.queryImportances(biz.getString("importance")));
+//			this._request.setAttribute("urgentList", this.queryUrgents(biz.getString("urgent")));
+			this._request.setAttribute("rownum", rows);
+			this._nextUrl = "/template/news/edit.jsp";
+		}else this.list();
+	}
+	
+//	private List<BizObject> queryUrgents(String news_urgent) throws SQLException{
+//		String[] types = news_urgent.split(",");
+//		List<BizObject> urgentList = SystemKit.getNoCachePickList("urgent");
+//		List<String> typeList = new ArrayList<String>();
+//		for(String type:types)typeList.add(type);
+//		for(BizObject urgent : urgentList){
+//			if(typeList.contains(urgent.getId())) urgent.set("checkedValue", urgent.getId());
+//		}
+//		return urgentList;
+//	}
+//	
+//	private List<BizObject> queryImportances(String news_importance) throws SQLException{
+//		String[] types = news_importance.split(",");
+//		List<BizObject> importanceList = SystemKit.getNoCachePickList("importance");
+//		List<String> typeList = new ArrayList<String>();
+//		for(String type:types)typeList.add(type);
+//		for(BizObject importance : importanceList){
+//			if(typeList.contains(importance.getId())) importance.set("checkedValue", importance.getId());
+//		}
+//		return importanceList;
+//	}
 	
 	/**
 	 * 显示添加页面
@@ -454,6 +595,10 @@ public class NewsActionHandler extends ActionHandler {
 	public void showAdd() throws SQLException{
 		List<BizObject> list = this.getTagService().openAllWithSelectedTag(this._objId);
 		this._request.setAttribute("objList", list);
+		this.setParam();
+		this._request.setAttribute("job", "default");
+//		this._request.setAttribute("importanceList", this.queryImportances(""));
+//		this._request.setAttribute("urgentList", this.queryUrgents(""));
 		this._nextUrl = "/template/news/edit.jsp";
 	}
 	
@@ -469,12 +614,28 @@ public class NewsActionHandler extends ActionHandler {
 		this.getJdo().beginTrans();
 		String tagId = this.getParameter("tag_ids");
 		BizObject news = this.getBizObjectFromMap("news");
-//		news.set("status", BasicContext.STATUS_DISPOSE_YES);
 		this.log("tags is "+this.getParameter("tags"));
 		news.set("tags", this.getParameter("tags"));
 		news.set("tag_ids", tagId);
+//		String[] importances = (String[])news.get("importance");
+//		String[] urgents = (String[])news.get("urgent");
+//		String importance="";
+//		String urgent="";
+//		for(String s : importances) importance+=s+",";
+//		for(String s : urgents) urgent+=s+",";
+//		
+//		news.set("importance", importance);
+//		news.set("urgent", urgent);
+		
 		if(StringUtils.isBlank(news.getId())){
 			news.set("posttime", new Date());
+			
+			BizObject his_news = news.duplicate();
+			his_news.resetObjType("his_news");
+			his_news.setID("");
+			this.getJdo().addOrUpdate(his_news);
+			
+			news.set("his_news_id", his_news.getId());
 			news.set("issue", BasicContext.ISSUE_NO);
 			news.set("hits", 0);
 			news.set("isrecommend", BasicContext.IS_RECOMMEND_NO);
@@ -483,6 +644,13 @@ public class NewsActionHandler extends ActionHandler {
 		}
 		this.getJdo().addOrUpdate(news);
 		
+		/**暂时先不用news_content表,先不移出去
+		BizObject news_content = this.getBizObjectFromMap("news_content");
+		if(StringUtils.isBlank(news_content.getString("news_id")))
+			news_content.set("news_id", news.getId());
+		this.getJdo().addOrUpdate(news_content);
+		**/
+		
 		//先删除已标置的标签
 		if(StringUtils.isNotBlank(news.getId()))
 			this.getTagService().deleteReBillTagsByBillId(news.getId());		
@@ -490,23 +658,7 @@ public class NewsActionHandler extends ActionHandler {
 		this.log("tagIds is "+tagId);
 		String[] tagIds = tagId.split(",");
 		this.getTagService().addReBillTags(tagIds, news.getId());
-		
-//		List<String> tagNames = this.getTagService().getTagNames(tagIds);
-//		
-//		String tags="";
-//		for(String s:tagNames){
-//			if(tags.equals(""))
-//				tags=s;
-//			else
-//				tags=tags+","+s;
-//
-//		}
-		
-//		this.log("tags is "+tags);
-////		if(!tags.equals(""))
-//		news.set("tags", this.getParameter("tags"));
-//		news.set("tag_ids", tagId);
-//		this.getJdo().addOrUpdate(news);
+
 		//保存备忘
 		BizObject biz = this.getBizObjectFromMap("NEWCOMMENTS");
 		if(StringUtils.isNotBlank(biz.getString("content"))){
@@ -520,18 +672,9 @@ public class NewsActionHandler extends ActionHandler {
 		
 		this.getJdo().commit();
 		this.clearQueryParam();
-		
-//		QueryFactory qf = new QueryFactory("news");
-//		qf.setHardcoreFilter("status='"+ BasicContext.STATUS_DISPOSE_NO+"' and " +
-//				"DATE_FORMAT(createdate,'%Y-%m-%d HH:mm:ss')>='"+DateUtils.formatDate(news.getDate("createdate"), DateUtils.PATTERN_YYYYMMDDHHMMSS)+"' ");
-//		qf.setOrderBy("createdate desc");
-//		List<BizObject> list = qf.query(new PageVariable(1));
-//		if(list.size()>0){
-//			this._objId = list.get(0).getId();
-//			this.show();
-//		}else
-//			this._nextUrl = "/news.NewsActionHandler.list";
-		this.list();
+
+		this.show_operator();
+//		this.list();
 	}
 	
 	@CandoCheck("session")
@@ -694,7 +837,8 @@ public class NewsActionHandler extends ActionHandler {
 		BizObject email = new BizObject("email");
 
 		String address=this.getParameter("email");
-		email.set("toaddr", address);
+		//email.set("toaddr", address);
+		email.set("bcc", address);
 		
 		int i=address.indexOf("@");
 		if(i<=0)
@@ -707,7 +851,11 @@ public class NewsActionHandler extends ActionHandler {
 		String content=this.renderHtml2(this.getParameter("tags"),this.getParameter("subject"),this.getParameter("greeting"),this.getParameter("ending"));
 		email.set(
 				"content",content);
-		email.set("subject", "gpcore 友情赠送！");
+		
+		if(this.getParameter("subject").equals(""))
+			email.set("subject", "Goldpebble Research Customized News");
+		else
+			email.set("subject", this.getParameter("subject"));
 
 		boolean result = false;
 	//	if(mailExcludes.contains(sfix)){
@@ -800,7 +948,7 @@ public class NewsActionHandler extends ActionHandler {
         root.put("message", "Hello World!");
 
         this.render();
-        root.put("www_url", "http://192.168.36.33:18080");
+        root.put("www_url", SystemKit.getParamById("system_core", "www_url"));
         root.put("objList", _request.getAttribute("objList"));
         root.put("tags",tags);
         root.put("subject", subject);
@@ -832,10 +980,34 @@ public class NewsActionHandler extends ActionHandler {
 	}
 
 	@Ajax
-	public String post() throws SQLException{
+	public String post() {
 		BizObject news = this.getBizObjectFromMap("news");
-		log("insert news "+news);
-		//this.getJdo().add(news);
+		if(StringUtils.isBlank(news.getString("title")) || StringUtils.isBlank(news.getString("content"))){
+			log("标题或者内容为空,不入库:"+news);
+			return "ok";
+		}
+		try{
+			if(StringUtils.isBlank(news.getString("posttime")))
+				news.set("posttime", new Date());
+			news.getDate("posttime");
+		}catch(Exception e){
+			e.printStackTrace();
+			log(e.getMessage());
+			news.set("posttime", new Date());
+		}
+		//log("insert news "+news);
+		
+		news.set("copyfrom", news.getString("web_site"));
+		news.set("web_summary", news.getString("summary"));
+		news.set("summary", "");
+		
+		try {
+		//	Thread.sleep(200);
+			this.getNewsService().addNews(news);
+		} catch (SQLException e){
+			log("",e);
+			e.printStackTrace();
+		}
 		return "ok";
 		
 	}

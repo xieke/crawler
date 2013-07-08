@@ -1,0 +1,11 @@
+-- 把新闻表中的内容移到news_content表中
+insert into news_content(id,news_id,content,createdate,modifydate) select uuid(),id,content,createdate,modifydate from basic.news; 
+
+
+-- 把关系表中的数据移到news表中的tags和tag_ids
+-- select GROUP_CONCAT( DISTINCT t.id),GROUP_CONCAT(t.name),n.id from basic.re_bill_tag rt,basic.tag t ,basic.news n where rt.bill_id=n.id and rt.tag_id=t.id group by -- n.id;
+
+update basic.news n ,
+(select GROUP_CONCAT( DISTINCT t.id) tag_ids,GROUP_CONCAT(t.name) tags,n.id from basic.re_bill_tag rt,basic.tag t ,basic.news n 
+where rt.bill_id=n.id and rt.tag_id=t.id and n.id in('00032727-be70-4b25-880e-54346f029798','fff74b85-f90f-4e21-bed5-b27dc94ec069') group by n.id) gn 
+set n.tags=gn.tags,n.tag_ids=gn.tag_ids where n.id=gn.id

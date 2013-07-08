@@ -46,10 +46,16 @@
     <div id="blog_wrapper">
         <div class="container">
             <div class="row">
+            
+语言：<input  id="lang" name="lang" value="${lang}" />
+	</div>
+
+            <div class="row">
+            
 标签：<input  id="tags" name="tags" value="${tags}" />
 	</div>
 	<div class="row">
-标题：<input  id="subject" name="subject" value="" />
+标题：<input  id="subject" name="subject" value="Goldpebble Research Customized News" />
 	</div>
 	<div class="row">
 
@@ -93,7 +99,7 @@ ${item.key}<br>
                                 <a href="/news.NewsActionHandler.showIt?objId=${detail.id}">
                                     <h3>${detail.title}</h3>
                                 </a>
-                                <p>${detail.c_summary}</p>
+                                <p>${detail.summary}</p>
                                 <div class="post_info">
                                     <div class="author">${detail.author}${detail.copyfrom}</div>
                                     <div class="date"><fmt:formatDate value="${detail.posttime}" pattern="yyyy-MM-dd HH:mm"/></div>
