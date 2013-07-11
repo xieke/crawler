@@ -65,7 +65,7 @@
 
 
 <form action="/news.NewsActionHandler.listMail" method="post" name="form1" id="form1">
-
+<m:token/>
 <input type="hidden" id="tag_ids" name="tag_ids2" value="${tag_ids2}" />
 <input type="hidden" id="objId" name="objId" value="" />
 <input type="hidden" id="orderby" name="orderby" value="${orderby}"/>
@@ -103,7 +103,8 @@
     <tr>
         <td>标签：</td>
 
-        <td><input type="text" size="50" id="tags" name="tags2" value="" />
+        <td><input type="hidden" id="tags" name="tags2" />
+<div id="tags_result" class="tags_result select_label"></div>
 <c:set var="tagsList_pf" value="${tags}" />
 <%@ include file="/template/tag/tag_plugin.jsp"%>
         </td>

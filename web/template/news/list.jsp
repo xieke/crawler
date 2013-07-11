@@ -13,9 +13,16 @@
 <script type="text/javascript" src="/plugin/jquery-calendar.js"></script>
 <!--日期控件 **带时分** 结束-->
 <script type="text/javascript">
-	$(function(){
-		refreshTags();
-	});
+	function GetDateStr(AddDayCount){
+		var dd = new Date(); 
+		dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期 
+		var y = dd.getFullYear(); 
+		var m = dd.getMonth()+1;//获取当前月份的日期 
+		if(m<10)m="0"+m;
+		var d = dd.getDate(); 
+		if(d<10)d="0"+d;
+		return y+"-"+m+"-"+d; 
+	} 
 	
 	function show(id,rownum){
 		$("#reqType").attr("value","news.NewsActionHandler.show");
@@ -51,24 +58,25 @@
 
 
 
-<form action="GeneralHandleSvt" method="post" name="form1" id="form1">
+<form action="/GeneralHandleSvt" method="post" name="form1" id="form1">
 <input type="hidden" id="reqType" name="reqType" value="news.NewsActionHandler.list">
 <input type="hidden" id="tag_ids" name="tag_ids2" value="${tag_ids2}" />
 <input type="hidden" id="objId" name="objId" value="" />
 <input type="hidden" id="orderby" name="orderby" value="${orderby}"/>
 <input type="hidden" id="order" name="order" value="${order}"/>
 <input type="hidden" id="rownum" name="rownum" value=""/>
-
+<input type="hidden" id="job" name="job" value="${param.job}"/>
+<m:token/>
 
 <table class="ui edit">
 <tr class="title"><td colspan="4">查询条件</td></tr>
     <tr>
         <td width="10%">发布时间：</td>
-        <td><input type="text" id="s_time" name="startDate" value="${startDate}" readonly="readonly" plugin="date2" start="start" />
+        <td width="40%"><input type="text" id="s_time" name="startDate" value="${startDate}" readonly="readonly" plugin="date2" start="start" />
 <span class="newfont06">-</span>
 <input type="text" id="e_time" name="endDate" value="${endDate}" readonly="readonly" plugin="date2" end="start" /></td>
-        <td>状态：</td>
-        <td><m:radio type="news_status_all" name="status" value="${status}" /></td>
+        <td width="10%">状态：</td>
+        <td width="40%"><m:radio type="news_status_all" name="status" value="${status}" /></td>
     </tr>
     <tr>
         <td>标题：</td>
@@ -84,9 +92,14 @@
     </tr>
     <tr>
         <td>标签：</td>
-        <td><input type="text" size="50" id="tags" name="tags2" value="" />
+        <td>
+<input type="hidden" id="tags" name="tags2" value="${param.tags2}" />
+<ul style="float: none;height: 80px;width: 330px;" id="tags_result" class="tags_result select_label"></ul>
 <c:set var="tagsList_pf" value="${tags}" />
 <%@ include file="/template/tag/tag_plugin.jsp"%>
+<style type="text/css">
+#tag_text{ margin-left:0}
+</style>
 <script type="text/javascript">
 $(function(){
 	$("#dels").click(function(){

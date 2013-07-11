@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="m" uri="/WEB-INF/sand-html.tld"%>
+<%@ page contentType="text/html;charset=utf-8" %>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%@ include file="/template/basic/common_head.jsp"%>
+<title>新建发送任务</title>
+
+<!--日期控件 **带时分** 开始-->
+<script type="text/javascript" src="/plugin/jquery-calendar.js"></script>
+<!--日期控件 **带时分** 结束-->
+
+</head>
+<script type="text/javascript">
+	$(function(){
+		$("#modify").click(function(){
+			//editor.sync();
+			$("#reqType").attr("value","news.GpMailAH.listModify");
+
+			$("#form1").submit();
+		});
+		$("#sendmail").click(function(){
+			//editor.sync();
+			$("#reqType").attr("value","news.GpMailAH.sendMail");
+			$("#form1").submit();
+		});
+	});
+
+</script>
+		
+
+<body>
+<div class="ui_head"></div>
+<%@ include file="menu.jsp"%>
+
+<form action="/post.PostJobAH.save" method="post" name="form1" id="form1">
+
+<input type="hidden" id="objId" name="objId" value="${obj.id}">
+<table class="ui edit">
+<input type=text name="abcd" value="${param.abcd}" />
+<tr class="title"><td colspan="2">${obj.id==''||obj.id==null?"新建":"修改"}发送任务</td></tr>
+
+                  </tr>
+
+				  <tr>
+					<td width="90">任务编号：</td>
+                    <td><input type="text"  id="no" name="postjob$no" value="${obj.no}" /></td>
+				  </tr>
+
+				  <tr>
+					<td>任务名称：</td>
+                    <td><input type="text"  id="name" name="postjob$name" value="${obj.name}" /></td>
+				  </tr>
+				  <tr>
+					<td>任务策略：</td>
+                    <td><input type="text" size="50" id="tactics" name="postjob$ruleid" value="${obj.ruleid}" />
+<c:set var="tagsList_pf" value="${tags}" />
+<%@ include file="tactics_plugin.jsp"%></td>
+				  </tr>
+				  <tr>
+					<td>客户：</td>
+                    <td><input type="text" size="50" id="custom" name="postjob$customers" value="${obj.customers}" />
+<c:set var="tagsList_pf" value="${tags}" />
+<%@ include file="custom_plugin.jsp"%></td>
+				  </tr>
+				  <tr>
+					<td>预定时间：</td>
+                    <td>
+					<select id="posttime" name="postjob$posttime" value="${obj.posttime}" />
+					<option>00:00</option>
+					<option>01:00</option>
+					<option>02:00</option>
+					<option>03:00</option>
+					<option>04:00</option>
+					<option>05:00</option>
+					<option>06:00</option>
+					<option>07:00</option>
+					<option>08:00</option>
+					<option>09:00</option>
+					<option>10:00</option>
+					<option>11:00</option>
+					<option>12:00</option>
+					<option>13:00</option>
+					<option>14:00</option>
+					<option>15:00</option>
+					<option>16:00</option>
+					<option>17:00</option>
+					<option>18:00</option>
+					<option>19:00</option>
+					<option>20:00</option>
+					<option>21:00</option>
+					<option>22:00</option>
+					<option>23:00</option>
+					</select>
+					&nbsp; &nbsp; 
+                    <jsp:useBean id="now" class="java.util.Date" />
+					上次发送时间 <input style="border-color:#FFF;color: #005AFF;text-decoration: underline;" type="text" name="" value='<fmt:formatDate value="${now}" pattern="yyyy-MM-dd HH:mm:ss"/>' readonly="readonly" plugin="date2" start="" end="" /></td>
+				  </tr>
+				  <tr>
+					<td>生效状态：</td>
+                    <td>
+					<m:radio name="postjob$status" value="${obj.status==null?1:obj.status}" type="postjob_status"/>
+					</td>
+				  </tr>
+				  <tr>
+					<td>发送文章上限：</td>
+                    <td><input type="text"  id="limits" name="postjob$limits" value="${obj.limits}" />
+					</td>
+				  </tr>
+                  <tr>
+					<td></td>
+                    <td><input type="submit" id="save" name="save" class="button" value="提交" />
+                    <input type="button" value="放弃保存" onclick="window.history.go(-1);" /></td>
+				  </tr>
+</table>
+</form>
+</body>
+</html>

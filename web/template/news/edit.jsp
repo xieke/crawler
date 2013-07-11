@@ -72,11 +72,11 @@
 <tr class="title"><td colspan="2">内容编辑</td></tr>
     <tr>
         <td valign="top" style="background:#f1f1f1">
-<div style="padding:10px 5px 12px">新闻标题：<input type="text" style="width:420px" id="title" name="news$title" value="${obj.title}" /></div>
-<div style="padding:10px 5px 12px">&nbsp;&nbsp;&nbsp;&nbsp;作者：<input type="text" style="width:80px" id="news_author" name="news$author" value="${obj.author}" />&nbsp;&nbsp;&nbsp;原文地址：<input type="text" id="news_copyfrom" name="news$copyfrom" value="${obj.copyfrom}" /></div>
-<div style="padding:10px 5px 12px">原文URL：&nbsp;<input type="text" id="news_copyfromurl" name="news$copyfromurl" value="${obj.copyfromurl}" style="width:420px"  /></div>
+<div style="padding:5px">新闻标题：<input type="text" style="width:420px" id="title" name="news$title" value="${obj.title}" /></div>
+<div style="padding:5px">&nbsp;&nbsp;&nbsp;&nbsp;作者：<input type="text" style="width:80px" id="news_author" name="news$author" value="${obj.author}" />&nbsp;&nbsp;&nbsp;原文地址：<input type="text" id="news_copyfrom" name="news$copyfrom" value="${obj.copyfrom}" /></div>
+<div style="padding:5px">原文URL：&nbsp;<input type="text" id="news_copyfromurl" name="news$copyfromurl" value="${obj.copyfromurl}" style="width:420px"  /></div>
 <c:if test="${obj.his_news_id!='' && obj.his_news_id!=null}">
-	<div style="padding:10px 5px 12px">查看原文：<a href="${obj.copyfromurl}" target="_blank" >${obj.copyfromurl}</a></div>
+	<div style="padding:5px">查看原文：<a href="${obj.copyfromurl}" target="_blank" >${obj.copyfromurl}</a></div>
 </c:if>
 <div>
     	<!--富文本编辑控件引入文件 开始-->
@@ -98,13 +98,14 @@
     });
 </script>
                 <!--富文本编辑控件引入文件 结束-->
-        <textarea rows="1" cols="1" id="content" name="news$content" style="width: 90%; height: 450px; visibility: hidden;">${obj.content}</textarea>
+        <textarea rows="1" cols="1" id="content" name="news$content" style="width: 100%; height: 650px; visibility: hidden;">${obj.content}</textarea>
         <input type="hidden" name="news_content$id" value="${news_content.id}" />
 </div>
         </td>
         <td width="300" valign="top" class="content_side">
-<div class="title">分类</div>
-<div><textarea id="tags" name="tags" ></textarea></div>
+<div class="title">分类标签</div>
+<input type="hidden" id="tags" name="tags" />
+<div style="height: 120px;margin: 0;width: 288px; background:#fff" id="tags_result" class="tags_result select_label"></div>
 <c:set var="tagsList_pf" value="${objList}" />
 <%@ include file="/template/tag/tag_plugin.jsp"%>
 
@@ -143,11 +144,11 @@
 </tr>
 </table>
 <div class="title">英文摘要</div>
-<div><textarea id="summary" name="news$summary" >${obj.summary}</textarea></div>
+<div><textarea style="height:150px" id="summary" name="news$summary" >${obj.summary}</textarea></div>
 <div class="title">中文摘要</div>
-<div><textarea id="c_summary" name="news$c_summary" >${obj.c_summary}</textarea></div>
+<div><textarea style="height:150px" id="c_summary" name="news$c_summary" >${obj.c_summary}</textarea></div>
 <div class="title">备忘</div>
-</div>
+<div>
 	<c:forEach var="detail" items="${commentsList}" varStatus="status">
 		<div style="padding:4px; border-bottom:1px dotted #ccc; margin:4px; overflow:auto">
         <div style="background:#ccc; padding:1px 4px; overflow:auto"><span style="float:left">${detail.userid.username}</span><span style="float:right"><fmt:formatDate value="${detail.posttime}" pattern="yyyy-MM-dd HH:mm"/></span></div>
@@ -157,10 +158,6 @@
     <input style="margin-left:10px" type="button" id="commit" name="commit" value="Commit" />
   <!--  <input style="margin-left:10px" style="display:none" type="button" id="merger" name="merger" value="Merger" />-->
 </div>
-
-
-
-
         </td>
     </tr>
     <tr>

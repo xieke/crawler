@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="m" uri="/WEB-INF/sand-html.tld"%>
 <%@ page contentType="text/html;charset=utf-8" %>
-<%@ page session="false"%>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -19,8 +19,11 @@ table.left-table02{ display:none}
 </style>
 <link href="/css/css.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="/plugin/jquery-1.5.1.min.js"></script>
+
+
 </head>
 <body>
+
 <table width="198" border="0" cellpadding="0" cellspacing="0" class="left-table01">
   <tr>
     <TD>
@@ -30,7 +33,7 @@ table.left-table02{ display:none}
 				<table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
 				  <tr>
 					<td width="25%" rowspan="2"><img src="/images/ico02.gif" width="35" height="35" /></td>
-					<td width="75%" height="22" class="left-font01">您好，<span class="left-font02">${sessionScope.curuser.showname}</span></td>
+					<td width="75%" height="22" class="left-font01">您好，<span class="left-font02">${sessionScope.curuser.loginname}</span></td>
 				  </tr>
 				  <tr>
 					<td height="22" class="left-font01">
@@ -58,36 +61,7 @@ $(function(){
 </script>
 
 
-		<!--  分类1统开始    -->
-		<TABLE width="100%" border="0" cellpadding="0" cellspacing="0" class="left-table03">
-          <tr>
-            <td height="29">
-				<table width="85%" border="0" align="center" cellpadding="0" cellspacing="0">
-					<tr>
-						<td width="8%"><img class="class_ico" src="/images/ico04.gif" width="8" height="11" /></td>
-						<td width="92%">
-								<a href="javascript:void(0)" target="mainFrame" class="left-font03 class_1">微博采集（开发中）</a></td>
-					</tr>
-				</table>
-			</td>
-          </tr>		  
-        </TABLE>
-		<table width="80%" border="0" align="center" cellpadding="0" 
-				cellspacing="0" class="left-table02">
-				<tr>
-				  <td width="9%" height="21" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="javascript:void(0)" target="mainFrame" class="left-font03 class_2">（未分类功能）</a></td>
-				</tr>
-				<tr>
-				  <td width="9%" height="21" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="javascript:void(0)" target="mainFrame" class="left-font03 class_2">（未分类功能）</a></td>
-				</tr>
-				<tr>
-				  <td width="9%" height="21" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="javascript:void(0)" target="mainFrame" class="left-font03 class_2">（未分类功能）</a></td>
-				</tr>
-      </table>
-		<!--  分类1结束    -->
+
 
 
 
@@ -103,7 +77,7 @@ $(function(){
 					<tr>
 						<td width="8%"><img class="class_ico" src="/images/ico04.gif" width="8" height="11" /></td>
 						<td width="92%">
-								<a href="javascript:void(0)" target="mainFrame" class="left-font03 class_1">数据处理</a></td>
+								<a href="javascript:void(0)" target="mainFrame" class="left-font03 class_1">数据处理模块</a></td>
 					</tr>
 				</table>
 			</td>
@@ -111,10 +85,6 @@ $(function(){
         </TABLE>
 		<table width="80%" border="0" align="center" cellpadding="0" 
 				cellspacing="0" class="left-table02">
-				<tr>
-				  <td width="9%" height="21" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="javascript:void(0)" target="mainFrame" class="left-font03 class_2">分类管理（未编写）</a></td>
-				</tr>
 				<tr>
 				  <td width="9%" height="21" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
 				  <td width="91%"><a href="/basic.TagActionHandler.list" target="mainFrame" class="left-font03 class_2">Tag标签库</a></td>
@@ -125,7 +95,11 @@ $(function(){
 				</tr>
 				<tr>
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="/news.NewsActionHandler.list?job=default" target="mainFrame" class="left-font03 class_2">手动数据处理</a></td>
+				  <td width="91%"><a href="/news.GpMailAH.expTags" target="mainFrame" class="left-font03 class_2">导出所有tag列表</a></td>
+				</tr>
+				<tr>
+				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
+				  <td width="91%"><a href="/news.NewsActionHandler.toList?job=default" target="mainFrame" class="left-font03 class_2">手动数据处理</a></td>
 				</tr>
 				<tr>
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
@@ -133,41 +107,8 @@ $(function(){
 				</tr>
 				<tr>
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="/news.NewsActionHandler.listMail?job=default" target="mainFrame" class="left-font03 class_2">邮件输出</a></td>
-				</tr>
-				<tr>
-				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="/news.GpMailAH.expTags" target="mainFrame" class="left-font03 class_2">导出所有tag列表</a></td>
-				</tr>
-
-				<tr>
-				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="/erp.upload/maillist" target="mainFrame" class="left-font03 class_2">邮件配置文件</a></td>
-				</tr>
-				<tr>
-				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="/news.GpMailAH.listPost" target="mainFrame" class="left-font03 class_2">邮件发送审核</a></td>
-				</tr>
-
-				<tr>
-				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="/news.GpMailAH.upload" target="mainFrame" class="left-font03 class_2">上传邮件配置文件</a></td>
-				</tr>
-				<tr>
-				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="/post.PostJobAH.listPostJob" target="mainFrame" class="left-font03 class_2">邮件发送任务</a></td>
-				</tr>
-
-				<tr>
-				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="/news.GpMailAH.listPosted" target="mainFrame" class="left-font03 class_2">邮件发送记录</a></td>
-				</tr>
-
-				<tr>
-				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
 				  <td width="91%"><a href="/weibo.WeiBoAH.listWeibo" target="mainFrame" class="left-font03 class_2">微博数据</a></td>
 				</tr>
-
 	  </table>
 		<!--  分类1结束    -->
 
@@ -185,7 +126,7 @@ $(function(){
 					<tr>
 						<td width="8%"><img class="class_ico" src="/images/ico04.gif" width="8" height="11" /></td>
 						<td width="92%">
-								<a href="javascript:void(0)" target="mainFrame" class="left-font03 class_1">前端发布（二期开发）</a></td>
+								<a href="javascript:void(0)" target="mainFrame" class="left-font03 class_1">邮件发送模块</a></td>
 					</tr>
 				</table>
 			</td>
@@ -195,19 +136,28 @@ $(function(){
 				cellspacing="0" class="left-table02">
 				<tr>
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="javascript:void(0)" target="mainFrame" class="left-font03 class_2">本地信息库（未编写）</a></td>
+				  <td width="91%"><a href="/news.NewsActionHandler.toListMail?job=default" target="mainFrame" class="left-font03 class_2">邮件输出</a></td>
 				</tr>
 				<tr>
-				  <td width="9%" height="21" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="javascript:void(0)" target="mainFrame" class="left-font03 class_2">WEB目录管理（未编写）</a></td>
+				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
+				  <td width="91%"><a href="/erp.upload/maillist" target="mainFrame" class="left-font03 class_2">邮件配置文件</a></td>
 				</tr>
-                <tr>
-				  <td width="9%" height="21" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="javascript:void(0)" target="mainFrame" class="left-font03 class_2">自动发布配置（未编写）</a></td>
+				<tr>
+				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
+				  <td width="91%"><a href="/news.GpMailAH.listPost" target="mainFrame" class="left-font03 class_2">邮件发送审核</a></td>
 				</tr>
-                <tr>
-				  <td width="9%" height="21" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="javascript:void(0)" target="mainFrame" class="left-font03 class_2">手动批量发布（未编写）</a></td>
+
+				<tr>
+				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
+				  <td width="91%"><a href="/news.GpMailAH.upload" target="mainFrame" class="left-font03 class_2">上传邮件配置文件</a></td>
+				</tr>
+				<tr>
+				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
+				  <td width="91%"><a href="<m:out value='/post.PostJobAH.listPostJob' functionid='abcd'/>" target="mainFrame" class="left-font03 class_2">邮件发送任务</a></td>
+				</tr>
+				<tr>
+				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
+				  <td width="91%"><a href="/news.GpMailAH.listPosted" target="mainFrame" class="left-font03 class_2">邮件发送记录</a></td>
 				</tr>
       </table>
 		<!--  分类1结束    -->
@@ -225,7 +175,7 @@ $(function(){
 					<tr>
 						<td width="8%"><img class="class_ico" src="/images/ico04.gif" width="8" height="11" /></td>
 						<td width="92%">
-								<a href="javascript:void(0)" target="mainFrame" class="left-font03 class_1">系统管理</a></td>
+								<a href="javascript:void(0)" target="mainFrame" class="left-font03 class_1">系统管理模块</a></td>
 					</tr>
 				</table>
 			</td>
@@ -241,7 +191,12 @@ $(function(){
 				  <td width="9%" height="21" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
 				  <td width="91%"><a href="/basic.ModuleAH.listModule" target="mainFrame" class="left-font03 class_2">模块配置</a></td>
 				</tr>
-				        
+
+				<tr>
+				  <td width="9%" height="21" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
+				  <td width="91%"><a href="/system.AdminAH.viewConn" target="mainFrame" class="left-font03 class_2">查看数据库连接</a></td>
+				</tr>
+						
 				<tr>
 				  <td width="9%" height="21" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
 				  <td width="91%"><a href="/system.AdminAH.clearCache" target="mainFrame" class="left-font03 class_2">清除缓存</a></td>
@@ -264,10 +219,6 @@ $(function(){
 				<tr>
 				  <td width="9%" height="21" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
 				  <td width="91%"><a href="/businesslog" target="mainFrame" class="left-font03 class_2">系统日志</a></td>
-				</tr>
-                <tr>
-				  <td width="9%" height="21" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="javascript:void(0)" target="mainFrame" class="left-font03 class_2">采集监控（未编写）</a></td>
 				</tr>
       </table>
 		<!--  分类1结束    -->

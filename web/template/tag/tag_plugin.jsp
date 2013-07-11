@@ -3,7 +3,18 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="m" uri="/WEB-INF/sand-html.tld"%>
 <%@ page contentType="text/html;charset=utf-8" %>
-<input type="button" value="选择标签" id="select_tag" class="button" style="display:inline; float:none" /><input type="button" value="全部清除" id="clear_tag" class="button" style="display:inline; float:none" />
+<style type="text/css">
+/*选择人员控件*/
+.select_label{ line-height:26px; padding:5px; overflow-y:auto; overflow-x:hidden;border: 1px solid #ABADB3;float: left;height: 40px;margin-right: 20px;width: 50%;}
+.select_label .mb{ background:#eaf5ff; border:1px solid #bfe0ff; text-decoration:none; padding:0 10px; position:relative; margin:2px; display:block; float:left}
+.select_label .mb_holder{ background:#fff; border:1px dashed #ccc; padding:0 10px; position:relative; margin:2px; display:block; float:left}
+.select_label .mb:hover{ background:#b5daff; border:1px solid #9acdff;}
+.select_label .mb span.del{ width:7px; height:7px; background:url(images/label_close.gif) no-repeat; position:absolute; top:0; right:0;display:block; margin:1px}
+.select_label .mb:hover span.del{ background-position:0 -7px}
+.select_label .mb:hover span.del:hover{ background-position:0 bottom}
+</style>
+<input type="button" value="选择标签" id="select_tag" class="button" style="display:inline; float:none" /><input type="button" value="全部清除" id="clear_tags" class="button" style="display:inline; float:none" />
+<script type="text/javascript" src="/plugin/jquery.dragsort-0.4.min.js"></script>
 <script type="text/javascript">
 $(function(){
 	$("#select_tag").click(function(){
@@ -17,22 +28,20 @@ $(function(){
 	});
 	
 	$("#tag_text div.result input").click(function(){
-		refreshTags();
+		tags_add_or_del(this);//添加或删除标签
 	}).dblclick(function(){
-		select_under_level($(this).attr("level"),$(this),$(this).attr("checked")?false:true);
+		if($.browser.msie){
+			ischecked=$(this).attr("checked")?"checked":"";
+		}else{
+			ischecked=$(this).attr("checked")?"":"checked";
+		}
+		select_under_level($(this).attr("level"),$(this),ischecked);
 	});
-	function select_under_level(level,obj,ischecked){//选择或取消下级标签
-		obj.attr("checked",ischecked);//当前赋值
-		var next=obj.parent().next().find("input");
-		if(next.attr("level")>level){
-			select_under_level(level,next,ischecked);
-		}else refreshTags();
-	}
-	
-	$("#clear_tag").click(function(){
+
+	$("#clear_tags").click(function(){
 		$("#tags").attr("value","");
 		$("#tag_text :checked").attr("checked","");
-		refreshTags();
+		$("#tags_result").html("");
 	});
 	
 	$("#search_tag").keyup(function(){
@@ -42,13 +51,31 @@ $(function(){
 	}).focus(function(){
 		search_tag($(this));
 	});
-	//删除标签内容
-	$("#tags").blur(function(){
-		$("#tag_text :checked").attr("checked","");
-		$("[tagsname='"+$("#tags").val().replace(new RegExp(",","gm"),"'],[tagsname='")+"']").attr("checked","checked");
-		refreshTags();
-	})
+	$("#tags_result").dragsort({
+			placeHolderTemplate: "<li class='mb_holder'></li>",
+			scrollSpeed: 5
+	});
+	//页面初加载还原标签中原值
+	
+	if($("#tags").val()!=""){
+		temp_val="#tag_text [tagsid='"+$("#tags").val().replace(/,/g,"'],#tag_text [tagsid='")+"']";
+		//alert(temp_val);
+		objs=$(temp_val);
+		//alert(objs.length);
+		var i=objs.length;
+		for(i=i-1;i>=0;i--){
+			tags_add_or_del(objs.eq(i));
+		}
+	}
 });
+function select_under_level(level,obj,ischecked){//选择或取消下级标签
+	obj.attr("checked",ischecked);//当前赋值
+	tags_add_or_del(obj);//添加或删除标
+	var next=obj.parent().next().find("input");
+	if(next.attr("level")>level){
+		select_under_level(level,next,ischecked);
+	}
+}
 function search_tag(obj){
 	if(obj.val()!=""){
 		$("#tag_text .result label").hide();
@@ -56,24 +83,26 @@ function search_tag(obj){
 	}else
 		$("#tag_text .result label").show()
 }
-function refreshTags(){
-	var tagsname = "";
-	var tagsid = "";
-	var i=0;
-	$("#tag_text :checked").each(function(){
-		if(i>0){
-			tagsname += ",";
-			tagsid += ","
-		}
-		tagsname += $(this).attr("tagsname");
-		tagsid += $(this).attr("tagsid");
-		++i;
-	});	
-	$("#tag_ids").attr("value",tagsid);
-	$("#tags").val(tagsname);
+function tags_add_or_del(obj){
+	if($(obj).attr("checked")){
+		$("#tags_result").html($("#tags_result").html()+'<li tagsid="'+$(obj).attr("tagsid")+'" class="mb">'+$(obj).attr("tagsname")+'<span class="del" onclick="del_parent_node(this)"></span></li>');
+	}else{
+		$("#tags_result").find("li[tagsid='"+$(obj).attr("tagsid")+"']").remove();
+	}
+	temp_val="";
+	$("#tags_result li").each(function(i){
+		if(i==0)temp_val+=$(this).attr("tagsid");
+		else temp_val+=","+$(this).attr("tagsid");
+	})
+	$("#tags").val(temp_val);
+}
+// 删除结点函数
+function del_parent_node(obj){
+	$(obj).parent().fadeOut(function(){$(this).remove();})
+	$("#tag_text input[tagsid='"+$(obj).parent().attr("tagsid")+"']").attr("checked",false);
 }
 </script>
-<div id="tag_text" style="margin-left:200px">
+<div id="tag_text" class="tag_plugin">
 	<div class="search"> &nbsp;模糊搜索：<input id="search_tag" type="text" /> &nbsp;<a href="javascript:void(0)" onclick="$('#search_tag').val('').focus()">重填</a></div>
     <div class="result">
     <c:forEach var="detail" items="${tagsList_pf}" varStatus="status">

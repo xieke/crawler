@@ -29,7 +29,7 @@
 <input type="hidden" id="id" name="tag$id" value="" />
 <input type="hidden" id="tag_ids" name="tag_rule$tag_id" value="" />
 <table class="ui edit">
-<tr class="title"><td colspan="2">新建TAG标签</td></tr>
+<tr class="title"><td colspan="2">修改自动Tag规则</td></tr>
     <tr>
         <td width="75">条件域：</td>
         <td>
@@ -43,15 +43,16 @@
     <tr>
         <td>标签：</td>
         <td>
-        
-<input type="text" size="50" id="tags" name="tag_rule$tag_name" value="" />
+<input type="hidden" id="tags" name="tag_rule$tag_name" />
+<div id="tags_result" class="tags_result select_label"></div>
 <c:set var="tagsList_pf" value="${tagsList}" />
 <%@ include file="/template/tag/tag_plugin.jsp"%>
         </td>
     </tr>
     <tr>
     	<td></td>
-        <td><input type="submit" value="保存" class="right-button08" /></td>
+        <td><input type="submit" value="提交" class="right-button08" />
+        <input type="button" value="放弃保存" onclick="window.history.go(-1);" /></td>
     </tr>
 </table>
 

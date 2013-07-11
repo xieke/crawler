@@ -24,6 +24,7 @@ import sand.actionhandler.system.ActionHandler;
 import sand.annotation.AccessControl;
 import sand.annotation.Ajax;
 import sand.annotation.CandoCheck;
+import sand.annotation.TokenCheck;
 import sand.depot.job.QuartzManager;
 import sand.depot.tool.system.ControllableException;
 import sand.depot.tool.system.ErrorException;
@@ -55,9 +56,9 @@ public class NewsActionHandler extends ActionHandler {
 	}
 	
 	public void render() throws SQLException {
-		log("begin render ...............................");
+		log("in render  begin render ...............................");
 		String[] outids = this.getParameters("outids");
-		List<BizObject> objList = queryList();
+		//List<BizObject> objList = queryList();
 		
 		List<BizObject> v= new ArrayList();
 		if(outids==null) throw new ErrorException("没有文章");
@@ -157,8 +158,37 @@ public class NewsActionHandler extends ActionHandler {
 	
 
 	@CandoCheck("session")
+	public void toListMail() throws SQLException{
+		log("163  list mail tag "+this.getParameter("tags2"));
+		//List<BizObject> objList = queryList();
+		String[] str = this.getParameter("tag_ids2").split(",");
+
+		//this._request.setAttribute("objList", objList);
+		List<BizObject> list = this.getTagService().openAllWithSelectedTag("");
+		
+	//	String tagstr="";
+		if(str!=null && str.length>0){
+			List<String> tagList = new ArrayList<String>();
+			for(String s : str) tagList.add(s);
+			
+			for(BizObject biz : list){
+				if(tagList.contains(biz.getId())){
+					biz.set("checked", "checked");
+					//tagstr=tagstr+"  "+biz.getString("name");
+					
+				} 
+			}
+		}
+		//this.setAttribute("tagstr", tagstr);
+		this._request.setAttribute("tags", list);
+		this.setParam();
+		//this._request.setAttribute("tags", list);
+		this._nextUrl = "/template/news/listmail.jsp";
+	}
+	@CandoCheck("session")
+	@TokenCheck
 	public void listMail() throws SQLException{
-		log("list mail tag "+this.getParameter("tags2"));
+		log("163  list mail tag "+this.getParameter("tags2"));
 		List<BizObject> objList = queryList();
 		String[] str = this.getParameter("tag_ids2").split(",");
 
@@ -185,6 +215,7 @@ public class NewsActionHandler extends ActionHandler {
 		this._nextUrl = "/template/news/listmail.jsp";
 	}
 	@CandoCheck("session")
+	@TokenCheck
 	public void list() throws SQLException{
 		List<BizObject> objList = queryList();
 		String[] str = this.getParameter("tag_ids2").split(",");
@@ -204,6 +235,28 @@ public class NewsActionHandler extends ActionHandler {
 		this._request.setAttribute("tags", list);
 		this._nextUrl = "/template/news/list.jsp";
 	}
+	
+	@CandoCheck("session")
+	public void toList() throws SQLException{
+//		List<BizObject> objList = queryList();
+		String[] str = this.getParameter("tag_ids2").split(",");
+
+//		this._request.setAttribute("objList", objList);
+		List<BizObject> list = this.getTagService().openAllWithSelectedTag("");
+		
+		if(str!=null && str.length>0){
+			List<String> tagList = new ArrayList<String>();
+			for(String s : str) tagList.add(s);
+			for(BizObject biz : list){
+				if(tagList.contains(biz.getId())) biz.set("checked", "checked");
+			}
+		}
+		
+		this.setParam();
+		this._request.setAttribute("tags", list);
+		this._nextUrl = "/template/news/list.jsp";
+	}
+	
 	@CandoCheck("session")
 	public void delete(String id) throws SQLException{
 		BizObject news = new BizObject("news");
@@ -226,14 +279,15 @@ public class NewsActionHandler extends ActionHandler {
 	
 	@CandoCheck("session")
 	public void deletes() throws SQLException{
-		this.getJdo().beginTrans();
+	//	this.getJdo().beginTrans();
 		String[] ids = this.getParameters("delid");
 		for(String s : ids) this.delete(s);
-		this.getJdo().commit();
+		//this.getJdo().commit();
 		this.list();
 	}
 	
 	@CandoCheck("session")
+	@TokenCheck
     public void listHistory() throws SQLException{
 		super.listObj("his_news");
 		System.out.println(this._sql);
@@ -389,7 +443,7 @@ public class NewsActionHandler extends ActionHandler {
 		else sql.append(" desc");
 
 		System.out.println(sql.toString());
-		log("sql is "+sql.toString());
+		log("392 sql is "+sql.toString());
 		//PageVariable pv 
 		return sql.toString();
 	}
@@ -611,7 +665,7 @@ public class NewsActionHandler extends ActionHandler {
 	}
 	@CandoCheck("session")
 	public void save() throws SQLException{
-		this.getJdo().beginTrans();
+		//this.getJdo().beginTrans();
 		String tagId = this.getParameter("tag_ids");
 		BizObject news = this.getBizObjectFromMap("news");
 		this.log("tags is "+this.getParameter("tags"));
@@ -652,12 +706,12 @@ public class NewsActionHandler extends ActionHandler {
 		**/
 		
 		//先删除已标置的标签
-		if(StringUtils.isNotBlank(news.getId()))
-			this.getTagService().deleteReBillTagsByBillId(news.getId());		
-		
-		this.log("tagIds is "+tagId);
-		String[] tagIds = tagId.split(",");
-		this.getTagService().addReBillTags(tagIds, news.getId());
+//		if(StringUtils.isNotBlank(news.getId()))
+//			this.getTagService().deleteReBillTagsByBillId(news.getId());		
+//		
+//		this.log("tagIds is "+tagId);
+//		String[] tagIds = tagId.split(",");
+//		this.getTagService().addReBillTags(tagIds, news.getId());
 
 		//保存备忘
 		BizObject biz = this.getBizObjectFromMap("NEWCOMMENTS");
@@ -667,10 +721,10 @@ public class NewsActionHandler extends ActionHandler {
 			biz.set("userid", this._curuser.getId());
 			// 添加一条备忘记录
 			this.add(biz);
-			this.getJdo().commit();
+			//this.getJdo().commit();
 		}
 		
-		this.getJdo().commit();
+	//	this.getJdo().commit();
 		this.clearQueryParam();
 
 		this.show_operator();
@@ -679,7 +733,7 @@ public class NewsActionHandler extends ActionHandler {
 	
 	@CandoCheck("session")
 	public void addComments() throws SQLException{
-		this.getJdo().beginTrans();
+	//	this.getJdo().beginTrans();
 		BizObject biz = this.getBizObjectFromMap("NEWCOMMENTS");
 		if(StringUtils.isNotBlank(biz.getString("content"))){
 			biz.set("aid", this.getParameter("objId"));
@@ -687,7 +741,7 @@ public class NewsActionHandler extends ActionHandler {
 			biz.set("userid", this._curuser.getId());
 			// 添加一条备忘记录
 			this.add(biz);
-			this.getJdo().commit();
+		//	this.getJdo().commit();
 		}
 		
 		this.show();
@@ -708,20 +762,20 @@ public class NewsActionHandler extends ActionHandler {
 	public void delComments() throws SQLException{
 		BizObject biz = new BizObject("NEWCOMMENTS");
 		biz.setID(this.getParameter("comId"));
-		this.getJdo().beginTrans();
+		//this.getJdo().beginTrans();
 		this.delete(biz);
-		this.getJdo().commit();
+		//this.getJdo().commit();
 		this.show();
 	}
 
 	public void gData() throws SQLException{
 		List<BizObject> list = this.getNewsService().copyfromNews();
-		this.getJdo().beginTrans();
+	//	this.getJdo().beginTrans();
 		if(list.size()>0){
 			this.getNewsService().addNews(list);
 			this.getNewsService().deleteCopyforms();
 		}
-		this.getJdo().commit();
+	//	this.getJdo().commit();
 	}
 	
 	@CandoCheck("session")
@@ -896,7 +950,7 @@ public class NewsActionHandler extends ActionHandler {
 	}
 	public  void render2() throws IOException, ServletException, SQLException, TemplateException{
 	   
-		log("ok  ,  tags is "+this.getParameter("tags"));
+		log("in render 2   ok  ,  tags is "+this.getParameter("tags"));
 		this.render();
 		Configuration cfg; 
        cfg = new Configuration();
@@ -1006,6 +1060,7 @@ public class NewsActionHandler extends ActionHandler {
 			this.getNewsService().addNews(news);
 		} catch (SQLException e){
 			log("",e);
+			log("错误记录:"+news);
 			e.printStackTrace();
 		}
 		return "ok";

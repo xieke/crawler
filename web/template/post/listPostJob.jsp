@@ -8,7 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <%@ include file="/template/basic/common_head.jsp"%>
-<title>采集内容管理</title>
+<title>邮件发送任务管理</title>
 <!--日期控件 **带时分** 开始-->
 <script type="text/javascript" src="/plugin/jquery-calendar.js"></script>
 <!--日期控件 **带时分** 结束-->
@@ -21,10 +21,7 @@
 		
 		}
 
-	$(function(){
-		refreshTags();
-	});
-	
+
 
 	function openit(id){
 		//alert("afdadf");
@@ -33,7 +30,7 @@
 	
 	
 	function show(id){
-		$("#reqType").attr("value","news.NewsActionHandler.show");
+		$("#form1").attr("action","post.PostJobAH.showPostJob");
 		$("#objId").attr("value",id);
 		$("#form1").submit();
 	}
@@ -61,8 +58,7 @@
 
 <body>
 <div class="ui_head"></div>
-
-
+<%@ include file="menu.jsp"%>
 
 <form action="/news.GpMailAH.listPostConfig" method="post" name="form1" id="form1">
 
@@ -95,8 +91,7 @@
     <tr>
     	        <td></td>
 
-        <td colspan="3"><input type="button" onclick="querylist()" value="查询" class="right-button08" />
-        <input type="button" id="resetb" value="新建任务" /></td>
+        <td colspan="3"><input type="button" onclick="querylist()" value="查询" class="right-button08" /><input type="button" id="resetb" value="重填" /></td>
 		    	        <td></td>    	        <td></td>
     </tr>
 

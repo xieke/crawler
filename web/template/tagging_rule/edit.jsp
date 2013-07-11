@@ -25,7 +25,7 @@
 <input type="hidden" id="id" name="tag$id" value="" />
 <input type="hidden" id="tag_ids" name="tag_rule$tag_id" value="" />
 <table class="ui edit">
-<tr class="title"><td colspan="2">新建TAG标签</td></tr>
+<tr class="title"><td colspan="2">新建自动Tag规则</td></tr>
     <tr>
         <td width="75">条件域：</td>
         <td><input type="radio" name="tag_rule$type" value="0" checked="checked" />来源URL &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="tag_rule$type" value="1" />正文或标题</td>
@@ -37,10 +37,10 @@
     <tr>
         <td>标签：</td>
         <td>
-        
-<input type="text" size="50" id="tags" name="tag_rule$tag_name" value="" />
-<c:set var="tagsList_pf" value="${tagsList}" />
-<%@ include file="/template/tag/tag_plugin.jsp"%>
+        <input type="hidden" id="tags" name="tag_rule$tag_name" />
+        <div id="tags_result" class="tags_result select_label"></div>
+        <c:set var="tagsList_pf" value="${tagsList}" />
+		<%@ include file="/template/tag/tag_plugin.jsp"%>
         </td>
     </tr>
     <tr>

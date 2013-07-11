@@ -1,4 +1,4 @@
-﻿create or replace view v_dictionary as
+create or replace view v_dictionary as
 select `i`.`iKEY` AS `id`,`i`.`NAME` AS `name`,`i`.`DICID` AS `dicId`,`i`.`ODB` AS `odb` from `item` `i` where (isnull(`i`.`DISABLED`) or (`i`.`DISABLED` <> '1')) 
 
 union select DISTINCT '0','N','news_status','0' from dual  -- 状态(未处理)
@@ -80,9 +80,7 @@ union
 select 'ce','中英文','lang','1' from dual
 
 union
-select '','all','postjob_status','0' from dual   -- 任务状态(增加一个默认值)
-union
-select '1','enable','postjob_status','1' from dual		
+select '1','enable','postjob_status','1' from dual  -- 任务状态(增加一个默认值)		
 
 union
 select '0','disable','postjob_status','2' from dual  

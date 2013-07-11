@@ -54,86 +54,28 @@ public class PostJobAH extends ActionHandler {
 		this._nextUrl="/template/post/listPostJob.jsp";		
 	}
 	
-	/**
-	 * 保存做的修改
-	 * @throws SQLException
-	 * @throws IOException
-	 * @throws TemplateException
-	 */
-	public void saveModify() throws SQLException, IOException, TemplateException{
-		int i = Integer.parseInt(this._objId);
-		BizObject  s = PostJob.parseMailList().get(i);
-		
-		BizObject post = new BizObject("post");
-		
-		post.set("mailid",i);
-		post.set("posted", 0);
-		if(post.getQF().getOne(post)!=null){
-			post=post.getQF().getOne(post);
-		}
-		
-		post.set("tags", s.getString("tags"));
-		post.set("postmail", s.getString("address"));
-		post.set("posttime", new Date());
-		
-		String newsids[]=this.getParameters("outids");
-		String ids="";
-		for(String newsid:newsids){
-			if(ids.equals("")) ids=newsid;
-			else
-				ids=ids+","+newsid;
-		}
-		
 
-		post.set("newsids", ids);
-		//post.set("success", success); //是否成功发送
-		post.set("name", s.getString("name"));
+
+	public void showPostJob() throws SQLException, IOException, TemplateException{
+		List v = new ArrayList();
+		for(int i=0;i<100;i++){
+			BizObject b= new BizObject();
+			b.set("name", "屁"+i);
+			b.set("id", "pi"+i);
+			v.add(b);
+		}
 		
-		this.getJdo().addOrUpdate(post);
-		this.showPost();
-		//this.listPost();
+		this.setAttribute("tags",v);
+		this.showObj("postjob",this._objId);
+		this._nextUrl="/template/post/showPostJob.jsp";
 	}
 	
 
-	public void  listModify() throws SQLException{
-		int i = Integer.parseInt(this._objId);
-		this.setAttribute("objid",i);
-
-		Map v=PostJob.getPosts(i);
-		this.setAttribute("objList",v);
-		this._nextUrl="/template/news/listmodify.jsp";
-		
-	}
-
-	public void showPost() throws SQLException, IOException, TemplateException{
-		int i = Integer.parseInt(this._objId);
-		BizObject  s = PostJob.parseMailList().get(i);
-		BizObject email = new BizObject("email");
-		email.set("toaddr", s.getString("address"));
-		email.set("name",s.getString("name"));
-		email.set("id", i);
-		
-		//Map<String ,List> v = PostJob.getPosts(s.getString("tags"), s.getString("cycle"), s.getString("urgent"), s.getString("limit"),s.getString("lang"));
-		
-		Map<String ,List> v = PostJob.getPosts(i);
-		
-		String greeting=s.getString("greeting").replaceAll("@name",s.getString("name"));
-		String ending=s.getString("ending").replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDDHHMMSS));
-		
-		String content=PostJob.render(v,greeting,ending);
-		email.set("content",content);
-		String subject=s.getString("subject").replaceAll("@name",s.getString("name"));
-	//	log("title "+subject);
-		//email.set("title", title);
-		email.set("subject", subject);
-		
-		this.setAttribute("obj", email);
-		this._nextUrl="/template/news/showPost.jsp";
-
-		//boolean success =MailServer.sendMailSyn(email);//.sendMailSyn(email);
-		
-		
+	public void save() throws SQLException{
+		BizObject b = this.getBizObjectFromMap("postjob");
+		this.checkParam(b);
+		this.getJdo().addOrUpdate(b);
+		this._nextUrl="/template/post/showPostJob.jsp";
 	}
 	
-
 }
