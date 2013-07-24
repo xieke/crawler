@@ -23,15 +23,40 @@
 
 
 
-	function openit(id){
+	function editit(id){
 		//alert("afdadf");
-		window.open("/news.NewsActionHandler.show?objId="+id);
+		//window.open("/post.PostJobAH.show?objId="+id);
+		$("#form1").attr("action","post.PostJobAH.show");
+		$("#objId").attr("value",id);
+		$("#form1").submit();
+
 	}
 	
 	
-	function show(id){
-		$("#form1").attr("action","post.PostJobAH.showPostJob");
+	function deleteit(id){
+		$("#form1").attr("action","post.PostJobAH.delete");
 		$("#objId").attr("value",id);
+		$("#form1").submit();
+	}
+	function deleteall(){
+		$("#form1").attr("action","post.PostJobAH.deleteAll");
+//		$("#objId").attr("value",id);
+		$("#form1").submit();
+	}	
+	function disableit(id){
+		$("#form1").attr("action","post.PostJobAH.disable");
+		$("#objId").attr("value",id);
+		$("#form1").submit();
+	}
+	function disableall(){
+		$("#form1").attr("action","post.PostJobAH.disableAll");
+//		$("#objId").attr("value",id);
+		$("#form1").submit();
+	}
+
+	function sendall(){
+		$("#form1").attr("action","post.PostJobAH.sendAll");
+//		$("#objId").attr("value",id);
 		$("#form1").submit();
 	}
 	function querylist(){
@@ -60,7 +85,7 @@
 <div class="ui_head"></div>
 <%@ include file="menu.jsp"%>
 
-<form action="/news.GpMailAH.listPostConfig" method="post" name="form1" id="form1">
+<form action="/post.PostJobAH.list" method="post" name="form1" id="form1">
 
 <input type="hidden" id="tag_ids" name="tag_ids2" value="${tag_ids2}" />
 <input type="hidden" id="objId" name="objId" value="" />
@@ -85,7 +110,7 @@
         <td>任务名称：</td>
         <td colspan=3><input type="text" size=80  id="author" name="postjob$name" value="${obj.name}" /></td>
         <td>客户邮件：</td>
-        <td><input type="text" id="author" name="author" value="${author}" /></td>
+        <td><input type="text" id="author" name="postjob$cemails" value="${author}" /></td>
 
 	</tr>
     <tr>
@@ -113,12 +138,18 @@
   <tr class="effect">
   	<td><input type="checkbox" value="${detail.id}" name="outids"/>${detail.no}</td>
     <td><a href="/post.PostJobAH.show?objId=${detail.id}" >${detail.name}</a></td>
-    <td>${detail.posttime}</td>
-    <td>${detail.status} </td>
-    <td>${detail.ruleid}</td>
+    <td><m:out type="hours" value="${detail.posttime}" /></td>
+    <td><m:out type="active" value="${detail.status}"/> </td>
+    <td>${detail.ruleid.name}</td>
     <td><fmt:formatDate value="${detail.lastposttime}" pattern="yyyy-MM-dd HH:mm"/></td>
-    <td>${detail.customers}</td>
-    <td><a href="javascript:void(0)" onclick="javascript:openit('${detail.id}')" ><img src="/images/button_edit.png" /></a>  | <a href="/news.NewsActionHandler.showHis?objId=${detail.his_news_id}" >原文</a></td>
+    <td>${detail.ccounts}</td>
+    <td><a href="javascript:void(0)" onclick="javascript:editit('${detail.id}')" > edit </a>  |  
+	
+	<a href="javascript:void(0)" onclick="javascript:disableit('${detail.id}')" > 
+	${detail.status==0?"enable":"disable"}
+	</a>  |  
+	<a href="javascript:void(0)" onclick="javascript:deleteit('${detail.id}')" > delete </a>
+	</td>
   </tr>
 </c:forEach>
 	<tr class="edit">
@@ -132,13 +163,18 @@ $(".unselect_all").click(function(){
 	$("input[name='outids']").attr("checked",false);
 });
 </script>
-                <input type="button" class="button" id="dels"  onclick="javascript:render();" value="sendnow" />
-                <input type="button" class="button" id="dels"  onclick="javascript:render();" value="enable" />
-                <input type="button" class="button" id="dels"  onclick="javascript:render();" value="disable" />
-                <input type="button" class="button" id="dels"  onclick="javascript:render();" value="delete" />
+                <input type="button" class="button" id="dels"  onclick="javascript:sendall();" value="sendnow" />
+                <input type="button" class="button" id="dels"  onclick="javascript:enableall();" value="enable" />
+                <input type="button" class="button" id="dels"  onclick="javascript:disableall();" value="disable" />
+                <input type="button" class="button" id="dels"  onclick="javascript:deleteall();" value="delete" />
         </td>
     </tr>
 </table>
+
+<div class="pages_bar">
+<div class="pages_left">共 <span class="orange">${pageVariable.totalpage}</span> 页 | 第 <span class="orange">${pageVariable.npage+1}</span> 页</div>
+<div class="pages_right"><m:page action="post.PostJobAH.list" size="30" /></div>
+</div>
 
 
 </form>

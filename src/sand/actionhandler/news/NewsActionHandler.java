@@ -34,6 +34,7 @@ import sand.service.basic.service.TagService;
 import sand.service.news.NewsService;
 import tool.basic.DateUtils;
 import tool.dao.BizObject;
+import tool.dao.PageVariable;
 import tool.dao.QueryFactory;
 import tool.util.CachedResponseWrapper;
 import basic.BasicContext;
@@ -130,13 +131,19 @@ public class NewsActionHandler extends ActionHandler {
 			for(int i=0 ; i<v.size();i++){
 				BizObject b=v.get(i);
 				//log("tags is "+b.getString("tags"));
-				if(b.getString("tags").indexOf(s)>=0){
-					b.set("tag", s);
-					onetags.add(b);
-					v.remove(b);
-					j++;
-					i--;
+				String mtags[] = b.getString("tags").split(",");
+				for(String mtag:mtags){
+					if(mtag.equals(s)){
+						b.set("tag", s);
+						onetags.add(b);
+						v.remove(b);
+						j++;
+						i--;
+						break;
+					}
 				}
+//				if(b.getString("tags").indexOf(s)>=0){
+//				}
 			}	
 			log("put "+s+"  "+onetags.size());
 			newtags.put(s, onetags);
@@ -353,9 +360,13 @@ public class NewsActionHandler extends ActionHandler {
 //	}	
 	private List<BizObject> queryList() throws SQLException{
 		
+		//QueryFactory.setPageType("simple");
 		//PageVariable pv 
-		List<BizObject> objList = QueryFactory.executeQuerySQL(this.getQuerySQL(),this.preparePageVar());
-		
+		PageVariable pv=this.preparePageVar();
+		pv.type="simple";
+		pv.setPagesize(200);
+		List<BizObject> objList = QueryFactory.executeQuerySQL(this.getQuerySQL(),pv);
+
 		return objList;
 	}
 	
@@ -442,9 +453,10 @@ public class NewsActionHandler extends ActionHandler {
 		if(StringUtils.isNotBlank(order)) sql.append(" ").append(order);
 		else sql.append(" desc");
 
-		System.out.println(sql.toString());
+		//System.out.println(sql.toString());
 		log("392 sql is "+sql.toString());
 		//PageVariable pv 
+		
 		return sql.toString();
 	}
 	
@@ -462,7 +474,7 @@ public class NewsActionHandler extends ActionHandler {
 		String sort = this.getParameter("sort");
 		String lang = this.getParameter("lang");
 		String pagesize = this.getParameter("pagesize");
-		if(pagesize.equals("") ) pagesize="1000";
+		if(pagesize.equals("") ) pagesize="15";
 		String tag_ids2 = this.getParameter("tag_ids2");
 		String orderby = this.getParameter("orderby");
 		String order = this.getParameter("order");
@@ -559,8 +571,13 @@ public class NewsActionHandler extends ActionHandler {
 	}
 	
 	public void show_operator() throws SQLException{
+		long millinow = Calendar.getInstance().getTimeInMillis();
+		this.log("进入show_operator:"+millinow);
 		String operator = this.getParameter("operator");
 		String rownum = this.getParameter("rownum");
+		String from = this.getParameter("from");
+		log("from is :"+from);
+		
 		int rows = 0;
 		
 		try{
@@ -569,16 +586,32 @@ public class NewsActionHandler extends ActionHandler {
 			e.printStackTrace();
 			rows = 0;
 		}
+		if(from.equals("mail")){
+			this._tipInfo = "编辑成功,请关闭当前页面！";
+			this._request.setAttribute("msg_type", "SUCCESS");
+			//this._request.setAttribute("nextUrl", "account.ReturnActionHandler.listMchReturnList");
+			this._nextUrl = super._msgUrl;
+			long endmillinow = Calendar.getInstance().getTimeInMillis();
+	        long usetime = endmillinow - millinow;
+	        this.log("结束show_operator  mail:"+usetime);
+			return;
+		}
 		if(operator.equals("next")){
 			rows += 1;
 		}else if(operator.equals("last")){
 			if(rows>0) rows -= 1;
 			else {
 				this.list();
+				long endmillinow = Calendar.getInstance().getTimeInMillis();
+		        long usetime = endmillinow - millinow;
+		        this.log("结束 show_operator no last:"+usetime);
 				return;
 			}
 		}else{
 			this.list();
+			long endmillinow = Calendar.getInstance().getTimeInMillis();
+	        long usetime = endmillinow - millinow;
+	        this.log("结束 show_operator list:"+usetime);
 			return;
 		}
 		log("行与："+rows);
@@ -595,7 +628,7 @@ public class NewsActionHandler extends ActionHandler {
 	//		news_content.set("news_id", biz.getId());
 	//		news_content = QueryFactory.getInstance("news_content").getOne(news_content);
 			
-			List<BizObject> list = this.getTagService().openAllWithSelectedTag(this._objId);
+			List<BizObject> list = this.getTagService().openAllWithSelectedTag(biz.getId());
 			
 			if(biz!=null){
 				biz.set("content", biz.getString("content").replaceAll("'","&#039;"));
@@ -616,6 +649,10 @@ public class NewsActionHandler extends ActionHandler {
 			this._request.setAttribute("rownum", rows);
 			this._nextUrl = "/template/news/edit.jsp";
 		}else this.list();
+		
+		long endmillinow = Calendar.getInstance().getTimeInMillis();
+        long usetime = endmillinow - millinow;
+        this.log("结束 show_operator:"+usetime);
 	}
 	
 //	private List<BizObject> queryUrgents(String news_urgent) throws SQLException{
@@ -666,6 +703,11 @@ public class NewsActionHandler extends ActionHandler {
 	@CandoCheck("session")
 	public void save() throws SQLException{
 		//this.getJdo().beginTrans();
+//		log("进入save:"+new Date());
+		long millinow = Calendar.getInstance().getTimeInMillis();
+		this.log("进入save:"+millinow);
+//        long usetime = endmillinow - millinow;
+//        _log.set("USETIME", Long.valueOf(usetime));
 		String tagId = this.getParameter("tag_ids");
 		BizObject news = this.getBizObjectFromMap("news");
 		this.log("tags is "+this.getParameter("tags"));
@@ -726,7 +768,10 @@ public class NewsActionHandler extends ActionHandler {
 		
 	//	this.getJdo().commit();
 		this.clearQueryParam();
-
+//		log("结束save:"+new Date());
+		long endmillinow = Calendar.getInstance().getTimeInMillis();
+        long usetime = endmillinow - millinow;
+        this.log("结束save:"+usetime);
 		this.show_operator();
 //		this.list();
 	}
@@ -1068,7 +1113,6 @@ public class NewsActionHandler extends ActionHandler {
 	}
 
 	public static void main(String[] args) {
-		String sql = "aabbccdd";
-		System.out.println(sql.indexOf("bec"));
+		System.out.println(new Date());
 	}
 }

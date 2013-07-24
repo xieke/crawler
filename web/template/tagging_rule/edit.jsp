@@ -38,7 +38,7 @@
         <td>标签：</td>
         <td>
         <input type="hidden" id="tags" name="tag_rule$tag_name" />
-        <div id="tags_result" class="tags_result select_label"></div>
+        <ul id="tags_result" class="tags_result select_label"></ul>
         <c:set var="tagsList_pf" value="${tagsList}" />
 		<%@ include file="/template/tag/tag_plugin.jsp"%>
         </td>

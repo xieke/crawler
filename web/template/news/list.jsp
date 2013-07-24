@@ -28,7 +28,7 @@
 		$("#reqType").attr("value","news.NewsActionHandler.show");
 		$("#objId").attr("value",id);
 		$("#rownum").attr("value",rownum);
-		$("#page").attr("value",$("#ttpages").val()-1);
+		//$("#page").attr("value",$("#ttpages").val()-1);
 		$("#form1").submit();
 	}
 	function querylist(){
@@ -65,7 +65,6 @@
 <input type="hidden" id="orderby" name="orderby" value="${orderby}"/>
 <input type="hidden" id="order" name="order" value="${order}"/>
 <input type="hidden" id="rownum" name="rownum" value=""/>
-<input type="hidden" id="job" name="job" value="${param.job}"/>
 <m:token/>
 
 <table class="ui edit">
@@ -93,7 +92,7 @@
     <tr>
         <td>标签：</td>
         <td>
-<input type="hidden" id="tags" name="tags2" value="${param.tags2}" />
+<input type="hidden" id="tags" name="tags2" value="${tags2}" />
 <ul style="float: none;height: 80px;width: 330px;" id="tags_result" class="tags_result select_label"></ul>
 <c:set var="tagsList_pf" value="${tags}" />
 <%@ include file="/template/tag/tag_plugin.jsp"%>
@@ -107,7 +106,7 @@ $(function(){
 			$("#reqType").attr("value","news.NewsActionHandler.deletes");
 			
 			$("#rownum").attr("value",rownum);
-			$("#page").attr("value",$("#ttpages").val()-1);
+			//$("#page").attr("value",$("#ttpages").val()-1);
 			$("#form1").submit();
 		}
 	});
@@ -124,7 +123,7 @@ $(function(){
     </tr>
 </table>
 <table class="ui list">
-	<tr class="title"><td class="title" colspan="12">信息手动处理</td><td class="title" ><a style=" color: #FFFFFF" href="/news.NewsActionHandler.showAdd?job=default" >Add文章</a></td></tr>
+	<tr class="title"><td class="title" colspan="13">信息手动处理</td><td class="title" ><a style=" color: #FFFFFF" href="/news.NewsActionHandler.showAdd?job=default" >Add文章</a></td></tr>
     <tr class="effect">
         <th>选择</th>
         <th>序号</th>
@@ -149,6 +148,7 @@ $(function(){
         	<c:if test="${orderby=='importance' && order=='desc'}">order_up</c:if>
             <c:if test="${orderby=='importance' && order=='asc'}">order_down</c:if>
             ">GP重要度</a></th>
+        <th>标签</th>
         <th>状态</th>
         <th>操作</th>
     </tr>
@@ -165,12 +165,13 @@ $(function(){
     <td><c:if test="${detail.sort=='1'}">I</c:if><c:if test="${detail.sort=='0'}">K</c:if></td>
     <td><m:out type="urgent" value="${detail.urgent}" /></td>
     <td><m:out type="importance" value="${detail.importance}" /></td>
+    <td><m:out type="" value="${detail.tags}" maxSize="8"/></td>
     <td><m:out type="news_status" value="${detail.status}" /></td>
     <td><a href="javascript:void(0)" onclick="show('${detail.id}','${pageVariable.npage*pageVariable.pagesize+status.index}')" ><img src="/images/button_edit.png" /></a> <c:if test="${detail.his_news_id!='' && detail.his_news_id!=null}">| <a href="/news.NewsActionHandler.showHis?objId=${detail.his_news_id}" >原文</a></c:if></td>
   </tr>
 </c:forEach>
 	<tr class="edit">
-    	<td colspan="12">
+    	<td colspan="13">
                 <a class="select_all" href="javascript:void(0)">全选</a>/<a class="unselect_all" href="javascript:void(0)">反选</a>
 <script type="text/javascript">
 $(".select_all").click(function(){
@@ -186,8 +187,8 @@ $(".unselect_all").click(function(){
 </table>
 
 <div class="pages_bar">
-<div class="pages_left">共 <span class="orange">${pageVariable.totalpage}</span> 页 | 第 <span class="orange">${pageVariable.npage+1}</span> 页</div>
-<div class="pages_right"><m:page action="news.NewsActionHandler.list" size="30" /></div>
+<div class="pages_left"> 第 <span class="orange">${pageVariable.npage+1}</span> 页</div>
+<div class="pages_right"><m:page action="news.NewsActionHandler.list" type="simple" size="30" /></div>
 </div>
 
 </form>

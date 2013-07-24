@@ -22,13 +22,13 @@
 		}
 
 	$(function(){
-		refreshTags();
+		//refreshTags();
 	});
 	
 
 	function openit(id){
 		//alert("afdadf");
-		window.open("/news.NewsActionHandler.show?objId="+id);
+		window.open("/news.NewsActionHandler.show?objId="+id+"&from=mail");
 	}
 	
 	
@@ -103,8 +103,8 @@
     <tr>
         <td>标签：</td>
 
-        <td><input type="hidden" id="tags" name="tags2" />
-<div id="tags_result" class="tags_result select_label"></div>
+        <td><input type="hidden" id="tags" name="tags2" value="${param.tags2}" />
+<ul id="tags_result" class="tags_result select_label"></ul>
 <c:set var="tagsList_pf" value="${tags}" />
 <%@ include file="/template/tag/tag_plugin.jsp"%>
         </td>

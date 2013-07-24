@@ -61,3 +61,13 @@ table.edit td.content_side textarea{ width:288px; font-size:12px}
 .order_down{ background-image:url(/images/orderbyup.png)}
 input[plugin='date2']{ background:url(/plugin/jquery.datepick.package-4.0.5/calendar.gif) #f5fafd 150px 2px no-repeat; width:160px}
 .dx{ display:none}
+
+/*jquery ui dialog*/
+div.ui-dialog{ border:6px  solid rgba(0,0,0,0.3); padding:0;border-radius:6px}
+div.ui-dialog-titlebar{border:1px solid #5D5D5D; border-bottom:0; background:url(side_ul_bg.gif) #CCC 0 -1px; height:17px}
+div.ui-dialog .ui-dialog-titlebar{ padding:2px 15px 8px 15px}
+div.ui-dialog .ui-dialog-content{ background:#FFF; border:#5D5D5D 1px solid; border-top:0}
+div.ui-dialog .ui-dialog-title{ margin:0}
+div.ui-widget-overlay{ background:#000; opacity: .15;filter:Alpha(Opacity=15); }
+div.ui-dialog a.ui-state-hover{  border:0}
+div.ui-dialog a.ui-dialog-titlebar-close:hover{ padding:1px}

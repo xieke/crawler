@@ -158,8 +158,8 @@ public class NewsServiceImpl implements NewsService {
 							String[] tag_ids = tagRule.getString("tag_id").split(",");
 							for(String s : tag_ids){
 								if(news.getString("tag_ids").indexOf(s)==-1) {
-									news.set("tags", news.getString("tags")+","+tagService.getById(s).getString("name"));
-									news.set("tag_ids", news.getString("tag_ids")+","+s);
+									news.set("tags", (StringUtils.isBlank(news.getString("tags"))?",":news.getString("tags"))+tagService.getById(s).getString("name")+",");
+									news.set("tag_ids", (StringUtils.isBlank(news.getString("tag_ids"))?",":news.getString("tag_ids"))+s+",");
 									ActionHandler.currentSession().update(news);
 								}
 		//						tagService.addReBillTag(s, news.getId());
@@ -175,8 +175,8 @@ public class NewsServiceImpl implements NewsService {
 							String[] tag_ids = tagRule.getString("tag_id").split(",");
 							for(String s : tag_ids){
 								if(news.getString("tag_ids").indexOf(s)==-1) {
-									news.set("tags", news.getString("tags")+","+tagService.getById(s).getString("name"));
-									news.set("tag_ids", news.getString("tag_ids")+","+s);
+									news.set("tags", (StringUtils.isBlank(news.getString("tags"))?",":news.getString("tags"))+tagService.getById(s).getString("name")+",");
+									news.set("tag_ids", (StringUtils.isBlank(news.getString("tag_ids"))?",":news.getString("tag_ids"))+s+",");
 									ActionHandler.currentSession().update(news);
 								}
 		//						tagService.addReBillTag(s, news.getId());
@@ -204,7 +204,8 @@ public class NewsServiceImpl implements NewsService {
 			tag_rule = qf.getByID(s);
 			if(tag_rule!=null){
 				for(String tag_id : tag_rule.getString("tag_id").split(",")){
-					this.updateTag(tag_id,tag_rule,startDate,endDate);
+					if(StringUtils.isNotBlank(tag_id))
+						this.updateTag(tag_id,tag_rule,startDate,endDate);
 				}
 			}
 		}
@@ -249,8 +250,8 @@ public class NewsServiceImpl implements NewsService {
 					select_sql.append(" and (tag_ids not like '%").append(tag_id).append("%' or tag_ids is null) limit 0,100) nc ");
 					count_sql.append(" and (tag_ids not like '%").append(tag_id).append("%' or tag_ids is null)");
 					
-					update_sql.append(select_sql).append("set news.tags=CONCAT(case when news.tags is null then ',' else news.tags end,',").append(tagService.getById(tag_id).getString("name"))
-						.append("'),news.tag_ids=CONCAT(case when news.tag_ids is null then ',' else news.tag_ids end,',").append(tag_id).append("') where news.id=nc.id");
+					update_sql.append(select_sql).append("set news.tags=CONCAT(case when news.tags is null || news.tags='' then ',' else news.tags end ,'").append(tagService.getById(tag_id).getString("name"))
+						.append(",'),news.tag_ids=CONCAT(case when news.tag_ids is null || news.tag_ids='' then ',' else news.tag_ids end ,'").append(tag_id).append(",') where news.id=nc.id");
 					 
 					System.out.println("统计的sql:"+count_sql.toString());
 					System.out.println("修改的sql:"+update_sql.toString());
@@ -297,8 +298,8 @@ public class NewsServiceImpl implements NewsService {
 			select_sql.append(" and tag_ids not like '%").append(tag_id).append("%' limit 0,100) nc ");
 			count_sql.append(" and tag_ids not like '%").append(tag_id).append("%' ");
 			
-			update_sql.append(select_sql).append("set news.tags=CONCAT(news.tags,',").append(tagService.getById(tag_id).getString("name"))
-				.append("'),news.tag_ids=CONCAT(news.tag_ids,',").append(tag_id).append("') where news.id=nc.id");
+			update_sql.append(select_sql).append("set news.tags=CONCAT(case when news.tags is null || news.tags='' then ',' else news.tags end ,'").append(tagService.getById(tag_id).getString("name"))
+			.append(",'),news.tag_ids=CONCAT(case when news.tag_ids is null || news.tag_ids='' then ',' else news.tag_ids end ,'").append(tag_id).append(",') where news.id=nc.id");
 			 
 			System.out.println("统计的sql:"+count_sql.toString());
 			System.out.println("修改的sql:"+update_sql.toString());

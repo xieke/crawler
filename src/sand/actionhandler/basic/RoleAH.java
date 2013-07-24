@@ -186,7 +186,7 @@ public class RoleAH extends ActionHandler {
 				  "<input onclick='window.location.href=\"/basic.RoleAH.showRole?objId="+this.objId+"\"'" +
 				  " type='button' class='w100' value='继续修改' />";
 		this._request.setAttribute("buttons",buttons);
-		throw new InfoException((obj_id.equals("")?"新建":"修改")+"角色成功，角色名称："+obj_name);
+		throw new SuccessException((obj_id.equals("")?"新建":"修改")+"角色成功，角色名称："+obj_name);
 		
 		
 		//this.showRole();

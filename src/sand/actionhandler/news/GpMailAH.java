@@ -182,7 +182,7 @@ public class GpMailAH extends ActionHandler {
 		int i = Integer.parseInt(this._objId);
 		this.setAttribute("objid",i);
 
-		Map v=PostJob.getPosts(i);
+		Map v=PostJob.getPostNews(i);
 		this.setAttribute("objList",v);
 		this._nextUrl="/template/news/listmodify.jsp";
 		
@@ -198,7 +198,7 @@ public class GpMailAH extends ActionHandler {
 		
 		//Map<String ,List> v = PostJob.getPosts(s.getString("tags"), s.getString("cycle"), s.getString("urgent"), s.getString("limit"),s.getString("lang"));
 		
-		Map<String ,List> v = PostJob.getPosts(i);
+		Map<String ,List> v = PostJob.getPostNews(i);
 		
 		String greeting=s.getString("greeting").replaceAll("@name",s.getString("name"));
 		String ending=s.getString("ending").replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDDHHMMSS));

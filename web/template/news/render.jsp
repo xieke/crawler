@@ -79,9 +79,11 @@
                     </h1>
 
 <c:forEach var="item" items="${objList}">   
-${item.key}<br>   
+
+
 
 	<c:if test="${fn:length(item.value)==0}">
+	<!--
                     <div class="post nopic">
                         <div class="row">
                             <div class="span4 info">
@@ -89,6 +91,11 @@ ${item.key}<br>
                                 </div>
                             </div>
                         </div>
+	-->	
+	</c:if>
+	<c:if test="${fn:length(item.value)>0}">
+	${item.key}<br>   
+
 
 	</c:if>
 <c:forEach var="detail" items="${item.value}" varStatus="status">

@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="submenu">
 		<span class="button">
-                <a href="<c:url value='/post.PostJobAH.listPostJob'/>">邮件发送任务</a>
-                <a href="<c:url value='/post.PostJobAH.showPostJob'/>">新建发送任务</a>
+                <a href="<c:url value='/post.PostJobAH.list'/>">邮件发送任务</a>
+                <a href="<c:url value='/post.PostJobAH.show'/>">新建发送任务</a>
 		</span>
 </div>

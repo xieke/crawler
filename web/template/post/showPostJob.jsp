@@ -40,12 +40,12 @@
 <form action="/post.PostJobAH.save" method="post" name="form1" id="form1">
 
 <input type="hidden" id="objId" name="objId" value="${obj.id}">
+<input type="hidden" id="postjobid" name="postJob$id" value="${obj.id}">
+<input type="hidden" id="tactics_ids" name="tactics_ids" value="${obj.ruleid.id}">
+<input type="hidden" id="custom_ids" name="custom_ids" value="${obj.customers}">
 <table class="ui edit">
-<input type=text name="abcd" value="${param.abcd}" />
+
 <tr class="title"><td colspan="2">${obj.id==''||obj.id==null?"新建":"修改"}发送任务</td></tr>
-
-                  </tr>
-
 				  <tr>
 					<td width="90">任务编号：</td>
                     <td><input type="text"  id="no" name="postjob$no" value="${obj.no}" /></td>
@@ -57,48 +57,23 @@
 				  </tr>
 				  <tr>
 					<td>任务策略：</td>
-                    <td><input type="text" size="50" id="tactics" name="postjob$ruleid" value="${obj.ruleid}" />
-<c:set var="tagsList_pf" value="${tags}" />
+                    <td><input type="text" size="50" id="tactics" name="ruleid" value="${obj.ruleid.name}" />
+<c:set var="tagsList_pf" value="${rules}" />
 <%@ include file="tactics_plugin.jsp"%></td>
 				  </tr>
 				  <tr>
 					<td>客户：</td>
-                    <td><input type="text" size="50" id="custom" name="postjob$customers" value="${obj.customers}" />
-<c:set var="tagsList_pf" value="${tags}" />
+                    <td><input type="text" size="50" id="custom" name="postjob$customers" value="${obj.cnames}" />
+<c:set var="tagsList_pf" value="${customers}" />
 <%@ include file="custom_plugin.jsp"%></td>
 				  </tr>
 				  <tr>
 					<td>预定时间：</td>
                     <td>
-					<select id="posttime" name="postjob$posttime" value="${obj.posttime}" />
-					<option>00:00</option>
-					<option>01:00</option>
-					<option>02:00</option>
-					<option>03:00</option>
-					<option>04:00</option>
-					<option>05:00</option>
-					<option>06:00</option>
-					<option>07:00</option>
-					<option>08:00</option>
-					<option>09:00</option>
-					<option>10:00</option>
-					<option>11:00</option>
-					<option>12:00</option>
-					<option>13:00</option>
-					<option>14:00</option>
-					<option>15:00</option>
-					<option>16:00</option>
-					<option>17:00</option>
-					<option>18:00</option>
-					<option>19:00</option>
-					<option>20:00</option>
-					<option>21:00</option>
-					<option>22:00</option>
-					<option>23:00</option>
-					</select>
+                    <m:select name="postjob$posttime" value="${obj.posttime}" type="hours" />
 					&nbsp; &nbsp; 
                     <jsp:useBean id="now" class="java.util.Date" />
-					上次发送时间 <input style="border-color:#FFF;color: #005AFF;text-decoration: underline;" type="text" name="" value='<fmt:formatDate value="${now}" pattern="yyyy-MM-dd HH:mm:ss"/>' readonly="readonly" plugin="date2" start="" end="" /></td>
+					上次发送时间 <input style="border-color:#FFF;color: #005AFF;text-decoration: underline;" type="text" name="postjob$lastposttime" value='<fmt:formatDate value="${obj.lastposttime}" pattern="yyyy-MM-dd HH:mm:ss"/>' readonly="readonly" plugin="date2" start="" end="" /></td>
 				  </tr>
 				  <tr>
 					<td>生效状态：</td>

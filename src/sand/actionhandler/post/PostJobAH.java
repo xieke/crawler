@@ -46,7 +46,7 @@ public class PostJobAH extends ActionHandler {
 	
 
 	
-	public void listPostJob() throws SQLException{
+	public void list() throws SQLException{
 		//BizObject postjob = this.getBizObjectFromMap("postjob");
 		//postjob.setMap("posttime")
 		//this.setAttribute("objList", v);
@@ -56,26 +56,139 @@ public class PostJobAH extends ActionHandler {
 	
 
 
-	public void showPostJob() throws SQLException, IOException, TemplateException{
-		List v = new ArrayList();
-		for(int i=0;i<100;i++){
-			BizObject b= new BizObject();
-			b.set("name", "屁"+i);
-			b.set("id", "pi"+i);
-			v.add(b);
+	private List<BizObject> getRules(BizObject pj) throws SQLException{
+		BizObject rule = new BizObject("rules");
+		List<BizObject> v = rule.getQF().query();
+		for(BizObject b:v){
+			if(b.getId().equals(pj.getString("ruleid")))
+				b.set("checked", "checked");
 		}
+		return v;
 		
-		this.setAttribute("tags",v);
-		this.showObj("postjob",this._objId);
+	}
+	private List<BizObject> getCustomers(BizObject pj) throws SQLException{
+		BizObject csts = new BizObject("customers");
+		List<BizObject> v = csts.getQF().query();
+		for(BizObject b:v){
+			b.set("name",b.getString("name")+"("+b.getString("mail")+")");
+			if(pj.getString("customers").indexOf(b.getId())>=0)
+				b.set("checked", "checked");
+		}
+		return v;	
+		}
+	private String getCustomerInfos(String customer_ids,String info) throws SQLException{
+//		BizObject csts = new BizObject("customers");
+//		List<BizObject> v = csts.getQF().query();
+		String customer_id[]=customer_ids.split(",");
+		String names="";
+		BizObject b  = new BizObject ("customers"); 
+		for(String  id:customer_id){
+			if(!b.equals("")){
+				b.setID(id);
+				b.refresh();
+				if(names.equals(""))
+					names =b.getString(info);
+				else
+					names =names+","+b.getString(info);
+			}
+		}
+		return names;	
+		}	
+	public void show() throws SQLException{
+
+		BizObject b = new BizObject("postjob");
+		b.setID(this._objId);
+		b.refresh();
+		
+		//this.showObj("postjob",this._objId);
+		this.setAttribute("rules",this.getRules(b));
+		this.setAttribute("customers",this.getCustomers(b));
+		
+		this.setAttribute("obj", b);		
 		this._nextUrl="/template/post/showPostJob.jsp";
 	}
 	
-
+//	public String transToMail(String customer_ids){
+//		String customer_id[]=customer_ids.split(",");
+//		
+//	}
+	
 	public void save() throws SQLException{
+		String customer_ids = this.getParameter("custom_ids");
+		String tactics_ids = this.getParameter("tactics_ids");
+		
 		BizObject b = this.getBizObjectFromMap("postjob");
+		b.set("customers",customer_ids);
+		b.set("ccounts",customer_ids.split(",").length);
+		b.set("cnames",getCustomerInfos(b.getString("customers"),"name"));
+		b.set("cemails",getCustomerInfos(b.getString("customers"),"name"));
+		b.set("ruleid", tactics_ids);
+		
 		this.checkParam(b);
 		this.getJdo().addOrUpdate(b);
-		this._nextUrl="/template/post/showPostJob.jsp";
+		this._objId=b.getId();
+		this.clearQueryParam();
+		this.list();
+		//this._nextUrl="/template/post/showPostJob.jsp";
 	}
 	
+	public void delete() throws SQLException{
+		BizObject b = new BizObject("postjob");
+		b.setID(this._objId);
+		this.getJdo().delete(b);
+		this.clearQueryParam();
+		this.list();
+
+	}
+	public void deleteAll() throws SQLException{
+		String ids[]=this.getParameters("outids");
+		for(String id:ids){
+			BizObject b = new BizObject("postjob");
+			b.setID(id);
+			this.getJdo().delete(b);
+			
+		}
+		this.clearQueryParam();
+		this.list();
+
+	}	
+	public void disable() throws SQLException{
+		BizObject b = new BizObject("postjob");
+		b.setID(this._objId);
+		b.refresh();
+		if(b.getString("status").equals("0"))
+			b.set("status", 1);
+		else
+			b.set("status", 0);
+		
+		this.getJdo().update(b);
+		this.clearQueryParam();
+		this.list();
+	}
+	public void changeAll(String status) throws SQLException{
+		
+		String ids[]=this.getParameters("outids");
+		for(String id:ids){
+			BizObject b = new BizObject("postjob");
+			b.setID(id);
+			//b.refresh();
+//			if(b.getString("status").equals("0"))
+//				b.set("status", 1);
+//			else
+				b.set("status", status);
+			
+			this.getJdo().update(b);
+			
+		}
+		
+		this.clearQueryParam();
+		this.list();
+	}	
+	public void disableAll() throws SQLException{
+		this.changeAll("0");
+	}	
+	public void enableAll() throws SQLException{
+		this.changeAll("1");
+	}	
+
 }

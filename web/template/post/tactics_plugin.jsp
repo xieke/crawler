@@ -3,7 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="m" uri="/WEB-INF/sand-html.tld"%>
 <%@ page contentType="text/html;charset=utf-8" %>
-<input type="button" value="选择策略" id="select_tactics" class="button" style="display:inline; float:none" /><input type="button" value="全部清除" id="clear_tag" class="button" style="display:inline; float:none" />
+<input type="button" value="选择策略" id="select_tactics" class="button" style="display:inline; float:none" /><input type="button" value="全部清除" id="clear_tactics" class="button" style="display:inline; float:none" />
 <script type="text/javascript">
 $(function(){
 	$("#select_tactics").click(function(){
@@ -29,7 +29,7 @@ $(function(){
 		}else refreshTags_tactics();
 	}
 	
-	$("#clear_tag").click(function(){
+	$("#clear_tactics").click(function(){
 		$("#tactics").attr("value","");
 		$("#tactics_text :checked").attr("checked","");
 		refreshTags_tactics();
@@ -69,7 +69,7 @@ function refreshTags_tactics(){
 		tagsid += $(this).attr("tagsid");
 		++i;
 	});	
-	$("#tag_ids").attr("value",tagsid);
+	$("#tactics_ids").attr("value",tagsid);
 	$("#tactics").val(tagsname);
 }
 </script>

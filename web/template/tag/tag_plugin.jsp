@@ -56,17 +56,36 @@ $(function(){
 			scrollSpeed: 5
 	});
 	//页面初加载还原标签中原值
-	
-	if($("#tags").val()!=""){
-		temp_val="#tag_text [tagsid='"+$("#tags").val().replace(/,/g,"'],#tag_text [tagsid='")+"']";
+	if($("#tag_ids").val()!=""){
+		temp_val="#tag_text [tagsid='"+$("#tag_ids").val().replace(/,/g,"'],#tag_text [tagsid='")+"']";
 		//alert(temp_val);
-		objs=$(temp_val);
+		var temp_arr=temp_val.split(",")
+		//objs=$(temp_val);
+		//$(temp_val).each(function(){
+			//tags_add_or_del(this);
+		//})
+		
 		//alert(objs.length);
-		var i=objs.length;
-		for(i=i-1;i>=0;i--){
-			tags_add_or_del(objs.eq(i));
+		for(i=0;i<temp_arr.length;i++){
+			tags_add_or_del($(temp_arr[i]));
 		}
 	}
+	//自动绑定FORM提交时，将标签值保存
+	$("#tags").closest("form").submit(function(){
+			temp_val="";
+			temp_val2="";
+			$("#tags_result li").each(function(i){
+			//	if(i==0){
+			//		temp_val+=$(this).attr("tagsid");
+			//		temp_val2+=$(this).attr("tagsname");
+			//	}else{
+					temp_val+=","+$(this).attr("tagsid");
+					temp_val2+=","+$(this).attr("tagsname");
+			//	}
+			})
+			$("#tag_ids").val(temp_val+",");
+			$("#tags").val(temp_val2+",");
+	})
 });
 function select_under_level(level,obj,ischecked){//选择或取消下级标签
 	obj.attr("checked",ischecked);//当前赋值
@@ -85,16 +104,10 @@ function search_tag(obj){
 }
 function tags_add_or_del(obj){
 	if($(obj).attr("checked")){
-		$("#tags_result").html($("#tags_result").html()+'<li tagsid="'+$(obj).attr("tagsid")+'" class="mb">'+$(obj).attr("tagsname")+'<span class="del" onclick="del_parent_node(this)"></span></li>');
+		$("#tags_result").html($("#tags_result").html()+'<li tagsname="'+$(obj).attr("tagsname")+'" tagsid="'+$(obj).attr("tagsid")+'" class="mb">'+$(obj).attr("tagsname")+'<span class="del" onclick="del_parent_node(this)"></span></li>');
 	}else{
 		$("#tags_result").find("li[tagsid='"+$(obj).attr("tagsid")+"']").remove();
 	}
-	temp_val="";
-	$("#tags_result li").each(function(i){
-		if(i==0)temp_val+=$(this).attr("tagsid");
-		else temp_val+=","+$(this).attr("tagsid");
-	})
-	$("#tags").val(temp_val);
 }
 // 删除结点函数
 function del_parent_node(obj){

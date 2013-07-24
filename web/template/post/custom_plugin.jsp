@@ -3,21 +3,21 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="m" uri="/WEB-INF/sand-html.tld"%>
 <%@ page contentType="text/html;charset=utf-8" %>
-<input type="button" value="选择客户" id="select_custom" class="button" style="display:inline; float:none" /><input type="button" value="全部清除" id="clear_tag" class="button" style="display:inline; float:none" />
+<input type="button" value="选择客户" id="select_custom" class="button" style="display:inline; float:none" /><input type="button" value="全部清除" id="clear_custom" class="button" style="display:inline; float:none" />
 <script type="text/javascript">
 $(function(){
 	$("#select_custom").click(function(){
 		if($(this).val()=="选择客户"){
 			$(this).val("完成选择").css("color","red");
-			$("#select_text").slideDown();
+			$("#custom_text").slideDown();
 		}else{
 			$(this).val("选择客户").css("color","#174B73");;
-			$("#select_text").slideUp();
+			$("#custom_text").slideUp();
 		}
 	});
 	
-	$("#select_text div.result input").click(function(){
-		refreshTags();
+	$("#custom_text div.result input").click(function(){
+		refreshTags_custom();
 	}).dblclick(function(){
 		select_under_level($(this).attr("level"),$(this),$(this).attr("checked")?false:true);
 	});
@@ -26,13 +26,13 @@ $(function(){
 		var next=obj.parent().next().find("input");
 		if(next.attr("level")>level){
 			select_under_level(level,next,ischecked);
-		}else refreshTags();
+		}else refreshTags_custom();
 	}
 	
-	$("#clear_tag").click(function(){
+	$("#clear_custom").click(function(){
 		$("#custom").attr("value","");
-		$("#select_text :checked").attr("checked","");
-		refreshTags();
+		$("#custom_text :checked").attr("checked","");
+		refreshTags_custom();
 	});
 	
 	$("#search_custom").keyup(function(){
@@ -44,23 +44,23 @@ $(function(){
 	});
 	//删除客户内容
 	$("#custom").blur(function(){
-		$("#select_text :checked").attr("checked","");
+		$("#custom_text :checked").attr("checked","");
 		$("[tagsname='"+$("#custom").val().replace(new RegExp(",","gm"),"'],[tagsname='")+"']").attr("checked","checked");
-		refreshTags();
+		refreshTags_custom();
 	})
 });
 function search_custom(obj){
 	if(obj.val()!=""){
-		$("#select_text .result label").hide();
-		$("#select_text .result label:contains("+obj.val().toLowerCase()+")").show();
+		$("#custom_text .result label").hide();
+		$("#custom_text .result label:contains("+obj.val().toLowerCase()+")").show();
 	}else
-		$("#select_text .result label").show()
+		$("#custom_text .result label").show()
 }
-function refreshTags(){
+function refreshTags_custom(){
 	var tagsname = "";
 	var tagsid = "";
 	var i=0;
-	$("#select_text :checked").each(function(){
+	$("#custom_text :checked").each(function(){
 		if(i>0){
 			tagsname += ",";
 			tagsid += ","
@@ -69,11 +69,11 @@ function refreshTags(){
 		tagsid += $(this).attr("tagsid");
 		++i;
 	});	
-	$("#tag_ids").attr("value",tagsid);
+	$("#custom_ids").attr("value",tagsid);
 	$("#custom").val(tagsname);
 }
 </script>
-<div id="select_text" class="tag_plugin">
+<div id="custom_text" class="tag_plugin">
 	<div class="search"> &nbsp;模糊搜索：<input id="search_custom" type="text" /> &nbsp;<a href="javascript:void(0)" onclick="$('#search_custom').val('').focus()">重填</a></div>
     <div class="result">
     <c:forEach var="detail" items="${tagsList_pf}" varStatus="status">

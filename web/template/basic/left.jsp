@@ -20,7 +20,6 @@ table.left-table02{ display:none}
 <link href="/css/css.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="/plugin/jquery-1.5.1.min.js"></script>
 
-
 </head>
 <body>
 
@@ -61,14 +60,6 @@ $(function(){
 </script>
 
 
-
-
-
-
-
-
-
-
 		<!--  分类1统开始    -->
 		<TABLE width="100%" border="0" cellpadding="0" cellspacing="0" class="left-table03">
           <tr>
@@ -83,8 +74,7 @@ $(function(){
 			</td>
           </tr>		  
         </TABLE>
-		<table width="80%" border="0" align="center" cellpadding="0" 
-				cellspacing="0" class="left-table02">
+		<table width="80%" border="0" align="center" cellpadding="0" cellspacing="0" class="left-table02">
 				<tr>
 				  <td width="9%" height="21" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
 				  <td width="91%"><a href="/basic.TagActionHandler.list" target="mainFrame" class="left-font03 class_2">Tag标签库</a></td>
@@ -112,12 +102,6 @@ $(function(){
 	  </table>
 		<!--  分类1结束    -->
 
-
-
-
-
-
-
 		<!--  分类1统开始    -->
 		<TABLE width="100%" border="0" cellpadding="0" cellspacing="0" class="left-table03">
           <tr>
@@ -132,8 +116,16 @@ $(function(){
 			</td>
           </tr>		  
         </TABLE>
-		<table width="80%" border="0" align="center" cellpadding="0" 
-				cellspacing="0" class="left-table02">
+		<table width="80%" border="0" align="center" cellpadding="0" cellspacing="0" class="left-table02">
+        
+				<tr>
+				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
+				  <td width="91%"><a href="<m:out value='/customer.CustomerActionHandler.list' functionid='abcd'/>" target="mainFrame" class="left-font03 class_2">客户管理</a></td>
+				</tr>
+				<tr>
+				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
+				  <td width="91%"><a href="<m:out value='/rules.RulesActionHandler.list' functionid='abcd'/>" target="mainFrame" class="left-font03 class_2">自动邮件策略配置</a></td>
+				</tr>
 				<tr>
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
 				  <td width="91%"><a href="/news.NewsActionHandler.toListMail?job=default" target="mainFrame" class="left-font03 class_2">邮件输出</a></td>
@@ -153,8 +145,14 @@ $(function(){
 				</tr>
 				<tr>
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="<m:out value='/post.PostJobAH.listPostJob' functionid='abcd'/>" target="mainFrame" class="left-font03 class_2">邮件发送任务</a></td>
+				  <td width="91%"><a href="<m:out value='/post.PostJobAH.list' functionid='abcd'/>" target="mainFrame" class="left-font03 class_2">邮件发送任务</a></td>
 				</tr>
+				<tr>
+				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
+				  <td width="91%"><a href="/post.MailServerAH.list" target="mainFrame" class="left-font03 class_2">邮件服务器配置</a></td>
+				</tr>
+				<tr>
+
 				<tr>
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
 				  <td width="91%"><a href="/news.GpMailAH.listPosted" target="mainFrame" class="left-font03 class_2">邮件发送记录</a></td>
@@ -215,19 +213,17 @@ $(function(){
 				  <td width="9%" height="21" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
 				  <td width="91%"><a href="/task.TaskAH.listTask" target="mainFrame" class="left-font03 class_2">任务调度</a></td>
 				</tr>
-
 				<tr>
 				  <td width="9%" height="21" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
 				  <td width="91%"><a href="/businesslog" target="mainFrame" class="left-font03 class_2">系统日志</a></td>
 				</tr>
+
+				<tr>
+				  <td width="9%" height="21" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
+				  <td width="91%"><a href="/template/basic/pwdModify.jsp" target="mainFrame" class="left-font03 class_2">修改密码</a></td>
+				</tr>
       </table>
 		<!--  分类1结束    -->
-
-
-
-
-		
-
 	  </TD>
   </tr>
   

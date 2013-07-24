@@ -46,7 +46,7 @@
 
 		})
 		
-		refreshTags();
+		//refreshTags();
 		
 		
 		
@@ -59,7 +59,7 @@
 <body>
 <div class="ui_head"></div>
 <form action="GeneralHandleSvt" method="post" name="form1" id="form1" onsumit="" >
-			<input type="hidden" id="tag_ids" name="tag_ids" value="" />
+			<input type="hidden" id="tag_ids" name="tag_ids" value="${obj.tag_ids}" />
             <input type="hidden" id="reqType" name="reqType" value="" />
             <input type="hidden" id="objId" name="objId" value="${obj.id}" />
             <input type="hidden" id="news_id" name="news$id" value="${obj.id}" />
@@ -104,8 +104,8 @@
         </td>
         <td width="300" valign="top" class="content_side">
 <div class="title">分类标签</div>
-<input type="hidden" id="tags" name="tags" />
-<div style="height: 120px;margin: 0;width: 288px; background:#fff" id="tags_result" class="tags_result select_label"></div>
+<input type="hidden" id="tags" name="tags" value="${obj.tags}" />
+<ul style="height: 120px;margin: 0;width: 288px; background:#fff" id="tags_result" class="tags_result select_label"></ul>
 <c:set var="tagsList_pf" value="${objList}" />
 <%@ include file="/template/tag/tag_plugin.jsp"%>
 
@@ -161,13 +161,10 @@
         </td>
     </tr>
     <tr>
-    	<!--<td></td>-->
-    	<td style="border-top:1px solid #ccc;">
-        	<input type="button" id="save" name="save" class="button" value="完成处理" />　
-            <!--
+    	<td colspan="2" style="border-top:1px solid #ccc; text-align:right">
+        	<input type="button" id="save" name="save" class="button" value="完成处理_list" />　
         	<input type="button" id="save_next" name="save_next" class="button" value="完成处理_next" />　
             <input type="button" id="save_last" name="save_last" class="button" value="完成处理_last" />　
-            -->
 			<input type="button" name="Submit2" value="放弃保存" class="button" onclick="window.history.go(-1);"/></td>
     </tr>
 </table>
@@ -192,6 +189,7 @@
 	<input type="hidden" id="pagesize" name="pagesize" value="${pagesize}" />
 	<input type="hidden" id="page" name="page" value="${page}" />
 	<input type="hidden" id="job" name="job" value="${job}" />
+	<input type="hidden" id="from" name="from" value="${param.from}" />
 </div>
 
 

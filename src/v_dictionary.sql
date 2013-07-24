@@ -117,3 +117,66 @@ select '5','只一次','taskcycle','' from dual
 union
 select '6','立即开始','taskcycle','' from dual
 
+union
+select '1','周一','cycle','1' from dual 
+union
+select '2','周二','cycle','2' from dual
+union
+select '3','周三','cycle','3' from dual
+union
+select '4','周四','cycle','4' from dual
+union
+select '5','周五','cycle','5' from dual
+union
+select '6','周六','cycle','6' from dual
+union
+select '7','周天','cycle','7' from dual
+
+union
+select '0','0点','hours','01' from dual 
+union
+select '1','1点','hours','02' from dual 
+union
+select '2','2点','hours','03' from dual 
+union
+select '3','3点','hours','04' from dual 
+union
+select '4','4点','hours','05' from dual 
+union
+select '5','5点','hours','06' from dual 
+union
+select '6','6点','hours','06' from dual 
+union
+select '7','7点','hours','07' from dual 
+union
+select '8','8点','hours','08' from dual 
+union
+select '9','9点','hours','09' from dual 
+union
+select '10','10点','hours','10' from dual 
+union
+select '11','11点','hours','11' from dual 
+union
+select '12','12点','hours','12' from dual 
+union
+select '13','13点','hours','13' from dual 
+union
+select '14','14点','hours','14' from dual 
+union
+select '15','15点','hours','15' from dual 
+union
+select '16','16点','hours','16' from dual 
+union
+select '17','17点','hours','17' from dual 
+union
+select '18','18点','hours','18' from dual 
+union
+select '19','19点','hours','19' from dual 
+union
+select '20','20点','hours','20' from dual 
+union
+select '21','21点','hours','21' from dual 
+union
+select '22','22点','hours','22' from dual 
+union
+select '23','23点','hours','23' from dual 

@@ -75,19 +75,7 @@ public class PublicActionHandler extends ActionHandler {
 				user.set("pwdtype","des");
 				user.set("password", pass);
 				
-				//修改知识库中的用户密码
-//				BizObject mvn = null;
-//				QueryFactory qf = new QueryFactory("mvnforummember");
-//				qf.setHardcoreFilter("membername='"+user.getString("LOGINNAME")+"'");
-//				List<BizObject> ary = qf.query();
-//				if(ary.size()>0){
-//					mvn = ary.get(0);
-//					mvn.set("MEMBERPASSWORD", Encoder.getMD5_Base64(this._request.getParameter("newPwd")));
-//				}else{
-//					throw new ControllableException("查找知识库用户错误！");
-//				}				
-//				_jdo.update(mvn);
-				
+			
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new ControllableException("加密过程出现错误");
@@ -104,7 +92,7 @@ public class PublicActionHandler extends ActionHandler {
 			throw new ControllableException("旧密码错误！");
 //		this._tipInfo = "密码修改成功！";
 //		this._nextUrl = "success.jsp";
-		this._request.setAttribute("nextUrl","real.SecureActionHandler.showCenter");
+		this._request.setAttribute("nextUrl","basic.HomeAH.index");
 		throw new SuccessException("密码修改成功!");
 	}
 
