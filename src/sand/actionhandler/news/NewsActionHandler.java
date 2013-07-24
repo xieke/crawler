@@ -294,8 +294,10 @@ public class NewsActionHandler extends ActionHandler {
 	}
 	
 	@CandoCheck("session")
-	@TokenCheck
+//	@TokenCheck
     public void listHistory() throws SQLException{
+		PageVariable pv=this.preparePageVar();
+		pv.type="simple";
 		super.listObj("his_news");
 		System.out.println(this._sql);
 		this._nextUrl = "/template/news/history_list.jsp";
@@ -411,12 +413,16 @@ public class NewsActionHandler extends ActionHandler {
 //				.append(tag_ids2).append(")");
 			
 		if(tag_ids!=null && tag_ids.length>0){
-			sql.append(" and (");
+//			sql.append(" and (");
+			StringBuilder sql2 = new StringBuilder("");
 			for(int i=0;i<tag_ids.length;i++){
-				if(i>0) sql.append(" or ");
-				sql.append("tag_ids like '%").append(tag_ids[i]).append("%'");
+				if(StringUtils.isNotBlank(tag_ids[i])){
+					if(StringUtils.isNotBlank(sql2)) sql2.append(" or ");
+					sql2.append("tag_ids like '%").append(tag_ids[i]).append("%'");
+				}
 			}
-			sql.append(")");
+			if(StringUtils.isNotBlank(sql2)) sql.append(" and (").append(sql2).append(")");
+//			sql.append(")");
 		}
 //		else sql.append("select DISTINCT n.id,n.title,n.posttime,n.fname,n.author,n.copyfrom,n.copyfromurl," +
 //				"n.category_id,n.status,n.issue,n.hits,n.isrecommend,n.istop,n.isautotag,n.summary,n.c_summary,n.tags,n.importance," +
