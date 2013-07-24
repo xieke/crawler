@@ -59,7 +59,7 @@ public class CustomerActionHandler extends ActionHandler {
 		if(StringUtils.isNotBlank(postjobId)){
 			QueryFactory qf = new QueryFactory("postjob");
 			BizObject job = qf.getByID(postjobId);
-			if(job.getString("customers").indexOf("customers.getId()")!=-1){
+			if(job.getString("customers").indexOf("customers.getId()")==-1){
 				job.set("customers", (StringUtils.isBlank(job.getString("customers"))?"":(job.getString("customers")+","))+customers.getId());
 				this.getJdo().update(job);
 			}
