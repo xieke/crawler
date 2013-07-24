@@ -123,12 +123,55 @@ public class TagActionHandler extends ActionHandler {
 	public void edit() throws SQLException{
 		this.getJdo().beginTrans();
 		BizObject tag = this.getBizObjectFromMap("tag");
+		
+		QueryFactory qf = new QueryFactory("tag");
+		qf.setHardcoreFilter("name='"+tag.getString("name")+"' and isvalid='1' and id!='"+tag.getId()+"'");
+		if(qf.query().size()>0) throw new ErrorException("要添加的标签名:'"+tag.getString("name")+"'已经存在,不能重复添加!");
+		
+		String old_name = tag.getString("old_name");
+		
 		if(StringUtils.isBlank(tag.getString("parent_id")))
 			tag.set("parent_id", "root");
 		this.getJdo().addOrUpdate(tag);
+		
+		if(!old_name.equals(tag.getString("name"))){
+			this.updateRules_tags(tag.getString("name"),old_name);
+			this.updateTagRule_tags(tag.getString("name"),old_name);
+			this.updateNews_tags(tag.getString("name"),old_name);
+		}
 		this.getJdo().commit();
 		this.clearQueryParam();
 		this.list();
+	}
+	
+	public void updateRules_tags(String name,String old_name) throws SQLException{
+		QueryFactory qf = new QueryFactory("rules");
+		qf.setHardcoreFilter("tags like '%,"+name+",%'");
+		List<BizObject> list = qf.query();
+		for(BizObject biz : list){
+			biz.set("tags", biz.getString("tags").replaceAll(","+old_name+",", ","+old_name+","));
+			this.getJdo().update(biz);
+		}
+	}
+	
+	public void updateTagRule_tags(String name,String old_name) throws SQLException{
+		QueryFactory qf = new QueryFactory("tag_rule");
+		qf.setHardcoreFilter("tag_name like '%,"+name+",%'");
+		List<BizObject> list = qf.query();
+		for(BizObject biz : list){
+			biz.set("tag_name", biz.getString("tag_name").replaceAll(","+old_name+",", ","+old_name+","));
+			this.getJdo().update(biz);
+		}
+	}
+	
+	public void updateNews_tags(String name,String old_name) throws SQLException{
+		QueryFactory qf = new QueryFactory("news");
+		qf.setHardcoreFilter("tags like '%,"+name+",%'");
+		List<BizObject> list = qf.query();
+		for(BizObject biz : list){
+			biz.set("tags", biz.getString("tags").replaceAll(","+old_name+",", ","+old_name+","));
+			this.getJdo().update(biz);
+		}
 	}
 	
 	public void saveOrderBy() throws SQLException{

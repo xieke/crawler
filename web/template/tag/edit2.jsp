@@ -19,6 +19,7 @@
 <form method="post" action="/GeneralHandleSvt">
 <input type="hidden" id="reqType" name="reqType" value="basic.TagActionHandler.edit" />
 <input type="hidden" id="id" name="tag$id" value="${obj.id}" />
+<input type="hidden" name="tag$old_name" value="${obj.name}"/>
 <table class="ui edit">
 <tr class="title"><td colspan="2">修改TAG标签</td></tr>
     <tr>
