@@ -84,8 +84,8 @@
 </table>
 
 <div class="pages_bar">
-<div class="pages_left">共 <span class="orange">${pageVariable.totalpage}</span> 页 | 第 <span class="orange">${pageVariable.npage+1}</span> 页</div>
-<div class="pages_right"><m:page action="news.NewsActionHandler.listHistory" size="30" /></div>
+<div class="pages_left">第 <span class="orange">${pageVariable.npage+1}</span> 页</div>
+<div class="pages_right"><m:page action="news.NewsActionHandler.listHistory" type="simple" size="30" /></div>
 </div>
 
 </form>
