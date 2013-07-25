@@ -34,7 +34,7 @@
 		post_form.newsid.value=id;
 		post_form.mail.value=mail;
 		$.get("/news.NewsActionHandler.like",$("#post_form").serialize(),function(result){
-			alert(result);
+		alert(result);
 		
 		});	
 	}
@@ -42,7 +42,7 @@
 		post_form.newsid.value=id;
 		post_form.mail.value=mail;		
 		$.get("/news.NewsActionHandler.dislike",$("#post_form").serialize(),function(result){
-			alert(result);		
+		alert(result);		
 		});	
 	}
 </script>
