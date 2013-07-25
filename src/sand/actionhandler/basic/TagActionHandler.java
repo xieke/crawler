@@ -149,7 +149,7 @@ public class TagActionHandler extends ActionHandler {
 		qf.setHardcoreFilter("tags like '%,"+old_name+",%'");
 		List<BizObject> list = qf.query();
 		for(BizObject biz : list){
-			biz.set("tags", biz.getString("tags").replaceAll(","+old_name+",", ","+name+","));
+			biz.set("tags", biz.getString("tags").replace(","+old_name+",", ","+name+","));
 			this.getJdo().update(biz);
 		}
 	}
@@ -161,8 +161,9 @@ public class TagActionHandler extends ActionHandler {
 		List<BizObject> list = qf.query();
 		log("需更新的列表数:"+list.size());
 		for(BizObject biz : list){
-			biz.set("tag_name", biz.getString("tag_name").replaceAll(","+old_name+",", ","+name+","));
+			biz.set("tag_name", biz.getString("tag_name").replace(","+old_name+",", ","+name+","));
 			log("更新:"+biz.getString("tag_name"));
+			log("更新后:"+biz.getString("tag_name").replace(","+old_name+",", ","+name+","));
 			this.getJdo().update(biz);
 		}
 	}
@@ -172,7 +173,7 @@ public class TagActionHandler extends ActionHandler {
 		qf.setHardcoreFilter("tags like '%,"+old_name+",%'");
 		List<BizObject> list = qf.query();
 		for(BizObject biz : list){
-			biz.set("tags", biz.getString("tags").replaceAll(","+old_name+",", ","+name+","));
+			biz.set("tags", biz.getString("tags").replace(","+old_name+",", ","+name+","));
 			this.getJdo().update(biz);
 		}
 	}
@@ -250,5 +251,12 @@ public class TagActionHandler extends ActionHandler {
 		if(tagService == null) 
 			tagService = (TagService)WebApplicationContextUtils.getWebApplicationContext(ActionHandler._context).getBean("tagService");
 		return tagService;
+	}
+	
+	public static void main(String[] args) {
+		String old_name="BIDU (Baidu/百度)";
+		String name="BIDU (Baidu/百度啊)";
+		String str = ",BIDU (Baidu/百度),";
+		System.out.println(str.replace(old_name, name));
 	}
 }
