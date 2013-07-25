@@ -117,9 +117,7 @@
     <td>${detail.fromaddr}</td>
     <td><a href="javascript:void(0)" onclick="javascript:editit('${detail.id}')" > edit </a>  |  
 	
-	<a href="javascript:void(0)" onclick="javascript:disableit('${detail.id}')" > 
-	${detail.status==0?"enable":"disable"}
-	</a>  |  
+  
 	<a href="javascript:void(0)" onclick="javascript:deleteit('${detail.id}')" > delete </a>
 	</td>
   </tr>
