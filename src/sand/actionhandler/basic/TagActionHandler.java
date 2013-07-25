@@ -149,7 +149,7 @@ public class TagActionHandler extends ActionHandler {
 		qf.setHardcoreFilter("tags like '%,"+name+",%'");
 		List<BizObject> list = qf.query();
 		for(BizObject biz : list){
-			biz.set("tags", biz.getString("tags").replaceAll(","+old_name+",", ","+old_name+","));
+			biz.set("tags", biz.getString("tags").replaceAll(","+old_name+",", ","+name+","));
 			this.getJdo().update(biz);
 		}
 	}
@@ -159,7 +159,7 @@ public class TagActionHandler extends ActionHandler {
 		qf.setHardcoreFilter("tag_name like '%,"+name+",%'");
 		List<BizObject> list = qf.query();
 		for(BizObject biz : list){
-			biz.set("tag_name", biz.getString("tag_name").replaceAll(","+old_name+",", ","+old_name+","));
+			biz.set("tag_name", biz.getString("tag_name").replaceAll(","+old_name+",", ","+name+","));
 			this.getJdo().update(biz);
 		}
 	}
@@ -169,7 +169,7 @@ public class TagActionHandler extends ActionHandler {
 		qf.setHardcoreFilter("tags like '%,"+name+",%'");
 		List<BizObject> list = qf.query();
 		for(BizObject biz : list){
-			biz.set("tags", biz.getString("tags").replaceAll(","+old_name+",", ","+old_name+","));
+			biz.set("tags", biz.getString("tags").replaceAll(","+old_name+",", ","+name+","));
 			this.getJdo().update(biz);
 		}
 	}
