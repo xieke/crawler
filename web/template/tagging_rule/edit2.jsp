@@ -27,7 +27,7 @@
 <form method="post" action="/GeneralHandleSvt" id="form1" name="form1">
 <input type="hidden" id="reqType" name="reqType" value="tag.TagRuleActionHandler.add" />
 <input type="hidden" id="id" name="tag$id" value="" />
-<input type="hidden" id="tag_ids" name="tag_rule$tag_id" value="" />
+<input type="hidden" id="tag_ids" name="tag_rule$tag_id" value="${obj.tag_id}" />
 <table class="ui edit">
 <tr class="title"><td colspan="2">修改自动Tag规则</td></tr>
     <tr>
