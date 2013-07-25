@@ -32,6 +32,7 @@ import sand.depot.tool.system.SystemKit;
 import sand.mail.MailServer;
 import sand.service.basic.service.TagService;
 import sand.service.news.NewsService;
+import sand.util.HttpRequestDeviceUtils;
 import tool.basic.DateUtils;
 import tool.dao.BizObject;
 import tool.dao.PageVariable;
@@ -520,6 +521,10 @@ public class NewsActionHandler extends ActionHandler {
 
 	
 	public void showIt() throws SQLException{
+		
+		
+		boolean result = HttpRequestDeviceUtils.isMobileDevice(_request);
+		log("result is "+result);
 		QueryFactory qf = new QueryFactory("news");
 		BizObject biz = qf.getByID(this._objId);
 		
