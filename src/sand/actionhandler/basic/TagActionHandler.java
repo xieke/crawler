@@ -146,7 +146,7 @@ public class TagActionHandler extends ActionHandler {
 	
 	public void updateRules_tags(String name,String old_name) throws SQLException{
 		QueryFactory qf = new QueryFactory("rules");
-		qf.setHardcoreFilter("tags like '%,"+name+",%'");
+		qf.setHardcoreFilter("tags like '%,"+old_name+",%'");
 		List<BizObject> list = qf.query();
 		for(BizObject biz : list){
 			biz.set("tags", biz.getString("tags").replaceAll(","+old_name+",", ","+name+","));
@@ -155,18 +155,21 @@ public class TagActionHandler extends ActionHandler {
 	}
 	
 	public void updateTagRule_tags(String name,String old_name) throws SQLException{
+		log("name:"+name+"  ,old_name:"+old_name);
 		QueryFactory qf = new QueryFactory("tag_rule");
-		qf.setHardcoreFilter("tag_name like '%,"+name+",%'");
+		qf.setHardcoreFilter("tag_name like '%,"+old_name+",%'");
 		List<BizObject> list = qf.query();
+		log("需更新的列表数:"+list.size());
 		for(BizObject biz : list){
 			biz.set("tag_name", biz.getString("tag_name").replaceAll(","+old_name+",", ","+name+","));
+			log("更新:"+biz.getString("tag_name"));
 			this.getJdo().update(biz);
 		}
 	}
 	
 	public void updateNews_tags(String name,String old_name) throws SQLException{
 		QueryFactory qf = new QueryFactory("news");
-		qf.setHardcoreFilter("tags like '%,"+name+",%'");
+		qf.setHardcoreFilter("tags like '%,"+old_name+",%'");
 		List<BizObject> list = qf.query();
 		for(BizObject biz : list){
 			biz.set("tags", biz.getString("tags").replaceAll(","+old_name+",", ","+name+","));
