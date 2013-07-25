@@ -6,6 +6,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!--maxlength控件的start-->
+<script type="text/javascript" src="/js/jquery.maxlength.js"></script>
+<!--maxlength控件的end-->
+
 <title>编辑新闻</title>
 <%@ include file="/template/basic/common_head.jsp"%>
 <script type="text/javascript">
@@ -144,9 +148,9 @@
 </tr>
 </table>
 <div class="title">英文摘要</div>
-<div><textarea style="height:150px" id="summary" name="news$summary" >${obj.summary}</textarea></div>
+<div><textarea style="height:150px" id="summary" name="news$summary" data-maxsize="1000">${obj.summary}</textarea></div>
 <div class="title">中文摘要</div>
-<div><textarea style="height:150px" id="c_summary" name="news$c_summary" >${obj.c_summary}</textarea></div>
+<div><textarea style="height:150px" id="c_summary" name="news$c_summary" data-maxsize="500">${obj.c_summary}</textarea></div>
 <div class="title">备忘</div>
 <div>
 	<c:forEach var="detail" items="${commentsList}" varStatus="status">

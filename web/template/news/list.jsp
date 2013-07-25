@@ -32,6 +32,7 @@
 		$("#form1").submit();
 	}
 	function querylist(){
+		$("#page").attr("value","");
 		$("#reqType").attr("value","news.NewsActionHandler.list");
 		$("#form1").submit();
 	}
@@ -106,7 +107,7 @@ $(function(){
 			$("#reqType").attr("value","news.NewsActionHandler.deletes");
 			
 			$("#rownum").attr("value",rownum);
-			//$("#page").attr("value",$("#ttpages").val()-1);
+			//$("#page").attr("value","");
 			$("#form1").submit();
 		}
 	});

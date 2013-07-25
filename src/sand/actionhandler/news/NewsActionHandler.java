@@ -548,7 +548,10 @@ public class NewsActionHandler extends ActionHandler {
 		this._request.setAttribute("objList", list);
 		this._request.setAttribute("commentsList", this.getComments(this._objId));
 		this.setParam();
-		this._nextUrl = "/template/news/show.jsp";
+		if (result)
+			this._nextUrl = "/template/mobile/view.jsp";
+		else
+			this._nextUrl = "/template/news/show.jsp";
 	}
 	
 	@CandoCheck("session")
