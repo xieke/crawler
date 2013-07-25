@@ -135,9 +135,9 @@ public class TagActionHandler extends ActionHandler {
 		this.getJdo().addOrUpdate(tag);
 		
 		if(!old_name.equals(tag.getString("name"))){
-			this.updateRules_tags(tag.getString("name"),old_name);
-			this.updateTagRule_tags(tag.getString("name"),old_name);
-			this.updateNews_tags(tag.getString("name"),old_name);
+//			this.updateRules_tags(tag.getString("name"),old_name);
+//			this.updateTagRule_tags(tag.getString("name"),old_name);
+//			this.updateNews_tags(tag.getString("name"),old_name);
 		}
 		this.getJdo().commit();
 		this.clearQueryParam();
@@ -155,15 +155,11 @@ public class TagActionHandler extends ActionHandler {
 	}
 	
 	public void updateTagRule_tags(String name,String old_name) throws SQLException{
-		log("name:"+name+"  ,old_name:"+old_name);
 		QueryFactory qf = new QueryFactory("tag_rule");
 		qf.setHardcoreFilter("tag_name like '%,"+old_name+",%'");
 		List<BizObject> list = qf.query();
-		log("需更新的列表数:"+list.size());
 		for(BizObject biz : list){
 			biz.set("tag_name", biz.getString("tag_name").replace(","+old_name+",", ","+name+","));
-			log("更新:"+biz.getString("tag_name"));
-			log("更新后:"+biz.getString("tag_name").replace(","+old_name+",", ","+name+","));
 			this.getJdo().update(biz);
 		}
 	}
