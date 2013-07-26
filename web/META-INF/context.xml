@@ -30,7 +30,7 @@
       username="root"
       password="root"
       driverClassName="com.mysql.jdbc.Driver"
-      url="jdbc:mysql://localhost:3307/basic?zeroDateTimeBehavior=convertToNull"/>
+      url="jdbc:mysql://10.38.128.105:3307/basic?zeroDateTimeBehavior=convertToNull"/>
 
 <!--<Manager className="org.apache.catalina.session.MemcachedManager" serverlist="172.16.250.2:11211" snaidPerfix="snaid" snaidFlag="true" />-->
 

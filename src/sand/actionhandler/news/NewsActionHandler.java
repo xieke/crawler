@@ -29,6 +29,7 @@ import sand.depot.job.QuartzManager;
 import sand.depot.tool.system.ControllableException;
 import sand.depot.tool.system.ErrorException;
 import sand.depot.tool.system.SystemKit;
+import sand.mail.MailSender;
 import sand.mail.MailServer;
 import sand.service.basic.service.TagService;
 import sand.service.news.NewsService;
@@ -972,7 +973,12 @@ public class NewsActionHandler extends ActionHandler {
 
 		boolean result = false;
 	//	if(mailExcludes.contains(sfix)){
-			result=MailServer.sendMailSyn(email);
+		BizObject ms = new BizObject("mailserver");
+		ms.setID(this.getParameter("mailserver"));
+		
+		MailSender mailSender = new MailSender(ms);
+		
+		result=mailSender.sendMailSyn(email);
 			
 			
 

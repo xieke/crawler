@@ -68,6 +68,9 @@
 	<div class="row">
 
 			邮箱地址：<input  id="email" name="email" value="" /> 
+
+		<m:radio name="mailserver" value="" type="mailservers"/>
+
 			<input type="submit" value="发送" />
 			<input type="button" onclick="preview();" value="预览邮件" />
 </div>
