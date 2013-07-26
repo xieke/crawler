@@ -148,10 +148,10 @@
     <td><m:radio type="sort" name="news$sort" value="${obj.sort}" defaultValue="1" /></td>
 </tr>
 </table>
-<div class="title">英文摘要</div>
-<div><textarea style="height:150px" id="summary" name="news$summary" data-maxsize="1000">${obj.summary}</textarea></div>
-<div class="title">中文摘要<span id="show_length">0</span> / 500</div>
-<div><textarea style="height:150px" id="c_summary" name="news$c_summary" data-maxsize="500" data-output="show_length">${obj.c_summary}</textarea></div>
+<div class="title">英文摘要 <span id="show_summary_length">0</span> / 1000</div>
+<div><textarea style="height:150px" id="summary" name="news$summary" data-maxsize="1000" data-output="show_summary_length">${obj.summary}</textarea></div>
+<div class="title">中文摘要 <span id="show_c_summary_length">0</span> / 1000</div>
+<div><textarea style="height:150px" id="c_summary" name="news$c_summary" data-maxsize="1000" data-output="show_c_summary_length">${obj.c_summary}</textarea></div>
 <div class="title">备忘</div>
 <div>
 	<c:forEach var="detail" items="${commentsList}" varStatus="status">
