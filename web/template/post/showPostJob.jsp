@@ -86,7 +86,14 @@
                     <td><input type="text"  id="limits" name="postjob$limits" value="${obj.limits}" />
 					</td>
 				  </tr>
-                  <tr>
+				  <tr>
+					<td>邮件服务器：</td>
+                    <td>
+					<m:radio name="postjob$mailserver" value="${obj.mailserver}" type="mailservers"/>
+					</td>
+				  </tr>
+
+				  <tr>
 					<td></td>
                     <td><input type="submit" id="save" name="save" class="button" value="提交" />
                     <input type="button" value="放弃保存" onclick="window.history.go(-1);" /></td>
