@@ -180,3 +180,6 @@ union
 select '22','22点','hours','22' from dual 
 union
 select '23','23点','hours','23' from dual 
+
+union 
+select id,name,'mailservers',name from mailserver
