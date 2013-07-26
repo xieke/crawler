@@ -6,12 +6,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>编辑新闻</title>
+<%@ include file="/template/basic/common_head.jsp"%>
+
 <!--maxlength控件的start-->
 <script type="text/javascript" src="/js/jquery.maxlength.js"></script>
 <!--maxlength控件的end-->
 
-<title>编辑新闻</title>
-<%@ include file="/template/basic/common_head.jsp"%>
 <script type="text/javascript">
 	$(function(){
 		$("#save").click(function(){
