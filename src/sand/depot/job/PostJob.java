@@ -497,7 +497,10 @@ public class PostJob extends BaseJob {
 					//	log("title "+subject);
 					//email.set("title", title);
 					email.set("subject", subject);
-					boolean success =MailServer.sendMailSyn(email);//.sendMailSyn(email);
+					
+					log("begin send mail ,content: "+email.getString("content"));
+					//boolean success =MailServer.sendMailSyn(email);//.sendMailSyn(email);
+					boolean success =true;
 					job.set("memo",job.getString("memo")+" ,\r\n"+c.getString("name")+"-"+c.getString("email")+"-"+new Date()+"-"+success);					
 					
 				}
