@@ -5275,3 +5275,683 @@ Caused by: java.net.SocketException: Connection timed out
 INFO (sand.actionhandler.system.ActionHandler:2725)- dispatched to /template/basic/msg.jsp?tipInfo=发送失败
 INFO (sand.actionhandler.system.ActionHandler:485)-  close jdo sand.actionhandler.news.NewsActionHandler@6f9bdfe3 0,0
 INFO (sand.actionhandler.system.ActionHandler:2482)- system invoke front.NewsActionHandler.sendMail at Jul 29, 2013 3:29:49 PM  use 978193
+INFO (org.springframework.web.context.support.XmlWebApplicationContext:1033)- Closing Root WebApplicationContext: startup date [Mon Jul 29 15:11:59 CST 2013]; root of context hierarchy
+INFO (org.springframework.beans.factory.support.DefaultListableBeanFactory:433)- Destroying singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@266d9a4e: defining beans [org.springframework.context.annotation.internalConfigurationAnnotationProcessor,org.springframework.context.annotation.internalAutowiredAnnotationProcessor,org.springframework.context.annotation.internalRequiredAnnotationProcessor,org.springframework.context.annotation.internalCommonAnnotationProcessor,tagService,newsService,tagRuleService,org.springframework.context.annotation.ConfigurationClassPostProcessor.importAwareProcessor]; root of factory hierarchy
+INFO (sand.depot.job.QuartzManager:219)- remove all quartz jobs ..........
+INFO (sand.depot.job.QuartzManager:251)- remove  quartz job..........
+INFO (sand.depot.job.QuartzManager:228)- update task to  no run status6774d070-1a94-4d88-8e58-44e62c2a61ce
+INFO (sand.depot.job.QuartzManager:251)- remove  quartz job..........
+INFO (sand.depot.job.QuartzManager:228)- update task to  no run status7480e5c8-a20b-4751-b241-80c0052b8e8c
+INFO (sand.depot.servlet.system.ContextListener:157)- schema basic
+INFO (sand.depot.servlet.system.ContextListener:163)- sschema 1
+INFO (sand.depot.servlet.system.ContextListener:181)- server name is front
+INFO (sand.basic.Global:80)- 开始注册
+INFO (sand.basic.GlobalConfig:57)- in is java.io.ByteArrayInputStream@9e3abb6
+INFO (sand.basic.GlobalConfig:92)- read property registed  value: null
+INFO (sand.basic.GlobalConfig:92)- read property des  value: null
+INFO (tool.dao.DBPool:241)- Initializing DBPool....
+INFO (sand.depot.servlet.system.ContextListener:249)- load schema:basic
+INFO (tool.dao.SingletonStructure:408)- pks com.mysql.jdbc.JDBC4ResultSet@7716fa
+INFO (tool.dao.SingletonStructure:449)- advertise  1 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................ID
+INFO (tool.dao.SingletonStructure:288)- ..............................BEGINDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................ENDDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................ADNAME
+INFO (tool.dao.SingletonStructure:288)- ..............................CONTENT
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATOR
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATEDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFIER
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFYDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................EMPIRED
+INFO (tool.dao.SingletonStructure:288)- ..............................LOCATION
+INFO (tool.dao.SingletonStructure:288)- ..............................ORDERNO
+INFO (tool.dao.SingletonStructure:449)- annex  2 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................ID
+INFO (tool.dao.SingletonStructure:288)- ..............................BIZID
+INFO (tool.dao.SingletonStructure:288)- ..............................ANNEXNAME
+INFO (tool.dao.SingletonStructure:288)- ..............................HISTORY
+INFO (tool.dao.SingletonStructure:288)- ..............................ANNEXURL
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATOR
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATEDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFIER
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFYDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................REMARKS
+INFO (tool.dao.SingletonStructure:288)- ..............................SUFFIX
+INFO (tool.dao.SingletonStructure:288)- ..............................CONTENT
+INFO (tool.dao.SingletonStructure:288)- ..............................TITLE
+INFO (tool.dao.SingletonStructure:288)- ..............................ISVIP
+INFO (tool.dao.SingletonStructure:288)- ..............................DEPTID
+INFO (tool.dao.SingletonStructure:288)- ..............................FILES
+INFO (tool.dao.SingletonStructure:288)- ..............................YEAR
+INFO (tool.dao.SingletonStructure:288)- ..............................ENABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................TYPE
+INFO (tool.dao.SingletonStructure:288)- ..............................DELETED
+INFO (tool.dao.SingletonStructure:288)- ..............................PROPERTY
+INFO (tool.dao.SingletonStructure:288)- ..............................URL
+INFO (tool.dao.SingletonStructure:449)- billno  3 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................billtype
+INFO (tool.dao.SingletonStructure:288)- ..............................batchno
+INFO (tool.dao.SingletonStructure:288)- ..............................serialno
+INFO (tool.dao.SingletonStructure:288)- ..............................datestring
+INFO (tool.dao.SingletonStructure:449)- customers  4 TABLE
+INFO (tool.dao.SingletonStructure:248)- default is 
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................name
+INFO (tool.dao.SingletonStructure:288)- ..............................level
+INFO (tool.dao.SingletonStructure:288)- ..............................email
+INFO (tool.dao.SingletonStructure:288)- ..............................telephone
+INFO (tool.dao.SingletonStructure:288)- ..............................address
+INFO (tool.dao.SingletonStructure:288)- ..............................remark
+INFO (tool.dao.SingletonStructure:288)- ..............................status
+INFO (tool.dao.SingletonStructure:288)- ..............................createdate
+INFO (tool.dao.SingletonStructure:288)- ..............................modifydate
+INFO (tool.dao.SingletonStructure:288)- ..............................creator
+INFO (tool.dao.SingletonStructure:288)- ..............................modifier
+INFO (tool.dao.SingletonStructure:449)- department  5 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................DEPTID
+INFO (tool.dao.SingletonStructure:288)- ..............................DEPTNAME
+INFO (tool.dao.SingletonStructure:288)- ..............................PARENTDEPTID
+INFO (tool.dao.SingletonStructure:288)- ..............................DEPTGRADE
+INFO (tool.dao.SingletonStructure:288)- ..............................REMARK
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATOR
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATEDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFIER
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFYDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................MANAGER
+INFO (tool.dao.SingletonStructure:288)- ..............................LEADER
+INFO (tool.dao.SingletonStructure:288)- ..............................MANAGER2
+INFO (tool.dao.SingletonStructure:288)- ..............................MANAGER3
+INFO (tool.dao.SingletonStructure:288)- ..............................SCRAP
+INFO (tool.dao.SingletonStructure:288)- ..............................COSTSTATE
+INFO (tool.dao.SingletonStructure:288)- ..............................ORDERBY
+INFO (tool.dao.SingletonStructure:288)- ..............................parentid
+INFO (tool.dao.SingletonStructure:288)- ..............................code
+INFO (tool.dao.SingletonStructure:288)- ..............................depth
+INFO (tool.dao.SingletonStructure:288)- ..............................isend
+INFO (tool.dao.SingletonStructure:449)- dictionary  6 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................dicid
+INFO (tool.dao.SingletonStructure:288)- ..............................ID
+INFO (tool.dao.SingletonStructure:288)- ..............................NAME
+INFO (tool.dao.SingletonStructure:288)- ..............................isview
+INFO (tool.dao.SingletonStructure:288)- ..............................belong
+INFO (tool.dao.SingletonStructure:449)- document  7 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................ID
+INFO (tool.dao.SingletonStructure:288)- ..............................BIZID
+INFO (tool.dao.SingletonStructure:288)- ..............................DOCNAME
+INFO (tool.dao.SingletonStructure:288)- ..............................HISTORY
+INFO (tool.dao.SingletonStructure:288)- ..............................DOCURL
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATOR
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATEDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFIER
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFYDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................REMARKS
+INFO (tool.dao.SingletonStructure:288)- ..............................SUFFIX
+INFO (tool.dao.SingletonStructure:288)- ..............................CONTENT
+INFO (tool.dao.SingletonStructure:288)- ..............................TITLE
+INFO (tool.dao.SingletonStructure:288)- ..............................ISVIP
+INFO (tool.dao.SingletonStructure:288)- ..............................DEPTID
+INFO (tool.dao.SingletonStructure:288)- ..............................FILES
+INFO (tool.dao.SingletonStructure:288)- ..............................YEAR
+INFO (tool.dao.SingletonStructure:288)- ..............................ENABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................TYPE
+INFO (tool.dao.SingletonStructure:288)- ..............................DELETED
+INFO (tool.dao.SingletonStructure:288)- ..............................PROPERTY
+INFO (tool.dao.SingletonStructure:449)- employee  8 TABLE
+INFO (tool.dao.SingletonStructure:248)- default is 
+INFO (tool.dao.SingletonStructure:288)- ..............................USERID
+INFO (tool.dao.SingletonStructure:288)- ..............................USERNAME
+INFO (tool.dao.SingletonStructure:288)- ..............................PASSWORD
+INFO (tool.dao.SingletonStructure:288)- ..............................DEPTID
+INFO (tool.dao.SingletonStructure:288)- ..............................TELNO
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATOR
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATEDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFIER
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFYDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................REMARK
+INFO (tool.dao.SingletonStructure:288)- ..............................SEX
+INFO (tool.dao.SingletonStructure:288)- ..............................CARDNO
+INFO (tool.dao.SingletonStructure:248)- default is 1
+INFO (tool.dao.SingletonStructure:288)- ..............................JANITOR
+INFO (tool.dao.SingletonStructure:288)- ..............................FIELDNAME
+INFO (tool.dao.SingletonStructure:288)- ..............................FIELDPASSWD
+INFO (tool.dao.SingletonStructure:288)- ..............................NUM
+INFO (tool.dao.SingletonStructure:288)- ..............................LOGINNAME
+INFO (tool.dao.SingletonStructure:288)- ..............................SCRAP
+INFO (tool.dao.SingletonStructure:288)- ..............................CARDNO2
+INFO (tool.dao.SingletonStructure:288)- ..............................EMAIL
+INFO (tool.dao.SingletonStructure:288)- ..............................OUTMAILPASS
+INFO (tool.dao.SingletonStructure:288)- ..............................INNERMAIL
+INFO (tool.dao.SingletonStructure:288)- ..............................INNERMAILPASS
+INFO (tool.dao.SingletonStructure:288)- ..............................LASTLOGINDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................NICKNAME
+INFO (tool.dao.SingletonStructure:288)- ..............................TYPE
+INFO (tool.dao.SingletonStructure:288)- ..............................RANK
+INFO (tool.dao.SingletonStructure:288)- ..............................UDAGOLD
+INFO (tool.dao.SingletonStructure:288)- ..............................UDASCORE
+INFO (tool.dao.SingletonStructure:288)- ..............................SCHOOLNO
+INFO (tool.dao.SingletonStructure:288)- ..............................CHECKDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................CHECKUSER
+INFO (tool.dao.SingletonStructure:288)- ..............................LOGINCOUNT
+INFO (tool.dao.SingletonStructure:288)- ..............................STATE
+INFO (tool.dao.SingletonStructure:288)- ..............................CERTIFICATE
+INFO (tool.dao.SingletonStructure:288)- ..............................PHOTOID
+INFO (tool.dao.SingletonStructure:288)- ..............................SIGNATURE
+INFO (tool.dao.SingletonStructure:288)- ..............................ACTIVECODE
+INFO (tool.dao.SingletonStructure:288)- ..............................ACTIVE
+INFO (tool.dao.SingletonStructure:288)- ..............................ADDRESS
+INFO (tool.dao.SingletonStructure:288)- ..............................TRADE
+INFO (tool.dao.SingletonStructure:288)- ..............................NATURE
+INFO (tool.dao.SingletonStructure:288)- ..............................GENDER
+INFO (tool.dao.SingletonStructure:288)- ..............................TOTALTASK
+INFO (tool.dao.SingletonStructure:288)- ..............................SUCCESSTASK
+INFO (tool.dao.SingletonStructure:288)- ..............................GOODCOMMENT
+INFO (tool.dao.SingletonStructure:288)- ..............................OUTMAIL
+INFO (tool.dao.SingletonStructure:288)- ..............................TOTALSUM
+INFO (tool.dao.SingletonStructure:288)- ..............................CONCERN
+INFO (tool.dao.SingletonStructure:288)- ..............................FOOTSTEP
+INFO (tool.dao.SingletonStructure:288)- ..............................TOTALPUBTASK
+INFO (tool.dao.SingletonStructure:288)- ..............................PHONEAUTH
+INFO (tool.dao.SingletonStructure:288)- ..............................MAILAUTH
+INFO (tool.dao.SingletonStructure:288)- ..............................IDAUTH
+INFO (tool.dao.SingletonStructure:288)- ..............................AGE
+INFO (tool.dao.SingletonStructure:288)- ..............................UDAABILITY
+INFO (tool.dao.SingletonStructure:288)- ..............................STARTDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................RANKING
+INFO (tool.dao.SingletonStructure:288)- ..............................TREND
+INFO (tool.dao.SingletonStructure:248)- default is 0
+INFO (tool.dao.SingletonStructure:288)- ..............................status
+INFO (tool.dao.SingletonStructure:449)- erplog  9 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................ID
+INFO (tool.dao.SingletonStructure:288)- ..............................USERNAME
+INFO (tool.dao.SingletonStructure:288)- ..............................USERTIME
+INFO (tool.dao.SingletonStructure:288)- ..............................USETIME
+INFO (tool.dao.SingletonStructure:288)- ..............................USEPACKAGE
+INFO (tool.dao.SingletonStructure:288)- ..............................USEMETHOD
+INFO (tool.dao.SingletonStructure:288)- ..............................USETYPE
+INFO (tool.dao.SingletonStructure:288)- ..............................MESSAGE
+INFO (tool.dao.SingletonStructure:288)- ..............................USECLASS
+INFO (tool.dao.SingletonStructure:288)- ..............................USERID
+INFO (tool.dao.SingletonStructure:288)- ..............................MODULEID
+INFO (tool.dao.SingletonStructure:288)- ..............................SERVERNAME
+INFO (tool.dao.SingletonStructure:449)- exception  10 TABLE
+INFO (tool.dao.SingletonStructure:248)- default is 
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................name
+INFO (tool.dao.SingletonStructure:288)- ..............................users
+INFO (tool.dao.SingletonStructure:288)- ..............................description
+INFO (tool.dao.SingletonStructure:288)- ..............................csql
+INFO (tool.dao.SingletonStructure:288)- ..............................circle
+INFO (tool.dao.SingletonStructure:288)- ..............................moban
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATOR
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATEDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFIER
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFYDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................mailtitle
+INFO (tool.dao.SingletonStructure:449)- function  11 TABLE
+INFO (tool.dao.SingletonStructure:248)- default is 
+INFO (tool.dao.SingletonStructure:288)- ..............................functionid
+INFO (tool.dao.SingletonStructure:288)- ..............................FUNCTIONNAME
+INFO (tool.dao.SingletonStructure:288)- ..............................moduleid
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATOR
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATEDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFIER
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFYDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................REMARK
+INFO (tool.dao.SingletonStructure:449)- his_news  12 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................title
+INFO (tool.dao.SingletonStructure:288)- ..............................content
+INFO (tool.dao.SingletonStructure:288)- ..............................posttime
+INFO (tool.dao.SingletonStructure:288)- ..............................fname
+INFO (tool.dao.SingletonStructure:288)- ..............................author
+INFO (tool.dao.SingletonStructure:288)- ..............................copyfrom
+INFO (tool.dao.SingletonStructure:288)- ..............................copyfromurl
+INFO (tool.dao.SingletonStructure:288)- ..............................status
+INFO (tool.dao.SingletonStructure:288)- ..............................createdate
+INFO (tool.dao.SingletonStructure:288)- ..............................modifydate
+INFO (tool.dao.SingletonStructure:288)- ..............................modifier
+INFO (tool.dao.SingletonStructure:449)- holiday  13 TABLE
+INFO (tool.dao.SingletonStructure:248)- default is 
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................dates
+INFO (tool.dao.SingletonStructure:288)- ..............................year
+INFO (tool.dao.SingletonStructure:288)- ..............................y_month
+INFO (tool.dao.SingletonStructure:288)- ..............................week
+INFO (tool.dao.SingletonStructure:288)- ..............................is_holiday
+INFO (tool.dao.SingletonStructure:288)- ..............................creator
+INFO (tool.dao.SingletonStructure:288)- ..............................createdate
+INFO (tool.dao.SingletonStructure:288)- ..............................modifier
+INFO (tool.dao.SingletonStructure:288)- ..............................modifydate
+INFO (tool.dao.SingletonStructure:449)- item  14 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................DICID
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATOR
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFIER
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFYDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................ID
+INFO (tool.dao.SingletonStructure:288)- ..............................iCASCADE
+INFO (tool.dao.SingletonStructure:288)- ..............................DISABLED
+INFO (tool.dao.SingletonStructure:288)- ..............................NAME
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATEDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................ODB
+INFO (tool.dao.SingletonStructure:288)- ..............................iKEY
+INFO (tool.dao.SingletonStructure:288)- ..............................MEMO
+INFO (tool.dao.SingletonStructure:449)- link_desktop  15 TABLE
+INFO (tool.dao.SingletonStructure:248)- default is 
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................name
+INFO (tool.dao.SingletonStructure:288)- ..............................link
+INFO (tool.dao.SingletonStructure:288)- ..............................pic
+INFO (tool.dao.SingletonStructure:288)- ..............................creator
+INFO (tool.dao.SingletonStructure:288)- ..............................createdate
+INFO (tool.dao.SingletonStructure:288)- ..............................modifier
+INFO (tool.dao.SingletonStructure:288)- ..............................modifydate
+INFO (tool.dao.SingletonStructure:449)- mailserver  16 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................username
+INFO (tool.dao.SingletonStructure:288)- ..............................smtp
+INFO (tool.dao.SingletonStructure:288)- ..............................fromaddr
+INFO (tool.dao.SingletonStructure:288)- ..............................showname
+INFO (tool.dao.SingletonStructure:288)- ..............................pop3
+INFO (tool.dao.SingletonStructure:288)- ..............................password
+INFO (tool.dao.SingletonStructure:288)- ..............................servername
+INFO (tool.dao.SingletonStructure:288)- ..............................name
+INFO (tool.dao.SingletonStructure:288)- ..............................overtime
+INFO (tool.dao.SingletonStructure:449)- message  17 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................ID
+INFO (tool.dao.SingletonStructure:288)- ..............................sender
+INFO (tool.dao.SingletonStructure:288)- ..............................content
+INFO (tool.dao.SingletonStructure:248)- default is 0
+INFO (tool.dao.SingletonStructure:288)- ..............................receiver
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATOR
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATEDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFIER
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFYDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................TYPE
+INFO (tool.dao.SingletonStructure:288)- ..............................title
+INFO (tool.dao.SingletonStructure:248)- default is 0
+INFO (tool.dao.SingletonStructure:288)- ..............................readed
+INFO (tool.dao.SingletonStructure:248)- default is 0
+INFO (tool.dao.SingletonStructure:288)- ..............................instate
+INFO (tool.dao.SingletonStructure:248)- default is 0
+INFO (tool.dao.SingletonStructure:288)- ..............................outstate
+INFO (tool.dao.SingletonStructure:449)- module  18 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................MODULEID
+INFO (tool.dao.SingletonStructure:288)- ..............................MODULENAME
+INFO (tool.dao.SingletonStructure:288)- ..............................DESCRIPTION
+INFO (tool.dao.SingletonStructure:288)- ..............................REMARK
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATOR
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATEDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFIER
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFYDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................SYSTEMID
+INFO (tool.dao.SingletonStructure:288)- ..............................PRIORITY
+INFO (tool.dao.SingletonStructure:449)- my_plugin_config  19 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................mpid
+INFO (tool.dao.SingletonStructure:288)- ..............................closes
+INFO (tool.dao.SingletonStructure:288)- ..............................plugin_id
+INFO (tool.dao.SingletonStructure:288)- ..............................owns
+INFO (tool.dao.SingletonStructure:248)- default is 0
+INFO (tool.dao.SingletonStructure:288)- ..............................sort
+INFO (tool.dao.SingletonStructure:449)- newcomments  20 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................content
+INFO (tool.dao.SingletonStructure:288)- ..............................posttime
+INFO (tool.dao.SingletonStructure:288)- ..............................userid
+INFO (tool.dao.SingletonStructure:288)- ..............................aid
+INFO (tool.dao.SingletonStructure:288)- ..............................atype
+INFO (tool.dao.SingletonStructure:288)- ..............................creator
+INFO (tool.dao.SingletonStructure:288)- ..............................createdate
+INFO (tool.dao.SingletonStructure:288)- ..............................modifier
+INFO (tool.dao.SingletonStructure:288)- ..............................modifydate
+INFO (tool.dao.SingletonStructure:449)- news  21 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................title
+INFO (tool.dao.SingletonStructure:288)- ..............................content
+INFO (tool.dao.SingletonStructure:288)- ..............................posttime
+INFO (tool.dao.SingletonStructure:288)- ..............................fname
+INFO (tool.dao.SingletonStructure:288)- ..............................author
+INFO (tool.dao.SingletonStructure:288)- ..............................copyfrom
+INFO (tool.dao.SingletonStructure:288)- ..............................copyfromurl
+INFO (tool.dao.SingletonStructure:288)- ..............................category_id
+INFO (tool.dao.SingletonStructure:288)- ..............................status
+INFO (tool.dao.SingletonStructure:288)- ..............................issue
+INFO (tool.dao.SingletonStructure:288)- ..............................hits
+INFO (tool.dao.SingletonStructure:288)- ..............................isrecommend
+INFO (tool.dao.SingletonStructure:288)- ..............................istop
+INFO (tool.dao.SingletonStructure:288)- ..............................isautotag
+INFO (tool.dao.SingletonStructure:288)- ..............................summary
+INFO (tool.dao.SingletonStructure:288)- ..............................c_summary
+INFO (tool.dao.SingletonStructure:288)- ..............................importance
+INFO (tool.dao.SingletonStructure:288)- ..............................urgent
+INFO (tool.dao.SingletonStructure:288)- ..............................sort
+INFO (tool.dao.SingletonStructure:288)- ..............................his_news_id
+INFO (tool.dao.SingletonStructure:288)- ..............................likecount
+INFO (tool.dao.SingletonStructure:288)- ..............................dislikecount
+INFO (tool.dao.SingletonStructure:288)- ..............................clickmails
+INFO (tool.dao.SingletonStructure:288)- ..............................tags
+INFO (tool.dao.SingletonStructure:288)- ..............................tag_ids
+INFO (tool.dao.SingletonStructure:248)- default is 0
+INFO (tool.dao.SingletonStructure:288)- ..............................posted
+INFO (tool.dao.SingletonStructure:248)- default is 0
+INFO (tool.dao.SingletonStructure:288)- ..............................weekposted
+INFO (tool.dao.SingletonStructure:288)- ..............................web_url
+INFO (tool.dao.SingletonStructure:288)- ..............................catalog
+INFO (tool.dao.SingletonStructure:288)- ..............................media_type
+INFO (tool.dao.SingletonStructure:288)- ..............................area
+INFO (tool.dao.SingletonStructure:288)- ..............................lang
+INFO (tool.dao.SingletonStructure:288)- ..............................web_summary
+INFO (tool.dao.SingletonStructure:288)- ..............................from_tags
+INFO (tool.dao.SingletonStructure:288)- ..............................createdate
+INFO (tool.dao.SingletonStructure:288)- ..............................creator
+INFO (tool.dao.SingletonStructure:288)- ..............................modifydate
+INFO (tool.dao.SingletonStructure:288)- ..............................modifier
+INFO (tool.dao.SingletonStructure:449)- news_content  22 TABLE
+INFO (tool.dao.SingletonStructure:248)- default is 
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................news_id
+INFO (tool.dao.SingletonStructure:288)- ..............................content
+INFO (tool.dao.SingletonStructure:288)- ..............................creator
+INFO (tool.dao.SingletonStructure:288)- ..............................createdate
+INFO (tool.dao.SingletonStructure:288)- ..............................modifier
+INFO (tool.dao.SingletonStructure:288)- ..............................modifydate
+INFO (tool.dao.SingletonStructure:449)- origin_news  23 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................title
+INFO (tool.dao.SingletonStructure:288)- ..............................content
+INFO (tool.dao.SingletonStructure:288)- ..............................posttime
+INFO (tool.dao.SingletonStructure:288)- ..............................fname
+INFO (tool.dao.SingletonStructure:288)- ..............................author
+INFO (tool.dao.SingletonStructure:288)- ..............................copyfrom
+INFO (tool.dao.SingletonStructure:288)- ..............................copyfromurl
+INFO (tool.dao.SingletonStructure:288)- ..............................createdate
+INFO (tool.dao.SingletonStructure:449)- plugin_config  24 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................pcid
+INFO (tool.dao.SingletonStructure:288)- ..............................plugin_id
+INFO (tool.dao.SingletonStructure:288)- ..............................username
+INFO (tool.dao.SingletonStructure:248)- default is 0
+INFO (tool.dao.SingletonStructure:288)- ..............................close
+INFO (tool.dao.SingletonStructure:288)- ..............................config
+INFO (tool.dao.SingletonStructure:449)- post  25 TABLE
+INFO (tool.dao.SingletonStructure:248)- default is 
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................newsids
+INFO (tool.dao.SingletonStructure:288)- ..............................posttime
+INFO (tool.dao.SingletonStructure:288)- ..............................sort
+INFO (tool.dao.SingletonStructure:248)- default is 0
+INFO (tool.dao.SingletonStructure:288)- ..............................viewcounts
+INFO (tool.dao.SingletonStructure:248)- default is 0
+INFO (tool.dao.SingletonStructure:288)- ..............................posted
+INFO (tool.dao.SingletonStructure:288)- ..............................createdate
+INFO (tool.dao.SingletonStructure:288)- ..............................modifydate
+INFO (tool.dao.SingletonStructure:288)- ..............................tags
+INFO (tool.dao.SingletonStructure:288)- ..............................postmail
+INFO (tool.dao.SingletonStructure:288)- ..............................success
+INFO (tool.dao.SingletonStructure:449)- posted  26 TABLE
+INFO (tool.dao.SingletonStructure:248)- default is 
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................no
+INFO (tool.dao.SingletonStructure:288)- ..............................name
+INFO (tool.dao.SingletonStructure:288)- ..............................ruleid
+INFO (tool.dao.SingletonStructure:288)- ..............................cnames
+INFO (tool.dao.SingletonStructure:288)- ..............................cemails
+INFO (tool.dao.SingletonStructure:288)- ..............................customers
+INFO (tool.dao.SingletonStructure:288)- ..............................posttime
+INFO (tool.dao.SingletonStructure:248)- default is 0
+INFO (tool.dao.SingletonStructure:288)- ..............................status
+INFO (tool.dao.SingletonStructure:288)- ..............................limits
+INFO (tool.dao.SingletonStructure:288)- ..............................lastposttime
+INFO (tool.dao.SingletonStructure:288)- ..............................ccounts
+INFO (tool.dao.SingletonStructure:288)- ..............................newsids
+INFO (tool.dao.SingletonStructure:288)- ..............................memo
+INFO (tool.dao.SingletonStructure:449)- postedd  27 TABLE
+INFO (tool.dao.SingletonStructure:248)- default is 
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................newsids
+INFO (tool.dao.SingletonStructure:288)- ..............................posttime
+INFO (tool.dao.SingletonStructure:288)- ..............................sort
+INFO (tool.dao.SingletonStructure:248)- default is 0
+INFO (tool.dao.SingletonStructure:288)- ..............................viewcounts
+INFO (tool.dao.SingletonStructure:248)- default is 0
+INFO (tool.dao.SingletonStructure:288)- ..............................posted
+INFO (tool.dao.SingletonStructure:288)- ..............................createdate
+INFO (tool.dao.SingletonStructure:288)- ..............................modifydate
+INFO (tool.dao.SingletonStructure:288)- ..............................tags
+INFO (tool.dao.SingletonStructure:288)- ..............................postmail
+INFO (tool.dao.SingletonStructure:288)- ..............................success
+INFO (tool.dao.SingletonStructure:449)- postjob  28 TABLE
+INFO (tool.dao.SingletonStructure:248)- default is 
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................no
+INFO (tool.dao.SingletonStructure:288)- ..............................name
+INFO (tool.dao.SingletonStructure:288)- ..............................ruleid
+INFO (tool.dao.SingletonStructure:288)- ..............................cnames
+INFO (tool.dao.SingletonStructure:288)- ..............................cemails
+INFO (tool.dao.SingletonStructure:288)- ..............................customers
+INFO (tool.dao.SingletonStructure:288)- ..............................posttime
+INFO (tool.dao.SingletonStructure:248)- default is 0
+INFO (tool.dao.SingletonStructure:288)- ..............................status
+INFO (tool.dao.SingletonStructure:288)- ..............................limits
+INFO (tool.dao.SingletonStructure:288)- ..............................lastposttime
+INFO (tool.dao.SingletonStructure:288)- ..............................ccounts
+INFO (tool.dao.SingletonStructure:288)- ..............................memo
+INFO (tool.dao.SingletonStructure:288)- ..............................mailserver
+INFO (tool.dao.SingletonStructure:449)- re_bill_tag  29 TABLE
+INFO (tool.dao.SingletonStructure:248)- default is 
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................bill_id
+INFO (tool.dao.SingletonStructure:288)- ..............................tag_id
+INFO (tool.dao.SingletonStructure:288)- ..............................createdate
+INFO (tool.dao.SingletonStructure:288)- ..............................modifydate
+INFO (tool.dao.SingletonStructure:288)- ..............................creator
+INFO (tool.dao.SingletonStructure:288)- ..............................modifier
+INFO (tool.dao.SingletonStructure:449)- re_fun_role  30 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................ROLEID
+INFO (tool.dao.SingletonStructure:288)- ..............................FUNCTIONID
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATOR
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATEDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFIER
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFYDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................ID
+INFO (tool.dao.SingletonStructure:449)- re_general  31 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................aid
+INFO (tool.dao.SingletonStructure:288)- ..............................bid
+INFO (tool.dao.SingletonStructure:288)- ..............................value
+INFO (tool.dao.SingletonStructure:288)- ..............................creator
+INFO (tool.dao.SingletonStructure:288)- ..............................createdate
+INFO (tool.dao.SingletonStructure:288)- ..............................modifier
+INFO (tool.dao.SingletonStructure:288)- ..............................modifydate
+INFO (tool.dao.SingletonStructure:449)- re_module_role  32 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................ID
+INFO (tool.dao.SingletonStructure:288)- ..............................MODULEID
+INFO (tool.dao.SingletonStructure:288)- ..............................ROLEID
+INFO (tool.dao.SingletonStructure:288)- ..............................PURVIEW
+INFO (tool.dao.SingletonStructure:288)- ..............................REMARK
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATOR
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATEDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFIER
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFYDATE
+INFO (tool.dao.SingletonStructure:449)- re_user_link_desktop  33 TABLE
+INFO (tool.dao.SingletonStructure:248)- default is 
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................user_id
+INFO (tool.dao.SingletonStructure:288)- ..............................link_desktop_id
+INFO (tool.dao.SingletonStructure:288)- ..............................orderby
+INFO (tool.dao.SingletonStructure:288)- ..............................creator
+INFO (tool.dao.SingletonStructure:288)- ..............................createdate
+INFO (tool.dao.SingletonStructure:288)- ..............................modifier
+INFO (tool.dao.SingletonStructure:288)- ..............................modifydate
+INFO (tool.dao.SingletonStructure:449)- re_user_role  34 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................ID
+INFO (tool.dao.SingletonStructure:288)- ..............................deptid
+INFO (tool.dao.SingletonStructure:288)- ..............................USERID
+INFO (tool.dao.SingletonStructure:288)- ..............................ROLEID
+INFO (tool.dao.SingletonStructure:288)- ..............................REMARK
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATOR
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATEDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFIER
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFYDATE
+INFO (tool.dao.SingletonStructure:449)- role  35 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................ROLEID
+INFO (tool.dao.SingletonStructure:288)- ..............................ROLENAME
+INFO (tool.dao.SingletonStructure:288)- ..............................DESCRIPTION
+INFO (tool.dao.SingletonStructure:288)- ..............................home_plugins
+INFO (tool.dao.SingletonStructure:288)- ..............................REMARK
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATOR
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATEDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFIER
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFYDATE
+INFO (tool.dao.SingletonStructure:449)- rollbook  36 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................inout
+INFO (tool.dao.SingletonStructure:288)- ..............................userid
+INFO (tool.dao.SingletonStructure:288)- ..............................time
+INFO (tool.dao.SingletonStructure:288)- ..............................remark
+INFO (tool.dao.SingletonStructure:288)- ..............................hour
+INFO (tool.dao.SingletonStructure:288)- ..............................minute
+INFO (tool.dao.SingletonStructure:288)- ..............................doorid
+INFO (tool.dao.SingletonStructure:288)- ..............................cardno
+INFO (tool.dao.SingletonStructure:288)- ..............................departid
+INFO (tool.dao.SingletonStructure:288)- ..............................year
+INFO (tool.dao.SingletonStructure:288)- ..............................month
+INFO (tool.dao.SingletonStructure:288)- ..............................day
+INFO (tool.dao.SingletonStructure:288)- ..............................effect
+INFO (tool.dao.SingletonStructure:449)- rules  37 TABLE
+INFO (tool.dao.SingletonStructure:248)- default is 
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................no
+INFO (tool.dao.SingletonStructure:288)- ..............................name
+INFO (tool.dao.SingletonStructure:288)- ..............................tags
+INFO (tool.dao.SingletonStructure:288)- ..............................tag_ids
+INFO (tool.dao.SingletonStructure:288)- ..............................importance
+INFO (tool.dao.SingletonStructure:288)- ..............................urgent
+INFO (tool.dao.SingletonStructure:288)- ..............................cycle
+INFO (tool.dao.SingletonStructure:288)- ..............................lang
+INFO (tool.dao.SingletonStructure:288)- ..............................title
+INFO (tool.dao.SingletonStructure:288)- ..............................head
+INFO (tool.dao.SingletonStructure:288)- ..............................foot
+INFO (tool.dao.SingletonStructure:288)- ..............................status
+INFO (tool.dao.SingletonStructure:288)- ..............................createdate
+INFO (tool.dao.SingletonStructure:288)- ..............................modifydate
+INFO (tool.dao.SingletonStructure:288)- ..............................creator
+INFO (tool.dao.SingletonStructure:288)- ..............................modifier
+INFO (tool.dao.SingletonStructure:449)- seedhouse  38 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................SEED
+INFO (tool.dao.SingletonStructure:288)- ..............................PACE
+INFO (tool.dao.SingletonStructure:288)- ..............................LENGTH
+INFO (tool.dao.SingletonStructure:288)- ..............................ID
+INFO (tool.dao.SingletonStructure:449)- tag  39 TABLE
+INFO (tool.dao.SingletonStructure:248)- default is 
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................name
+INFO (tool.dao.SingletonStructure:288)- ..............................parent_id
+INFO (tool.dao.SingletonStructure:288)- ..............................description
+INFO (tool.dao.SingletonStructure:288)- ..............................orderby
+INFO (tool.dao.SingletonStructure:288)- ..............................isvalid
+INFO (tool.dao.SingletonStructure:288)- ..............................createdate
+INFO (tool.dao.SingletonStructure:288)- ..............................modifydate
+INFO (tool.dao.SingletonStructure:288)- ..............................creator
+INFO (tool.dao.SingletonStructure:288)- ..............................modifier
+INFO (tool.dao.SingletonStructure:449)- tag_rule  40 TABLE
+INFO (tool.dao.SingletonStructure:248)- default is 
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................type
+INFO (tool.dao.SingletonStructure:288)- ..............................keyword
+INFO (tool.dao.SingletonStructure:288)- ..............................tag_id
+INFO (tool.dao.SingletonStructure:288)- ..............................tag_name
+INFO (tool.dao.SingletonStructure:288)- ..............................createdate
+INFO (tool.dao.SingletonStructure:288)- ..............................modifydate
+INFO (tool.dao.SingletonStructure:288)- ..............................creator
+INFO (tool.dao.SingletonStructure:288)- ..............................modifier
+INFO (tool.dao.SingletonStructure:449)- task  41 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................ID
+INFO (tool.dao.SingletonStructure:288)- ..............................TASKNAME
+INFO (tool.dao.SingletonStructure:288)- ..............................SERVERNAME
+INFO (tool.dao.SingletonStructure:288)- ..............................TASKTIME
+INFO (tool.dao.SingletonStructure:288)- ..............................TASKCYCLE
+INFO (tool.dao.SingletonStructure:288)- ..............................TASKDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................RESULT
+INFO (tool.dao.SingletonStructure:288)- ..............................CONSUMTIME
+INFO (tool.dao.SingletonStructure:288)- ..............................ACTIVE
+INFO (tool.dao.SingletonStructure:288)- ..............................TASKCLASS
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATOR
+INFO (tool.dao.SingletonStructure:288)- ..............................CREATEDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFIER
+INFO (tool.dao.SingletonStructure:288)- ..............................MODIFYDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................RUNSTATUS
+INFO (tool.dao.SingletonStructure:288)- ..............................RUNDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................MEMO
+INFO (tool.dao.SingletonStructure:449)- tasklog  42 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................ID
+INFO (tool.dao.SingletonStructure:288)- ..............................TASKID
+INFO (tool.dao.SingletonStructure:288)- ..............................RESULT
+INFO (tool.dao.SingletonStructure:288)- ..............................USETIME
+INFO (tool.dao.SingletonStructure:288)- ..............................RUNDATE
+INFO (tool.dao.SingletonStructure:288)- ..............................REMARK
+INFO (tool.dao.SingletonStructure:449)- tmp  43 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................deptid
+INFO (tool.dao.SingletonStructure:449)- weibo_status  44 TABLE
+INFO (tool.dao.SingletonStructure:288)- ..............................userid
+INFO (tool.dao.SingletonStructure:288)- ..............................createdat
+INFO (tool.dao.SingletonStructure:248)- default is 
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................mid
+INFO (tool.dao.SingletonStructure:288)- ..............................idstr
+INFO (tool.dao.SingletonStructure:288)- ..............................text
+INFO (tool.dao.SingletonStructure:288)- ..............................source
+INFO (tool.dao.SingletonStructure:288)- ..............................favorited
+INFO (tool.dao.SingletonStructure:288)- ..............................truncated
+INFO (tool.dao.SingletonStructure:288)- ..............................inReplyToStatusId
+INFO (tool.dao.SingletonStructure:288)- ..............................inReplyToUserId
+INFO (tool.dao.SingletonStructure:288)- ..............................inReplyToScreenName
+INFO (tool.dao.SingletonStructure:288)- ..............................thumbnailPic
+INFO (tool.dao.SingletonStructure:288)- ..............................bmiddlePic
+INFO (tool.dao.SingletonStructure:288)- ..............................originalPic
+INFO (tool.dao.SingletonStructure:288)- ..............................retweetedStatus
+INFO (tool.dao.SingletonStructure:288)- ..............................geo
+INFO (tool.dao.SingletonStructure:288)- ..............................latitude
+INFO (tool.dao.SingletonStructure:288)- ..............................longitude
+INFO (tool.dao.SingletonStructure:288)- ..............................repostsCount
+INFO (tool.dao.SingletonStructure:288)- ..............................commentsCount
+INFO (tool.dao.SingletonStructure:288)- ..............................annotations
+INFO (tool.dao.SingletonStructure:288)- ..............................mlevel
+INFO (tool.dao.SingletonStructure:288)- ..............................visible
+INFO (tool.dao.SingletonStructure:288)- ..............................picurl
+INFO (tool.dao.SingletonStructure:288)- ..............................username
+INFO (tool.dao.SingletonStructure:449)- weibo_user  45 TABLE
+INFO (tool.dao.SingletonStructure:248)- default is 
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................screenname
+INFO (tool.dao.SingletonStructure:288)- ..............................name
+INFO (tool.dao.SingletonStructure:288)- ..............................province
+INFO (tool.dao.SingletonStructure:288)- ..............................city
+INFO (tool.dao.SingletonStructure:288)- ..............................location
+INFO (tool.dao.SingletonStructure:288)- ..............................description
+INFO (tool.dao.SingletonStructure:288)- ..............................url
+INFO (tool.dao.SingletonStructure:288)- ..............................profileImageUrl
+INFO (tool.dao.SingletonStructure:288)- ..............................userdomain
+INFO (tool.dao.SingletonStructure:288)- ..............................gender
+INFO (tool.dao.SingletonStructure:288)- ..............................followerscount
+INFO (tool.dao.SingletonStructure:288)- ..............................friendscount
+INFO (tool.dao.SingletonStructure:288)- ..............................statusescount
+INFO (tool.dao.SingletonStructure:288)- ..............................favouritescount
+INFO (tool.dao.SingletonStructure:288)- ..............................createat
+INFO (tool.dao.SingletonStructure:288)- ..............................following
+INFO (tool.dao.SingletonStructure:288)- ..............................verified
+INFO (tool.dao.SingletonStructure:288)- ..............................verifiedtype
+INFO (tool.dao.SingletonStructure:449)- v_dictionary  46 VIEW
+INFO (tool.dao.SingletonStructure:288)- ..............................id
+INFO (tool.dao.SingletonStructure:288)- ..............................name
+INFO (tool.dao.SingletonStructure:248)- default is 
+INFO (tool.dao.SingletonStructure:288)- ..............................dicId
+INFO (tool.dao.SingletonStructure:288)- ..............................odb
+INFO (sand.depot.servlet.system.ContextListener:254)- main schema is basic
+INFO (sand.depot.servlet.system.ContextListener:290)- Initialization finished Mon Jul 29 15:59:11 CST 2013
+INFO (sand.depot.job.QuartzManager:98)- add all local quartz jobs ..........
+INFO (sand.depot.job.QuartzManager:334)- add job finished
+INFO (org.springframework.web.context.ContextLoader:272)- Root WebApplicationContext: initialization started
+INFO (org.springframework.web.context.support.XmlWebApplicationContext:508)- Refreshing Root WebApplicationContext: startup date [Mon Jul 29 15:59:11 CST 2013]; root of context hierarchy
+INFO (org.springframework.beans.factory.xml.XmlBeanDefinitionReader:315)- Loading XML bean definitions from URL [file:/root/crawler/build/WEB-INF/classes/spring.context.xml]
+INFO (org.springframework.beans.factory.support.DefaultListableBeanFactory:577)- Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@70eaf971: defining beans [org.springframework.context.annotation.internalConfigurationAnnotationProcessor,org.springframework.context.annotation.internalAutowiredAnnotationProcessor,org.springframework.context.annotation.internalRequiredAnnotationProcessor,org.springframework.context.annotation.internalCommonAnnotationProcessor,tagService,newsService,tagRuleService,org.springframework.context.annotation.ConfigurationClassPostProcessor.importAwareProcessor]; root of factory hierarchy
+INFO (org.springframework.web.context.ContextLoader:301)- Root WebApplicationContext: initialization completed in 245 ms
