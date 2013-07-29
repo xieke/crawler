@@ -978,8 +978,8 @@ public class NewsActionHandler extends ActionHandler {
 		
 		MailSender mailSender = new MailSender(this.getParameter("mailserver"));
 		
-		//result=mailSender.sendMailSyn(email);
-		result=MailServer.sendMailSyn(email);
+		result=mailSender.sendMailSyn(email);
+		//result=MailServer.sendMailSyn(email);
 			
 
 		if (result)
