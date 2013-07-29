@@ -71,14 +71,13 @@
 					<input type="text"  id="name" name="mailserver$password" value="${obj.password}" />
 					</td>
 				  </tr>
-				  <!--
 				  <tr>
-					<td>显示名称：</td>
+					<td>超时时间：</td>
                     <td>
-										<input type="text"  id="name" name="mailserver$showname" value="${obj.showname}" />
+						<input type="text"  id="name" name="mailserver$overtime" value="${obj.overtime}" />
 
 					</td>
-				  </tr>-->
+				  </tr>
 				  <tr>
 					<td>发送地址：</td>
                     <td><input type="text"  id="limits" name="mailserver$fromaddr" value="${obj.fromaddr}" />

@@ -147,8 +147,10 @@ public class NewsActionHandler extends ActionHandler {
 //				if(b.getString("tags").indexOf(s)>=0){
 //				}
 			}	
-			log("put "+s+"  "+onetags.size());
-			newtags.put(s, onetags);
+			if(onetags.size()>0){
+				log("put "+s+"  "+onetags.size());
+				newtags.put(s, onetags);				
+			}
 		}
 		log("j is "+j+"   v size is "+v.size());
 		for(BizObject b:v){
@@ -973,13 +975,11 @@ public class NewsActionHandler extends ActionHandler {
 
 		boolean result = false;
 	//	if(mailExcludes.contains(sfix)){
-		BizObject ms = new BizObject("mailserver");
-		ms.setID(this.getParameter("mailserver"));
 		
-		MailSender mailSender = new MailSender(ms);
+		MailSender mailSender = new MailSender(this.getParameter("mailserver"));
 		
-		result=mailSender.sendMailSyn(email);
-			
+		//result=mailSender.sendMailSyn(email);
+		result=MailServer.sendMailSyn(email);
 			
 
 		if (result)
