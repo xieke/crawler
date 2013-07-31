@@ -36,7 +36,10 @@ public class RulesActionHandler extends ActionHandler {
 			
 			if(str!=null && str.length>0){
 				List<String> tagList = new ArrayList<String>();
-				for(String s : str) tagList.add(s);
+				for(String s : str) {
+					if(StringUtils.isNotBlank(s))
+						tagList.add(s);
+				}
 				for(BizObject biz : list){
 					if(tagList.contains(biz.getId())) biz.set("checked", "checked");
 				}
@@ -50,10 +53,16 @@ public class RulesActionHandler extends ActionHandler {
 			String[] cycle = rules.getString("cycle").split(",");
 			if(cycle!=null && cycle.length>0){
 				List<String> cycles = new ArrayList<String>();
-				for(String s:cycle) cycles.add(s);
+				for(String s:cycle) {
+					if(StringUtils.isNotBlank(s))
+						cycles.add(s);
+				}
+				log("已经选中的:"+cycles);
 				for(BizObject biz : cyclelist){
 					if(cycles.contains(biz.getId())) biz.set("checked", "checked");
+					else biz.set("checked", "");
 				}
+				log("结果:"+cyclelist);
 			}
 		}
 		this._request.setAttribute("obj", rules);		

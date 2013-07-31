@@ -226,7 +226,7 @@ public class NewsActionHandler extends ActionHandler {
 		this._nextUrl = "/template/news/listmail.jsp";
 	}
 	@CandoCheck("session")
-	@TokenCheck
+	
 	public void list() throws SQLException{
 		List<BizObject> objList = queryList();
 		String[] str = this.getParameter("tag_ids2").split(",");

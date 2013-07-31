@@ -59,16 +59,16 @@ public class PostJob extends BaseJob {
 		for(String t:tag){
 			if(!t.equals("")){
 				if(tag_sql.equals(""))
-					tag_sql ="(  tags like '%"+t.trim()+"%' ";	
+					tag_sql ="(  tag_ids like '%"+t.trim()+"%' ";	
 				else
-					tag_sql=tag_sql+" or "+" tags like '%"+t.trim()+"%' ";
+					tag_sql=tag_sql+" or "+" tag_ids like '%"+t.trim()+"%' ";
 			}
 			
 		}
 		if(!tag_sql.equals("")) 
 			tag_sql=tag_sql+")";
 		else
-			tag_sql = " tags is not null ";
+			tag_sql = " tag_ids is not null ";
 		
 		return tag_sql;
 	}
@@ -150,19 +150,20 @@ public class PostJob extends BaseJob {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static  Map<String,List> getQryPostNews(BizObject post) throws SQLException{
+	public static  Map<String,List> getQryPostNews(BizObject rule) throws SQLException{
 		//BizObject post;
-		String tags=post.getString("tags");
+		String tagids=rule.getString("tag_ids");
 		//String cycle=post.getString("cycle");
-		String urgent=post.getString("urgent");
-		String limit = post.getString("limits");
-		String lang= post.getString("lang");
-		String lastposttime=post.getString("lastposttime");
+		String urgent=rule.getString("urgent");
+		String importance = rule.getString("importance");
+		String limit = rule.getString("limits");
+		String lang= rule.getString("lang");
+		String lastposttime=rule.getString("lastposttime");
 		//String address = post.getString("address");
 		
 		String sql="select * from news where status=1  and issue=1  ";
 		int now = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)+Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-		String key = tags+lastposttime+urgent+ limit+lang+now;
+		String key = tagids+lastposttime+importance+urgent+ limit+lang+now;
 		//log("key is "+key+"   ");
 		
 		
@@ -170,19 +171,15 @@ public class PostJob extends BaseJob {
 			
 			//Map<String ,List> m=new HashMap();			
 			
-			String tagsql=constructTagSql(tags);
+			String tagsql=constructTagSql(tagids);
 			
 			if(!tagsql.equals("")) sql=sql+" and "+tagsql;
 			
-			//String cyclesql=constructCycleSql(cycle);
-			
-			//if(!cyclesql.equals("")) sql=sql+" and "+cyclesql;
-			//sql=sql+" and "+constructCycleSql(cycle);
-//			if(StringUtils.isNotBlank(urgent))
-//				sql= sql +" and  posted not like '%"+address+"%'";
-			
 			if(StringUtils.isNotBlank(urgent))
 				sql=sql+" and "+" urgent>="+urgent.trim();
+			
+			if(StringUtils.isNotBlank(importance))
+				sql=sql+" and "+" importance>="+importance.trim();
 			
 			if(StringUtils.isNotBlank(lastposttime))
 				sql=sql+(" and modifydate>=STR_TO_DATE('")+(lastposttime)+("','%Y-%m-%d %H:%i:%s')");
@@ -190,36 +187,45 @@ public class PostJob extends BaseJob {
 			
 			sql=sql+"  order by  importance asc , modifydate desc limit 0,"+limit;
 			log("sql is "+sql);
-			List<BizObject> v = QueryFactory.executeQuerySQL(sql);
+			List<BizObject> allv = QueryFactory.executeQuerySQL(sql);
 			
-//			for(BizObject b:v){
-//				b.refresh();
-//			}
+
 			
-			
-			if(tags.trim().equals("")) tags=GpMailAH.expTags();
+			if(tagids.trim().equals("")) 
+				tagids=GpMailAH.expTagIds();
 			
 			//log("tags is "+tags);
-			String tag[]=tags.split(",");
+			String tagid[]=tagids.split(",");
 			
-			Map<String,List> newtags = new LinkedHashMap ();
+			Map<String,List> tagsMap = new LinkedHashMap ();
 			
 			
 			
 			//if(tagstr.equals("")) tagstr=this.getParameter("tags");
 			//String tag[] = tagstr.split(",");
-			for(String s:tag){
-				if(s.equals("")) continue;
+			
+			int  total=0;
+			
+			for(String tid:tagid){
+				if(tid.equals("")) continue;
 				List<BizObject> onetags = new ArrayList();
 				
-				for(int i=0 ; i<v.size();i++){
-					BizObject b=v.get(i);
-					
+				
+				BizObject tag= new BizObject("tag");
+				String tagname="";
+				
+				for(int i=0 ; i<allv.size();i++){
+					BizObject b=allv.get(i);					
 					/**
 					 * 根据配置文件决定文章归在哪一类tag,并决定语言显示summary
 					 */
-					if(b.getString("tags").indexOf(s)>=0){
-						b.set("tag", s);
+					if(b.getString("tag_ids").indexOf(tid)>=0){
+						
+						tag.setID(tid);
+						tag.refresh();
+						tagname=tag.getString("name");
+						
+						b.set("tag", tagname);
 						if(lang==null||lang.equals("c")||lang.equals("")){
 							b.set("summary",b.getString("c_summary"));
 						}
@@ -235,21 +241,26 @@ public class PostJob extends BaseJob {
 						
 						//log("put  "+s+"  "+);
 						onetags.add(b);
-						v.remove(b);
+						allv.remove(b);
 						i--;
 					}
 				}	
 				//log("put "+s+"  "+onetags.size());
-				if(onetags.size()>0)
-				newtags.put(s, onetags);
+				if(onetags.size()>0){
+					total = total +onetags.size();
+					tagsMap.put(tagname, onetags);
+					log(tagname+"   "+onetags.size());
+				}
+				
 			
 			
 			//return v;
 			//return post.getQF().query(post,pv);
 			
 		}
-			renderMap.put(key,newtags);
-			return newtags;
+			log("total is "+total );
+			renderMap.put(key,tagsMap);
+			return tagsMap;
 		
 	}
 		else
@@ -437,12 +448,18 @@ public class PostJob extends BaseJob {
 		String w2 = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+"";
 		String cycle = rule.getString("cycle");
 		String posttime= rule.getString("posttime");
-		log("check date valid "+w1+" -  "+cycle+" -  "+w2+" - "+posttime);
-		if (cycle.indexOf(w1)>=0&&posttime.equals(w2)){
+		int w = Integer.parseInt(w1);
+		w=w-1;
+		if (w==0) w=7;
+		log("check date valid "+w+" =  "+cycle+"   ,    "+w2+" = "+posttime);
+		if (cycle.indexOf(w+"")>=0&&posttime.equals(w2)){
 			return true;
 		}		
-		else
+		else{
+			log("日期不符合  ，exit");
 			return false;
+		}
+			
 	}
 	
 	
@@ -457,34 +474,44 @@ public class PostJob extends BaseJob {
 			List<BizObject> v = postjob.getQF().query(postjob);
 			String memo="";
 			for(BizObject job:v){
+				log("begin 处理  job "+job.getString("name"));
 				BizObject rule =job.getBizObj("ruleid");
 				rule.set("limits", job.getString("limits"));
 				log("post time is "+ job.getString("posttime"));
 				rule.set("posttime", job.getString("posttime"));
 				
+				if(!checkDateValid(rule)) continue;
+
 				if(!checkDateDiv(job)) continue;
 				
-				if(!checkDateValid(rule)) continue;
 
 				rule.set("lastposttime", job.getDate("lastposttime"));
 				
 				//开始处理单个任务
 				Map<String ,List> m = getQryPostNews(rule);	
 				
+				if(m.isEmpty()){
+					log("没有符合的记录，退出");
+					continue;
+				}
 				String c_ids[]=job.getString("customers").split(",");
+				String content_posted="";
 				for(String cid:c_ids){
 					if(cid.equals("")) continue;
 					BizObject c = new BizObject("customers");
 					c.setID(cid);
 					c.refresh();
+					log("begin 处理 客户 "+c.getString("name"));
 					String greeting=rule.getString("head").replaceAll("@name",c.getString("name"));
 					String ending=rule.getString("foot").replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDD));
 					String subject=rule.getString("title").replaceAll("@name",c.getString("name")).replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDD));
 					String content="";
 					try {
 						content=this.render(m,greeting,ending);
+						content_posted=content;
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
+						log("error , ",e);
 						e.printStackTrace();
 						job.set("memo", job.getString("memo")+","+e.getMessage());
 					}
@@ -498,7 +525,7 @@ public class PostJob extends BaseJob {
 					//email.set("title", title);
 					email.set("subject", subject);
 					
-					log("begin send mail ,content: "+email.getString("content"));
+					log("begin send mail ,content: "+email.getString("content").length());
 					//boolean success =MailServer.sendMailSyn(email);//.sendMailSyn(email);
 					boolean success =true;
 					job.set("memo",job.getString("memo")+" ,\r\n"+c.getString("name")+"-"+c.getString("email")+"-"+new Date()+"-"+success);					
@@ -517,10 +544,13 @@ public class PostJob extends BaseJob {
 					}
 
 				} 
-				job.set("newsids", newsids);
+				
 				job.set("lastposttime", new Date());
 				this._jdo.update(job);
-				postjob.resetObjType("posted");
+				job.set("newsids", newsids);
+				job.set("content", content_posted);
+				job.resetObjType("posted");
+				job.setID("");
 				this._jdo.add(job);
 								
 			}
