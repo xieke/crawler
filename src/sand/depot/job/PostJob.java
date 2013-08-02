@@ -18,6 +18,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import sand.actionhandler.news.GpMailAH;
 import sand.actionhandler.system.ActionHandler;
 import sand.depot.tool.system.SystemKit;
+import sand.mail.MailSender;
 import sand.mail.MailServer;
 import sand.service.basic.service.TagService;
 import tool.basic.DateUtils;
@@ -543,7 +544,12 @@ public class PostJob extends BaseJob {
 					
 					log("begin send mail ,content: "+email.getString("content").length());
 					//boolean success =MailServer.sendMailSyn(email);//.sendMailSyn(email);
-					boolean success =true;
+					
+					MailSender mailSender = new MailSender(job.getString("mailserver"));
+					
+					boolean success=mailSender.sendMailSyn(email);
+				
+					//boolean success =true;
 					job.set("memo",job.getString("memo")+" ,\r\n"+c.getString("name")+"-"+c.getString("email")+"-"+new Date()+"-"+success);					
 					
 				}
