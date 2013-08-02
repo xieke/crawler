@@ -548,6 +548,7 @@ public class PostJob extends BaseJob {
 					MailSender mailSender = new MailSender(job.getString("mailserver"));
 					
 					boolean success=mailSender.sendMailSyn(email);
+					
 				
 					//boolean success =true;
 					job.set("memo",job.getString("memo")+" ,\r\n"+c.getString("name")+"-"+c.getString("email")+"-"+new Date()+"-"+success);					
