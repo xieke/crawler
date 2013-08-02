@@ -214,8 +214,22 @@ public class PostJob extends BaseJob {
 				BizObject tag= new BizObject("tag");
 				String tagname="";
 				
+				String allids="";
+				for(int i=0;i<allv.size();i++){
+					
+					BizObject b=allv.get(i);
+					if (allids.equals(""))
+						allids=b.getId();
+					else
+						allids=allids+","+b.getId();
+					if(i>0) b.set("lastid", allv.get(i-1).getId());
+					if(i<allv.size()-1) b.set("nextid", allv.get(i+1).getId());
+				}
+				
 				for(int i=0 ; i<allv.size();i++){
 					BizObject b=allv.get(i);					
+					b.set("allids", allids);
+					log("lastid "+b.getString("lastid")+"  nextid "+b.getString("nextid"));
 					/**
 					 * 根据配置文件决定文章归在哪一类tag,并决定语言显示summary
 					 */
@@ -266,7 +280,7 @@ public class PostJob extends BaseJob {
 		else
 		return (Map<String,List>) renderMap.get(key);
 	}
-	public  static String render(Map<String ,List> postv, String greeting, String ending) throws IOException, TemplateException, SQLException{
+	public  static String render(Map<String ,List> postv, String greeting, String ending,String email) throws IOException, TemplateException, SQLException{
 		
 		 Configuration cfg; 
 	        cfg = new Configuration();
@@ -277,8 +291,9 @@ public class PostJob extends BaseJob {
 			// Build the data-model
 	        Map root = new HashMap();
 	       // root.put("message", "Hello World!");
-	        root.put("name", greeting);
-	        root.put("date",ending);
+	        root.put("greeting", greeting);
+	        root.put("ending",ending);
+	        root.put("email",email);
 	        //this.render();
 	        root.put("www_url", SystemKit.getParamById("system_core","www_url"));
 	        root.put("objList", postv);
@@ -482,8 +497,7 @@ public class PostJob extends BaseJob {
 				
 				if(!checkDateValid(rule)) continue;
 
-				if(!checkDateDiv(job)) continue;
-				
+				if(!checkDateDiv(job)) continue;				
 
 				rule.set("lastposttime", job.getDate("lastposttime"));
 				
@@ -502,12 +516,14 @@ public class PostJob extends BaseJob {
 					c.setID(cid);
 					c.refresh();
 					log("begin 处理 客户 "+c.getString("name"));
+					
+					String emailaddress=c.getString("email");
 					String greeting=rule.getString("head").replaceAll("@name",c.getString("name"));
 					String ending=rule.getString("foot").replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDD));
 					String subject=rule.getString("title").replaceAll("@name",c.getString("name")).replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDD));
 					String content="";
 					try {
-						content=this.render(m,greeting,ending);
+						content=this.render(m,greeting,ending,emailaddress);
 						content_posted=content;
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -519,7 +535,7 @@ public class PostJob extends BaseJob {
 					BizObject email = new BizObject("email");
 					// address=mailinfo[1];
 					//email.set("toaddr", c.getString("address"));
-					email.set("bcc",c.getString("email"));
+					email.set("bcc",emailaddress);
 					email.set("content",content);
 					//	log("title "+subject);
 					//email.set("title", title);
@@ -592,7 +608,7 @@ public class PostJob extends BaseJob {
 			String greeting=s.getString("greeting").replaceAll("@name",s.getString("name"));
 			String ending=s.getString("ending").replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDDHHMMSS));
 			
-			String content=this.render(v,greeting,ending);
+			String content=this.render(v,greeting,ending,"");
 			email.set("content",content);
 			String subject=s.getString("subject").replaceAll("@name",s.getString("name"));
 		//	log("title "+subject);

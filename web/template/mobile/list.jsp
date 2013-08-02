@@ -7,7 +7,7 @@
 
   <tr class="effect">
   	<td><input type="checkbox" value="${detail.id}" name="delid"/></td>
-    <td>${status.index+1}</td>
+    <td></td>
     <td><a href="javascript:void(0)" onclick="show('${detail.id}')" ><m:out type="" value="${detail.title}" maxSize="12" /></a></td>
     <td><m:out type="" value="${detail.c_summary}" maxSize="12" /></td>
     <td>${detail.author}</td>
@@ -18,7 +18,7 @@
     <td><m:out type="urgent" value="${detail.urgent}" /></td>
     <td><m:out type="importance" value="${detail.importance}" /></td>
     <td><m:out type="news_status" value="${detail.status}" /></td>
-    <td><a href="javascript:void(0)" onclick="show('${detail.id}','${pageVariable.npage*pageVariable.pagesize+status.index}')" ><img src="/images/button_edit.png" /></a> <c:if test="${detail.his_news_id!='' && detail.his_news_id!=null}">| <a href="/news.NewsActionHandler.showHis?objId=${detail.his_news_id}" >原文</a></c:if></td>
+    <td><a href="javascript:void(0)" onclick="show('${detail.id}','${pageVariable.npage*pageVariable.pagesize}')" ><img src="/images/button_edit.png" /></a> <c:if test="${detail.his_news_id!='' && detail.his_news_id!=null}">| <a href="/news.NewsActionHandler.showHis?objId=${detail.his_news_id}" >原文</a></c:if></td>
   </tr>
 
 
@@ -28,9 +28,9 @@
       <div class="archive-top-right"> <a class="post-arrow" href="javascript:void(0);"></a> </div>
       <div class="archive-top-left month-05"> <fmt:formatDate value="${detail.posttime}" pattern="yyyy-MM-dd HH:mm"/> </div>
     </div>
-    <a class="h2" href="javascript:void(0)" onclick="show('${detail.id}')"><m:out type="" value="${detail.title}" maxSize="12" /></a>
+    <a class="h2" href="javascript:void(0)" onclick="show('${detail.id}')">${detail.title}</a>
     <div class="post-author"> <span class="lead">By</span> ${detail.author}<br />
-      <span class="lead">Tags:</span> <a href="#" title="信息技术" rel="category">信息技术</a><br />
+      <span class="lead">Tags:</span> <a href="#" title="信息技术" rel="category">${detail.tags}</a><br />
     </div>
     <div class="clearer"></div>
     <div id="entry-671" style="display:none" class="mainentry left-justified">

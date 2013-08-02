@@ -226,7 +226,7 @@ public class GpMailAH extends ActionHandler {
 		String greeting=s.getString("greeting").replaceAll("@name",s.getString("name"));
 		String ending=s.getString("ending").replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDDHHMMSS));
 		
-		String content=PostJob.render(v,greeting,ending);
+		String content=PostJob.render(v,greeting,ending,"");
 		email.set("content",content);
 		String subject=s.getString("subject").replaceAll("@name",s.getString("name"));
 	//	log("title "+subject);
