@@ -43,7 +43,30 @@ public class GpMailAH extends ActionHandler {
         cfg.setServletContextForTemplateLoading(this._context  , "WEB-INF/templates");
 		// TODO Auto-generated constructor stub
 	}
+
 	
+	/**
+	 * 导出所有tag
+	 * @return
+	 * @throws SQLException 
+	 */
+	@Ajax
+	public static String expTagIds() throws SQLException{
+		
+		BizObject tag = new BizObject("tag");
+		QueryFactory qf = tag.getQF();
+		qf.setHardcoreFilter(" isvalid=1 ");
+		qf.setOrderBy(" orderby ");
+		List<BizObject> tagv=tag.getQF().query();
+		String ret="";
+		for(BizObject b:tagv){
+			if(ret.equals("")) ret=b.getId();
+			else 
+				ret = ret+","+b.getId();
+		}
+		return ret;
+		
+	}
 	/**
 	 * 导出所有tag
 	 * @return
@@ -203,7 +226,7 @@ public class GpMailAH extends ActionHandler {
 		String greeting=s.getString("greeting").replaceAll("@name",s.getString("name"));
 		String ending=s.getString("ending").replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDDHHMMSS));
 		
-		String content=PostJob.render(v,greeting,ending);
+		String content=PostJob.render(v,greeting,ending,"");
 		email.set("content",content);
 		String subject=s.getString("subject").replaceAll("@name",s.getString("name"));
 	//	log("title "+subject);

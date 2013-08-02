@@ -55,6 +55,16 @@ public class PostJobAH extends ActionHandler {
 	}
 	
 
+	
+	public void listPosted() throws SQLException{
+		//BizObject postjob = this.getBizObjectFromMap("postjob");
+		//postjob.setMap("posttime")
+		//this.setAttribute("objList", v);
+		this.setOrderBy(" lastposttime desc ");
+		this.listObj("posted");
+		this._nextUrl="/template/post/listPosted.jsp";		
+	}
+	
 
 	private List<BizObject> getRules(BizObject pj) throws SQLException{
 		BizObject rule = new BizObject("rules");
@@ -107,7 +117,12 @@ public class PostJobAH extends ActionHandler {
 		this.setAttribute("obj", b);		
 		this._nextUrl="/template/post/showPostJob.jsp";
 	}
-	
+
+	public void showPosted() throws SQLException{
+		
+			super.showObj("posted",this._objId);		
+		this._nextUrl="/template/post/showPosted.jsp";
+	}
 //	public String transToMail(String customer_ids){
 //		String customer_id[]=customer_ids.split(",");
 //		
