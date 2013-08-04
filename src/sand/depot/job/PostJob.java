@@ -231,7 +231,7 @@ public class PostJob extends BaseJob {
 				for(int i=0 ; i<allv.size();i++){
 					BizObject b=allv.get(i);					
 					b.set("allids", allids);
-					log("lastid "+b.getString("lastid")+"  nextid "+b.getString("nextid"));
+					//log("lastid "+b.getString("lastid")+"  nextid "+b.getString("nextid"));
 					/**
 					 * 根据配置文件决定文章归在哪一类tag,并决定语言显示summary
 					 */
@@ -479,8 +479,9 @@ public class PostJob extends BaseJob {
 			
 	}
 	
-	public static void processJob(BizObject job,JDO jdo) throws SQLException, TemplateException{
+	public static String processJob(BizObject job,JDO jdo) throws SQLException, TemplateException{
 
+		String result ="";
 		log("begin 处理  job "+job.getString("name"));
 		BizObject rule =job.getBizObj("ruleid");
 		rule.set("limits", job.getString("limits"));
@@ -500,7 +501,7 @@ public class PostJob extends BaseJob {
 		
 		if(m.isEmpty()){
 			log("没有符合的记录，退出");
-			return;
+			return "没有符合的记录，退出";
 		}
 		String c_ids[]=job.getString("customers").split(",");
 		String content_posted="";
@@ -542,6 +543,7 @@ public class PostJob extends BaseJob {
 			if(!job.getString("mailserver").equals("")){
 				MailSender mailSender = new MailSender(job.getString("mailserver"));	
 				success=mailSender.sendMailSyn(email);
+				result=result + emailaddress +"  发送结果：  "+success+" , ";
 
 			}
 			
@@ -570,13 +572,14 @@ public class PostJob extends BaseJob {
 		job.set("lastposttime", new Date());
 		jdo.update(job);
 		job.set("newsids", newsids);
+		result = result+" 发送文章："+newsids.length()+" , ";
 		job.set("content", content_posted);
 		job.resetObjType("posted");
 		job.setID("");
 		jdo.add(job);
 						
-	
-	}
+		return result;
+	}	
 	
 	public String run() {
 		
