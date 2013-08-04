@@ -557,10 +557,11 @@ public class PostJob extends BaseJob {
 		}
 		
 		String newsids="";
-		
+		int newscount=0;
 		for(String o : m.keySet()){ 
 		   List<BizObject>  list=m.get(o); 
 			for(BizObject b:list){
+				newscount++;
 				if(newsids.equals(""))
 					newsids=b.getId();
 				else
@@ -572,7 +573,7 @@ public class PostJob extends BaseJob {
 		job.set("lastposttime", new Date());
 		jdo.update(job);
 		job.set("newsids", newsids);
-		result = result+" 发送文章："+newsids.length()+" , ";
+		result = result+" 发送文章："+newscount+" , ";
 		job.set("content", content_posted);
 		job.resetObjType("posted");
 		job.setID("");
