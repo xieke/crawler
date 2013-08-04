@@ -1044,7 +1044,7 @@ public class NewsActionHandler extends ActionHandler {
 		//logger.info("sfix is "+sfix);
 		// email.set("fromaddr", "xieke3@hnair.com");
 
-		String content=this.renderHtml2(this.getParameter("tags"),this.getParameter("subject"),this.getParameter("greeting"),this.getParameter("ending"));
+		String content=this.renderHtml2(address,this.getParameter("tags"),this.getParameter("subject"),this.getParameter("greeting"),this.getParameter("ending"));
 		email.set(
 				"content",content);
 		
@@ -1135,7 +1135,7 @@ public class NewsActionHandler extends ActionHandler {
 
 		//return _SUBMIT_TYPE;
 	}
-	private  String renderHtml2(String tags,String subject,String greeting,String ending) throws IOException, ServletException, SQLException, TemplateException{
+	private  String renderHtml2(String email,String tags,String subject,String greeting,String ending) throws IOException, ServletException, SQLException, TemplateException{
 		 Configuration cfg; 
         cfg = new Configuration();
         // - Templates are stoted in the WEB-INF/templates directory of the Web app.
@@ -1151,6 +1151,7 @@ public class NewsActionHandler extends ActionHandler {
         root.put("objList", _request.getAttribute("objList"));
         root.put("tags",tags);
         root.put("subject", subject);
+        root.put("email",email);
         root.put("greeting", greeting);
         root.put("ending", ending);
        // this.renderHtml();
