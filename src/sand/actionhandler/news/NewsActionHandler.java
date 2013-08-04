@@ -559,7 +559,7 @@ public class NewsActionHandler extends ActionHandler {
 	public void showIt() throws SQLException{
 				
 		boolean result = HttpRequestDeviceUtils.isMobileDevice(_request);
-		log("result is "+result);
+		log("is mobile device ?   "+result);
 		QueryFactory qf = new QueryFactory("news");
 		BizObject biz = qf.getByID(this._objId);
 		if(biz==null) throw new InfoException("没有文章了");
