@@ -167,6 +167,20 @@ public class PostJobAH extends ActionHandler {
 		this.list();
 
 	}	
+	public void sendAll() throws SQLException, TemplateException{
+		String ids[]=this.getParameters("outids");
+		for(String id:ids){
+			BizObject b = new BizObject("postjob");
+			b.setID(id);
+			b.refresh();
+			PostJob.processJob(b, this.getJdo());
+			//this.getJdo().delete(b);			
+		}
+		this.clearQueryParam();
+		this.list();
+
+	}	
+
 	public void disable() throws SQLException{
 		BizObject b = new BizObject("postjob");
 		b.setID(this._objId);

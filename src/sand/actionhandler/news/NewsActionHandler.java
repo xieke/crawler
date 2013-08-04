@@ -1016,6 +1016,10 @@ public class NewsActionHandler extends ActionHandler {
 	public void preview(){
 		
 	}
+	
+	public void sendAll(){
+		
+	}
 	/**
 	 * 发送邮件
 	 * @return

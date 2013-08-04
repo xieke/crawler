@@ -23,6 +23,7 @@ import sand.mail.MailServer;
 import sand.service.basic.service.TagService;
 import tool.basic.DateUtils;
 import tool.dao.BizObject;
+import tool.dao.JDO;
 import tool.dao.QueryFactory;
 import weibo4j.model.Status;
 import freemarker.template.Configuration;
@@ -428,7 +429,7 @@ public class PostJob extends BaseJob {
 	 * @param postjob
 	 * @return
 	 */
-	private boolean checkDateDiv(BizObject postjob){
+	private static boolean checkDateDiv(BizObject postjob){
 		Calendar c1 = Calendar.getInstance();
 		c1.add(Calendar.HOUR, -23);
 		
@@ -459,7 +460,7 @@ public class PostJob extends BaseJob {
 	 * @param rule
 	 * @return
 	 */
-	private boolean checkDateValid(BizObject rule){
+	private static boolean checkDateValid(BizObject rule){
 		String w1 = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)+"";
 		String w2 = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+"";
 		String cycle = rule.getString("cycle");
@@ -478,6 +479,104 @@ public class PostJob extends BaseJob {
 			
 	}
 	
+	public static void processJob(BizObject job,JDO jdo) throws SQLException, TemplateException{
+
+		log("begin 处理  job "+job.getString("name"));
+		BizObject rule =job.getBizObj("ruleid");
+		rule.set("limits", job.getString("limits"));
+		//log("post time is "+ job.getString("posttime"));
+		//rule.set("posttime", job.getString("posttime"));
+		
+		//if(!checkDateValid(rule)) return;
+
+		//if(!checkDateDiv(job)) return;				
+
+		//if(job.getString("mailserver").equals("")) return;
+		
+		rule.set("lastposttime", job.getDate("lastposttime"));
+		
+		//开始处理单个任务
+		Map<String ,List> m = getQryPostNews(rule);	
+		
+		if(m.isEmpty()){
+			log("没有符合的记录，退出");
+			return;
+		}
+		String c_ids[]=job.getString("customers").split(",");
+		String content_posted="";
+		for(String cid:c_ids){
+			if(cid.equals("")) continue;
+			BizObject c = new BizObject("customers");
+			c.setID(cid);
+			c.refresh();
+			log("begin 处理 客户 "+c.getString("name"));
+			
+			String emailaddress=c.getString("email");
+			String greeting=rule.getString("head").replaceAll("@name",c.getString("name"));
+			String ending=rule.getString("foot").replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDD));
+			String subject=rule.getString("title").replaceAll("@name",c.getString("name")).replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDD));
+			String content="";
+			try {
+				content=render(m,greeting,ending,emailaddress);
+				content_posted=content;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				log("error , ",e);
+				e.printStackTrace();
+				job.set("memo", job.getString("memo")+","+e.getMessage());
+			}
+			
+			BizObject email = new BizObject("email");
+			// address=mailinfo[1];
+			//email.set("toaddr", c.getString("address"));
+			email.set("bcc",emailaddress);
+			email.set("content",content);
+			//	log("title "+subject);
+			//email.set("title", title);
+			email.set("subject", subject);
+			
+			log("begin send mail ,content: "+email.getString("content").length());
+			//boolean success =MailServer.sendMailSyn(email);//.sendMailSyn(email);
+			
+			boolean success=false;
+			if(!job.getString("mailserver").equals("")){
+				MailSender mailSender = new MailSender(job.getString("mailserver"));	
+				success=mailSender.sendMailSyn(email);
+
+			}
+			
+			job.set("memo",job.getString("memo")+" ,\r\n"+c.getString("name")+"-"+c.getString("email")+"-"+new Date()+"-"+success);					
+			
+			
+		
+			//boolean success =true;
+								
+			
+		}
+		
+		String newsids="";
+		
+		for(String o : m.keySet()){ 
+		   List<BizObject>  list=m.get(o); 
+			for(BizObject b:list){
+				if(newsids.equals(""))
+					newsids=b.getId();
+				else
+					newsids=newsids+","+b.getId();
+			}
+
+		} 
+		
+		job.set("lastposttime", new Date());
+		jdo.update(job);
+		job.set("newsids", newsids);
+		job.set("content", content_posted);
+		job.resetObjType("posted");
+		job.setID("");
+		jdo.add(job);
+						
+	
+	}
 	
 	public String run() {
 		
@@ -490,92 +589,19 @@ public class PostJob extends BaseJob {
 			List<BizObject> v = postjob.getQF().query(postjob);
 			String memo="";
 			for(BizObject job:v){
-				log("begin 处理  job "+job.getString("name"));
 				BizObject rule =job.getBizObj("ruleid");
-				rule.set("limits", job.getString("limits"));
-				log("post time is "+ job.getString("posttime"));
+				//rule.set("limits", job.getString("limits"));
+				//log("post time is "+ job.getString("posttime"));
 				rule.set("posttime", job.getString("posttime"));
 				
 				if(!checkDateValid(rule)) continue;
 
 				if(!checkDateDiv(job)) continue;				
 
-				rule.set("lastposttime", job.getDate("lastposttime"));
+				if(job.getString("mailserver").equals("")) continue;
 				
-				//开始处理单个任务
-				Map<String ,List> m = getQryPostNews(rule);	
 				
-				if(m.isEmpty()){
-					log("没有符合的记录，退出");
-					continue;
-				}
-				String c_ids[]=job.getString("customers").split(",");
-				String content_posted="";
-				for(String cid:c_ids){
-					if(cid.equals("")) continue;
-					BizObject c = new BizObject("customers");
-					c.setID(cid);
-					c.refresh();
-					log("begin 处理 客户 "+c.getString("name"));
-					
-					String emailaddress=c.getString("email");
-					String greeting=rule.getString("head").replaceAll("@name",c.getString("name"));
-					String ending=rule.getString("foot").replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDD));
-					String subject=rule.getString("title").replaceAll("@name",c.getString("name")).replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDD));
-					String content="";
-					try {
-						content=this.render(m,greeting,ending,emailaddress);
-						content_posted=content;
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						log("error , ",e);
-						e.printStackTrace();
-						job.set("memo", job.getString("memo")+","+e.getMessage());
-					}
-					
-					BizObject email = new BizObject("email");
-					// address=mailinfo[1];
-					//email.set("toaddr", c.getString("address"));
-					email.set("bcc",emailaddress);
-					email.set("content",content);
-					//	log("title "+subject);
-					//email.set("title", title);
-					email.set("subject", subject);
-					
-					log("begin send mail ,content: "+email.getString("content").length());
-					//boolean success =MailServer.sendMailSyn(email);//.sendMailSyn(email);
-					
-					MailSender mailSender = new MailSender(job.getString("mailserver"));
-					
-					boolean success=mailSender.sendMailSyn(email);
-					
-				
-					//boolean success =true;
-					job.set("memo",job.getString("memo")+" ,\r\n"+c.getString("name")+"-"+c.getString("email")+"-"+new Date()+"-"+success);					
-					
-				}
-				
-				String newsids="";
-				
-				for(String o : m.keySet()){ 
-				   List<BizObject>  list=m.get(o); 
-					for(BizObject b:list){
-						if(newsids.equals(""))
-							newsids=b.getId();
-						else
-							newsids=newsids+","+b.getId();
-					}
-
-				} 
-				
-				job.set("lastposttime", new Date());
-				this._jdo.update(job);
-				job.set("newsids", newsids);
-				job.set("content", content_posted);
-				job.resetObjType("posted");
-				job.setID("");
-				this._jdo.add(job);
-								
+				processJob(job, _jdo);
 			}
 			
 		} catch (SQLException e) {
