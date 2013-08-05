@@ -1214,6 +1214,27 @@ public class NewsActionHandler extends ActionHandler {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(new Date());
+		String str = "[Properties/地产]<br>Guangzhou is seeking public opinion for a new land regulation which requires land buyers " +
+				"to pay 20% of contractual prices if they keep the plot idle for over a year.    " +
+				"<a href=\"http://10.38.128.105:16666/news.NewsActionHandler.showIt?objId=0fae5a728acd413389ec69b95cdff8aa\" " +
+				"class=\"more\" target=\"_blank\">more</a><br><br><br>[700 HK (Tencent/腾讯)]<br>Ma Zhengqi, the vice chief " +
+				"of the State Administration of Industry of Commerce and former vice mayor of Chongqing, was accused of malfeasance by " +
+				"a journalist of Guangzhou-based newspaper New Express Daily.    " +
+				"<a href=\"http://10.38.128.105:16666/news.NewsActionHandler.showIt?objId=080b18d83ac74158a8fa4ed065f60efd\" " +
+				"class=\"more\" target=\"_blank\">more</a><br><br>";
+		String ss = "http://10.38.128.105:16666/news.NewsActionHandler.showIt?objId=0fae5a728acd413389ec69b95cdff8aa";
+		String ssend = "http://10.38.128.105:16666/news.NewsActionHandler.showIt?objId=";
+
+		String ss_last = "http://10.38.128.105:16666/news.NewsActionHandler.showIt?objId=080b18d83ac74158a8fa4ed065f60efd";
+		
+		System.out.println("start:0fae5a728acd413389ec69b95cdff8aa; find : 080b18d83ac74158a8fa4ed065f60efd");
+		int start = str.indexOf(ss);
+		int end = str.indexOf(ssend, start+ss.length());
+		System.out.println(str.length()+":"+start+":"+end);
+		System.out.println(str.substring(end+ssend.length(), end+ssend.length()+32));
+		
+		str = str.substring(0,str.indexOf(ss_last));
+		int index = str.lastIndexOf(ssend);
+		System.out.println(str.substring(index+ssend.length(), index+ssend.length()+32));
 	}
 }

@@ -114,7 +114,7 @@ public class RulesActionHandler extends ActionHandler {
 			return "[{respCode:'0000', respMsg:'编辑成功',item_id:'"+item_id+"'}]";
 		}catch(Exception e){
 			e.printStackTrace();
-			return "[{respCode:'9999', respMsg:'"+e.getMessage()+"'}]";
+			return "[{respCode:'9999', respMsg:'"+e.getMessage().replaceAll("'", "&nbsp;")+"'}]";
 		}
 	}
 	
@@ -143,4 +143,19 @@ public class RulesActionHandler extends ActionHandler {
 			tagService = (TagService)WebApplicationContextUtils.getWebApplicationContext(ActionHandler._context).getBean("tagService");
 		return tagService;
 	}
+	
+	public static void main(String[] args) {
+		String str = "[Properties/地产]<br>Guangzhou is seeking public opinion for a new land regulation which requires land buyers " +
+				"to pay 20% of contractual prices if they keep the plot idle for over a year.    " +
+				"<a href=\"http://10.38.128.105:16666/news.NewsActionHandler.showIt?objId=0fae5a728acd413389ec69b95cdff8aa\" " +
+				"class=\"more\" target=\"_blank\">more</a><br><br><br>[700 HK (Tencent/腾讯)]<br>Ma Zhengqi, the vice chief " +
+				"of the State Administration of Industry of Commerce and former vice mayor of Chongqing, was accused of malfeasance by " +
+				"a journalist of Guangzhou-based newspaper New Express Daily.    " +
+				"<a href=\"http://10.38.128.105:16666/news.NewsActionHandler.showIt?objId=080b18d83ac74158a8fa4ed065f60efd\" " +
+				"class=\"more\" target=\"_blank\">more</a><br><br>";
+		int start = str.indexOf("http://10.38.128.105:16666/news.NewsActionHandler.showIt?objId=0fae5a728acd413389ec69b95cdff8aa");
+		int end = str.indexOf("http://10.38.128.105:16666/news.NewsActionHandler.showIt?objId=", start);
+		System.out.println(str.substring(start+end, 32));
+	}
+	
 }
