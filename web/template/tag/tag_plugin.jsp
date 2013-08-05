@@ -111,6 +111,7 @@ function tags_add_or_del(obj){
 }
 // 删除结点函数
 function del_parent_node(obj){
+	//window.Event.stopPropagation(); 
 	$(obj).parent().fadeOut(function(){$(this).remove();})
 	$("#tag_text input[tagsid='"+$(obj).parent().attr("tagsid")+"']").attr("checked",false);
 }

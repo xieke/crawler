@@ -102,7 +102,6 @@
         <th>发送服务器</th>
         <th>接收服务器</th>
         <th>用户名</th>
-        <th>显示名称</th>
         <th>发送地址</th>
         <th>操作</th>
     </tr>
@@ -113,7 +112,6 @@
     <td>${detail.smtp}</td>
     <td>${detail.pop3}</td>
     <td>${detail.username}</td>
-    <td>${detail.showname}</td>
     <td>${detail.fromaddr}</td>
     <td><a href="javascript:void(0)" onclick="javascript:editit('${detail.id}')" > edit </a>  |  
 	

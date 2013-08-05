@@ -107,4 +107,4 @@ addEventListener('load', function() { setTimeout(hideURLbar, 0); }, false );
     <img id="logo-icon" src="images/mobile/Default.png" alt="盛超Calvin" /> <a href="http://www.shengchao.name/blog">GpCore</a> </div>
   <div id="headerbar-menu"> <a href="javascript:return false;"></a> </div>
 </div>
-<div id="drop-fade"> <a id="searchopen" class="top" href="javascript:return false;">Search</a></div>
+<div id="drop-fade"> <a id="searchopen" class="top" href="/news.NewsActionHandler.listPhone">Search</a></div>

@@ -167,6 +167,7 @@ $(".unselect_all").click(function(){
                 <input type="button" class="button" id="dels"  onclick="javascript:enableall();" value="enable" />
                 <input type="button" class="button" id="dels"  onclick="javascript:disableall();" value="disable" />
                 <input type="button" class="button" id="dels"  onclick="javascript:deleteall();" value="delete" />
+                ${tipInfo}
         </td>
     </tr>
 </table>

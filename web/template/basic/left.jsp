@@ -155,7 +155,7 @@ $(function(){
 
 				<tr>
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="/news.GpMailAH.listPosted" target="mainFrame" class="left-font03 class_2">邮件发送记录</a></td>
+				  <td width="91%"><a href="/post.PostJobAH.listPosted" target="mainFrame" class="left-font03 class_2">邮件发送记录</a></td>
 				</tr>
       </table>
 		<!--  分类1结束    -->

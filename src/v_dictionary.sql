@@ -11,6 +11,8 @@ union select DISTINCT '1','Y','news_status_all','1' from dual
  
 union select distinct `e`.`USERID` AS `USERID`,`e`.`USERNAME` AS `USERNAME`,'users' AS `users`,'odb' AS `odb` from `employee` `e` where ((`e`.`SCRAP` <> '0') or isnull(`e`.`SCRAP`))
 
+union select distinct p.id,p.name,'postjobs','' from basic.postjob p where p.status='1' -- 查询邮件发送任务
+
 union
 select '0','1','importance','' from dual		-- GP重要度
 union
@@ -58,6 +60,15 @@ union
 select '3','4','urgent_all','4' from dual
 union
 select '4','5','urgent_all','5' from dual
+
+union
+select 'A','A','customer_level','' from dual	-- 客户级别
+union
+select 'B','B','customer_level','' from dual
+union
+select 'C','C','customer_level','' from dual
+union
+select 'D','D','customer_level','' from dual
 
 union
 select '0','knowledge','sort','1' from dual

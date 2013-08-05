@@ -28,7 +28,9 @@ import sand.annotation.TokenCheck;
 import sand.depot.job.QuartzManager;
 import sand.depot.tool.system.ControllableException;
 import sand.depot.tool.system.ErrorException;
+import sand.depot.tool.system.InfoException;
 import sand.depot.tool.system.SystemKit;
+import sand.mail.MailSender;
 import sand.mail.MailServer;
 import sand.service.basic.service.TagService;
 import sand.service.news.NewsService;
@@ -146,8 +148,10 @@ public class NewsActionHandler extends ActionHandler {
 //				if(b.getString("tags").indexOf(s)>=0){
 //				}
 			}	
-			log("put "+s+"  "+onetags.size());
-			newtags.put(s, onetags);
+			if(onetags.size()>0){
+				log("put "+s+"  "+onetags.size());
+				newtags.put(s, onetags);				
+			}
 		}
 		log("j is "+j+"   v size is "+v.size());
 		for(BizObject b:v){
@@ -222,8 +226,14 @@ public class NewsActionHandler extends ActionHandler {
 		//this._request.setAttribute("tags", list);
 		this._nextUrl = "/template/news/listmail.jsp";
 	}
+	
+	
+	public void listPhone() throws SQLException{
+		this.list();
+		this._nextUrl="/template/mobile/list.jsp";
+	}
 	@CandoCheck("session")
-	@TokenCheck
+	
 	public void list() throws SQLException{
 		List<BizObject> objList = queryList();
 		String[] str = this.getParameter("tag_ids2").split(",");
@@ -519,19 +529,56 @@ public class NewsActionHandler extends ActionHandler {
 	}
 	
 
-	
+	public void last() throws SQLException{
+		String allids = this.getParameter("allids");
+		String ids[]=allids.split(",");
+		log("1 objid is "+_objId);
+		for(int i=0;i<ids.length;i++){
+			if(this._objId.equals(ids[i])){
+				if(i>0)
+					this._objId=ids[i-1];
+			}
+		}
+		log("2 objid is "+_objId);
+		this.showIt();
+	}
+	public void next() throws SQLException{
+		String allids = this.getParameter("allids");
+		String ids[]=allids.split(",");
+		log("1 objid is "+_objId);
+		for(int i=0;i<ids.length;i++){
+			if(this._objId.equals(ids[i])){
+				if(i<ids.length-1)
+					this._objId=ids[i+1];
+			}
+		}
+		log("2 objid is "+_objId);
+		this.showIt();
+	}
+
 	public void showIt() throws SQLException{
-		
-		
+				
 		boolean result = HttpRequestDeviceUtils.isMobileDevice(_request);
-		log("result is "+result);
+		log("is mobile device ?   "+result);
 		QueryFactory qf = new QueryFactory("news");
 		BizObject biz = qf.getByID(this._objId);
-		
+		if(biz==null) throw new InfoException("没有文章了");
 		biz.set("hits",biz.getInt("hits",0)+1);
-		String mail = this.getParameter("mail");
-		if(!mail.equals("")){
-			biz.set("clickmails", biz.getString("clickmails")+","+mail);
+		String email = this.getParameter("email");
+		
+		this.clickIt("open");
+		if(!email.equals("")){
+//			BizObject customer = new BizObject("customers");
+//			customer.set("email",email);			
+//			customer = customer.getQF().getOne(customer);
+//			
+//			if(customer!=null){
+//					customer.set("hits", customer.getString("hits")+","+this._objId);
+//					this.getJdo().update(customer);
+//			}
+			
+			biz.set("clickmails", biz.getString("clickmails")+","+email);
+			
 		}
 		this.getJdo().update(biz);
 		List<BizObject> list = this.getTagService().openAllWithSelectedTag(this._objId);
@@ -548,10 +595,10 @@ public class NewsActionHandler extends ActionHandler {
 		this._request.setAttribute("objList", list);
 		this._request.setAttribute("commentsList", this.getComments(this._objId));
 		this.setParam();
-		if (result)
+		//if (result)
 			this._nextUrl = "/template/mobile/view.jsp";
-		else
-			this._nextUrl = "/template/news/show.jsp";
+//		else
+//			this._nextUrl = "/template/news/show.jsp";
 	}
 	
 	@CandoCheck("session")
@@ -896,17 +943,49 @@ public class NewsActionHandler extends ActionHandler {
 		return newsService;
 	}
 	
+	private String clickIt(String operator) throws SQLException{
+		String email=this.getParameter("email");
+		String newsid=this.getParameter("newsid");
+		if(newsid.equals("")) newsid=this._objId;
+		
+		if(!email.equals("")&&!newsid.equals("")){
+			
+			BizObject b = new BizObject("userclicks");
+			b.set("email", email);
+			b.set("newsid",newsid);
+			b.set("operator", operator);
+			
+			if(b.getQF().getOne(b)!=null){
+				return "您已经点过了";
+			}
+
+			BizObject customer = new BizObject("customers");
+			customer.set("email",email);			
+			customer = customer.getQF().getOne(customer);
+
+			if(customer!=null){
+					b.set("customerid", customer.getId());
+					//customer.set("operate", customer.getString(operat)+","+this._objId);
+			}
+			b.set("operator", operator);
+			b.set("clickdate",new Date());
+			this.getJdo().addOrUpdate(b);
+			return "谢谢您的参与";
+
+		}
+		return "错误的参数";		
+	}
+	
 	@Ajax
 	public String like() throws SQLException{
-		
-		return click("likecount");
+		return clickIt("like");
 		
 	}
 	
 	@Ajax
 	public String dislike() throws SQLException{
 
-		return click("dislikecount");
+		return clickIt("dislike");
 		
 	
 	}
@@ -915,15 +994,15 @@ public class NewsActionHandler extends ActionHandler {
 	public String click(String likeordislike) throws SQLException{
 
 		
-		String mail=this.getParameter("mail");
+		String email=this.getParameter("email");
 		String newsid = this.getParameter("newsid");
 		BizObject b = new BizObject("news");
 		b.setID(newsid);
 		b.refresh();
 		//logger.
-		if(b.getString("clickmails").indexOf(mail)>=0)
+		if(b.getString("clickmails").indexOf(email)>=0)
 			return "您已经点过了";
-		b.set("clickmails", b.getString("clickmails")+","+mail+"|"+likeordislike.substring(0,1));
+		b.set("clickmails", b.getString("clickmails")+","+email+"|"+likeordislike.substring(0,1));
 		
 		b.set(likeordislike, b.getInt(likeordislike,0)+1);
 		b.set("content", null);
@@ -935,6 +1014,10 @@ public class NewsActionHandler extends ActionHandler {
 	
 	
 	public void preview(){
+		
+	}
+	
+	public void sendAll(){
 		
 	}
 	/**
@@ -961,7 +1044,7 @@ public class NewsActionHandler extends ActionHandler {
 		//logger.info("sfix is "+sfix);
 		// email.set("fromaddr", "xieke3@hnair.com");
 
-		String content=this.renderHtml2(this.getParameter("tags"),this.getParameter("subject"),this.getParameter("greeting"),this.getParameter("ending"));
+		String content=this.renderHtml2(address,this.getParameter("tags"),this.getParameter("subject"),this.getParameter("greeting"),this.getParameter("ending"));
 		email.set(
 				"content",content);
 		
@@ -972,8 +1055,11 @@ public class NewsActionHandler extends ActionHandler {
 
 		boolean result = false;
 	//	if(mailExcludes.contains(sfix)){
-			result=MailServer.sendMailSyn(email);
-			
+		
+		MailSender mailSender = new MailSender(this.getParameter("mailserver"));
+		
+		result=mailSender.sendMailSyn(email);
+		//result=MailServer.sendMailSyn(email);
 			
 
 		if (result)
@@ -1049,7 +1135,7 @@ public class NewsActionHandler extends ActionHandler {
 
 		//return _SUBMIT_TYPE;
 	}
-	private  String renderHtml2(String tags,String subject,String greeting,String ending) throws IOException, ServletException, SQLException, TemplateException{
+	private  String renderHtml2(String email,String tags,String subject,String greeting,String ending) throws IOException, ServletException, SQLException, TemplateException{
 		 Configuration cfg; 
         cfg = new Configuration();
         // - Templates are stoted in the WEB-INF/templates directory of the Web app.
@@ -1065,6 +1151,7 @@ public class NewsActionHandler extends ActionHandler {
         root.put("objList", _request.getAttribute("objList"));
         root.put("tags",tags);
         root.put("subject", subject);
+        root.put("email",email);
         root.put("greeting", greeting);
         root.put("ending", ending);
        // this.renderHtml();
