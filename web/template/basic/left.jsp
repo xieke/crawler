@@ -121,11 +121,11 @@ $(function(){
         
 				<tr>
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="<m:out value='/customer.CustomerActionHandler.list' functionid='abcd'/>" target="mainFrame" class="left-font03 class_2">客户管理</a></td>
+				  <td width="91%"><a href="<m:out value='/customer.CustomerActionHandler.list' />" target="mainFrame" class="left-font03 class_2">客户管理</a></td>
 				</tr>
 				<tr>
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="<m:out value='/rules.RulesActionHandler.list' functionid='abcd'/>" target="mainFrame" class="left-font03 class_2">自动邮件策略配置</a></td>
+				  <td width="91%"><a href="<m:out value='/rules.RulesActionHandler.list' />" target="mainFrame" class="left-font03 class_2">自动邮件策略配置</a></td>
 				</tr>
 				<tr>
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
@@ -146,7 +146,7 @@ $(function(){
 				</tr>
 				<tr>
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
-				  <td width="91%"><a href="<m:out value='/post.PostJobAH.list' functionid='abcd'/>" target="mainFrame" class="left-font03 class_2">邮件发送任务</a></td>
+				  <td width="91%"><a href="<m:out value='/post.PostJobAH.list' />" target="mainFrame" class="left-font03 class_2">邮件发送任务</a></td>
 				</tr>
 				<tr>
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
