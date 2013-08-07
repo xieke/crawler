@@ -54,7 +54,6 @@ public class PostJobAH extends ActionHandler {
 		this._nextUrl="/template/post/listPostJob.jsp";		
 	}
 	
-
 	
 	public void listPosted() throws SQLException{
 		//BizObject postjob = this.getBizObjectFromMap("postjob");
@@ -110,6 +109,13 @@ public class PostJobAH extends ActionHandler {
 		BizObject b = new BizObject("postjob");
 		b.setID(this._objId);
 		b.refresh();
+		
+		if(b.getString("lastposttime").equals("")){
+			
+			Calendar c1 = Calendar.getInstance();
+			c1.add(Calendar.DAY_OF_YEAR, -2);
+			b.set("lastposttime", c1.getTime());
+		}
 		
 		//this.showObj("postjob",this._objId);
 		this.setAttribute("rules",this.getRules(b));
