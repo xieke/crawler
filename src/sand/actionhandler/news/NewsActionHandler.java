@@ -1,6 +1,7 @@
 package sand.actionhandler.news;
 
 import java.io.IOException;
+
 import java.io.Writer;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -31,12 +33,12 @@ import sand.depot.tool.system.ErrorException;
 import sand.depot.tool.system.InfoException;
 import sand.depot.tool.system.SystemKit;
 import sand.mail.MailSender;
-import sand.mail.MailServer;
 import sand.service.basic.service.TagService;
 import sand.service.news.NewsService;
 import sand.util.HttpRequestDeviceUtils;
 import tool.basic.DateUtils;
 import tool.dao.BizObject;
+import tool.dao.JDO;
 import tool.dao.PageVariable;
 import tool.dao.QueryFactory;
 import tool.util.CachedResponseWrapper;
@@ -44,12 +46,12 @@ import basic.BasicContext;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-
 //private Configuration cfg; 
 
 @AccessControl("no")
 public class NewsActionHandler extends ActionHandler {
 	
+	static Logger logger = Logger.getLogger(NewsActionHandler.class);
 	private TagService tagService;
 	private NewsService newsService;
 
@@ -387,6 +389,7 @@ public class NewsActionHandler extends ActionHandler {
 		String job = this.getParameter("job");
 		String startDate = this.getParameter("startDate");
 		String startDate1 = this.getParameter("startDate1");
+		String endDate1 = this.getParameter("endDate1");
 		String endDate = this.getParameter("endDate");
 		String status = this.getParameter("status");
 		String title = this.getParameter("title");
@@ -442,6 +445,7 @@ public class NewsActionHandler extends ActionHandler {
 		
 		//STR_TO_DATE('2013-05-27','%Y-%m-%d')>=posttime
 		if(StringUtils.isNotBlank(startDate1)) sql.append(" and n.modifydate>=STR_TO_DATE('").append(startDate1).append("','%Y-%m-%d %H:%i:%s')");
+		if(StringUtils.isNotBlank(endDate1)) sql.append(" and n.modifydate<=STR_TO_DATE('").append(endDate1).append("','%Y-%m-%d %H:%i:%s')");
 		if(StringUtils.isNotBlank(startDate)) sql.append(" and n.posttime>=STR_TO_DATE('").append(startDate).append("','%Y-%m-%d %H:%i:%s')");
 		if(StringUtils.isNotBlank(endDate)) sql.append(" and n.posttime<=STR_TO_DATE('").append(endDate).append("','%Y-%m-%d %H:%i:%s')");
 		if(StringUtils.isNotBlank(status)) sql.append(" and n.status='").append(status).append("'");
@@ -564,8 +568,11 @@ public class NewsActionHandler extends ActionHandler {
 		BizObject biz = qf.getByID(this._objId);
 		if(biz==null) throw new InfoException("没有文章了");
 		biz.set("hits",biz.getInt("hits",0)+1);
-		String email = this.getParameter("email");
-		
+//		String email = this.getParameter("email");
+		String email=this.getParameter("email");
+		String newsid=this.getParameter("newsid");
+		if(newsid.equals("")) newsid=this._objId;
+
 		this.clickIt("open");
 		if(!email.equals("")){
 //			BizObject customer = new BizObject("customers");
@@ -943,17 +950,21 @@ public class NewsActionHandler extends ActionHandler {
 		return newsService;
 	}
 	
-	private String clickIt(String operator) throws SQLException{
+	
+	public  String clickIt(String operator) throws SQLException{
+		
 		String email=this.getParameter("email");
 		String newsid=this.getParameter("newsid");
+		String senddate=this.getParameter("senddate");
 		if(newsid.equals("")) newsid=this._objId;
-		
+
 		if(!email.equals("")&&!newsid.equals("")){
 			
 			BizObject b = new BizObject("userclicks");
 			b.set("email", email);
 			b.set("newsid",newsid);
 			b.set("operator", operator);
+			b.set("senddate",senddate);
 			
 			if(b.getQF().getOne(b)!=null){
 				return "您已经点过了";
@@ -967,17 +978,28 @@ public class NewsActionHandler extends ActionHandler {
 					b.set("customerid", customer.getId());
 					//customer.set("operate", customer.getString(operat)+","+this._objId);
 			}
+			
+//			BizObject posted = new BizObject("posted");
+//			posted.set("cemails", email);
+//			posted.set("newsids", newsid);
+//			List<BizObject> v = posted.getQF().mquery(posted);//(posted);
+//			if(v.size()>0){
+//				posted=v.get(0);
+//				b.set("senddate", posted.getDate("lastposttime"));
+//			}
 			b.set("operator", operator);
 			b.set("clickdate",new Date());
 			this.getJdo().addOrUpdate(b);
 			return "谢谢您的参与";
 
 		}
+		logger.info("email "+email+"  newsid "+newsid);
 		return "错误的参数";		
 	}
 	
 	@Ajax
 	public String like() throws SQLException{
+
 		return clickIt("like");
 		
 	}
@@ -1111,6 +1133,8 @@ public class NewsActionHandler extends ActionHandler {
        root.put("www_url", SystemKit.getParamById("system_core", "www_url"));
        root.put("objList", _request.getAttribute("objList"));
        root.put("tags",this.getParameter("tags"));
+       root.put("email", this.getParameter("email"));
+       root.put("senddate",new Date());
        root.put("subject", this.getParameter("subject"));
        root.put("greeting", this.getParameter("greeting"));
        root.put("ending", this.getParameter("ending"));       

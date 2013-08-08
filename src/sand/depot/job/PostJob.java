@@ -16,6 +16,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import sand.actionhandler.news.GpMailAH;
+import sand.actionhandler.news.NewsActionHandler;
 import sand.actionhandler.system.ActionHandler;
 import sand.depot.tool.system.SystemKit;
 import sand.mail.MailSender;
@@ -296,6 +297,7 @@ public class PostJob extends BaseJob {
 	        root.put("greeting", greeting);
 	        root.put("ending",ending);
 	        root.put("email",email);
+	        root.put("senddate",new Date());
 	        //this.render();
 	        root.put("www_url", SystemKit.getParamById("system_core","www_url"));
 	        root.put("objList", postv);
@@ -549,8 +551,6 @@ public class PostJob extends BaseJob {
 			
 			job.set("memo",job.getString("memo")+" ,\r\n"+c.getString("name")+"-"+c.getString("email")+"-"+new Date()+"-"+success);					
 			
-			
-		
 			//boolean success =true;
 								
 			
@@ -562,6 +562,7 @@ public class PostJob extends BaseJob {
 		   List<BizObject>  list=m.get(o); 
 			for(BizObject b:list){
 				newscount++;
+				//NewsActionHandler.clickIt(email.getString("bcc"), b.getId(), "send",_jdo);
 				if(newsids.equals(""))
 					newsids=b.getId();
 				else
@@ -622,71 +623,74 @@ public class PostJob extends BaseJob {
 		
 	}
 	
-	public String run2() throws Exception {
-		
-		String ret="";
-		
-		MailConfig mc=null;
-		
-//		this.addOldTags();
-//		if(1==1) return "ok";
-		//List<String> mailv = mc.readTxtFile("/root/erp.upload/maillist");
-		int i=0;
-		
-		List<BizObject> mailv=parseMailList();
-
-		for(BizObject s:mailv){
-
-			BizObject email = new BizObject("email");
-			// address=mailinfo[1];
-			email.set("toaddr", s.getString("address"));
-			//Map<String ,List> v = this.getQryPosts(s.getString("tags"), s.getString("cycle"), s.getString("urgent"), s.getString("limit"),s.getString("lang"));
-			Map<String ,List> v  = this.getPostNews(i);
-			String greeting=s.getString("greeting").replaceAll("@name",s.getString("name"));
-			String ending=s.getString("ending").replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDDHHMMSS));
-			
-			String content=this.render(v,greeting,ending,"");
-			email.set("content",content);
-			String subject=s.getString("subject").replaceAll("@name",s.getString("name"));
-		//	log("title "+subject);
-			//email.set("title", title);
-			email.set("subject", subject);
-			
-			
-
-			boolean success =MailServer.sendMailSyn(email);//.sendMailSyn(email);
-			
-			BizObject post = new BizObject("post");
-			//post.set("postmail", o)
-			post.set("postmail", s.getString("address"));
-			post.set("posted", "0");
-			
-			post.set("tags", s.getString("tags"));
-			
-			post.set("posttime", new Date());
-			
-			String newsids="";
-			
-			for(String o : v.keySet()){ 
-			   List<BizObject>  list=v.get(o); 
-				for(BizObject b:list){
-					if(newsids.equals(""))
-						newsids=b.getId();
-					else
-						newsids=newsids+","+b.getId();
-				}
-
-			} 
-			post.set("newsids", newsids);
-			post.set("success", success); //是否成功发送
-			post.set("name", s.getString("name"));
-			
-			this._jdo.add(post);
-			
-			i++;
-		}
- 		
-		return super.OK+"，共发送 "+i+"封邮件 "+ret;
-	}
+//	public String run2() throws Exception {
+//		
+//		String ret="";
+//		
+//		MailConfig mc=null;
+//		
+////		this.addOldTags();
+////		if(1==1) return "ok";
+//		//List<String> mailv = mc.readTxtFile("/root/erp.upload/maillist");
+//		int i=0;
+//		
+//		List<BizObject> mailv=parseMailList();
+//
+//		for(BizObject s:mailv){
+//
+//			BizObject email = new BizObject("email");
+//			// address=mailinfo[1];
+//			email.set("bcc", s.getString("address"));
+//			//Map<String ,List> v = this.getQryPosts(s.getString("tags"), s.getString("cycle"), s.getString("urgent"), s.getString("limit"),s.getString("lang"));
+//			Map<String ,List> v  = this.getPostNews(i);
+//			String greeting=s.getString("greeting").replaceAll("@name",s.getString("name"));
+//			String ending=s.getString("ending").replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDDHHMMSS));
+//			
+//			String content=this.render(v,greeting,ending,"");
+//			email.set("content",content);
+//			String subject=s.getString("subject").replaceAll("@name",s.getString("name"));
+//		//	log("title "+subject);
+//			//email.set("title", title);
+//			email.set("subject", subject);
+//			
+//			
+//
+//			boolean success =MailServer.sendMailSyn(email);//.sendMailSyn(email);
+//			
+//			BizObject post = new BizObject("post");
+//			//post.set("postmail", o)
+//			post.set("postmail", s.getString("address"));
+//			post.set("posted", "0");
+//			
+//			post.set("tags", s.getString("tags"));
+//			
+//			post.set("posttime", new Date());
+//			
+//			String newsids="";
+//			
+//			for(String o : v.keySet()){ 
+//			   List<BizObject>  list=v.get(o); 
+//				for(BizObject b:list){
+//					
+//					
+//					
+//					if(newsids.equals(""))
+//						newsids=b.getId();
+//					else
+//						newsids=newsids+","+b.getId();
+//				}
+//
+//			} 
+//			post.set("newsids", newsids);
+//			post.set("success", success); //是否成功发送
+//			post.set("name", s.getString("name"));
+//			
+//			this._jdo.add(post);
+//			
+//			i++;
+//		}
+// 		
+//		return super.OK+"，共发送 "+i+"封邮件 "+ret;
+//	}
 
 }

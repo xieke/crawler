@@ -143,7 +143,7 @@ public class PostJobAH extends ActionHandler {
 		b.set("customers",customer_ids);
 		b.set("ccounts",customer_ids.split(",").length);
 		b.set("cnames",getCustomerInfos(b.getString("customers"),"name"));
-		b.set("cemails",getCustomerInfos(b.getString("customers"),"name"));
+		b.set("cemails",getCustomerInfos(b.getString("customers"),"email"));
 		b.set("ruleid", tactics_ids);
 		
 		this.checkParam(b);

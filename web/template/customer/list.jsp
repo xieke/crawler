@@ -55,6 +55,7 @@
         <th>创建日期</th>
         <th>当前任务</th>
         <th>最后邮件时间</th>
+        <th>Feedback(点击More)</th>
         <th>操作</th>
     </tr>
 <c:forEach var="detail" items="${objList}" varStatus="status">
@@ -66,6 +67,7 @@
         <td><fmt:formatDate value="${detail.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
         <td><m:out type="" value="${detail.jobs}" maxSize="15" /></td>
         <td>${detail.lastposttime}</td>
+        <td><a href="/customer.CustomerActionHandler.feedbackList?userclicks$customerid=${detail.id}&operator=open" >邮件more</a><a href="/customer.CustomerActionHandler.feedbackList?userclicks$customerid=${detail.id}&operator=dis_like" >(dis)like</a></td>
         <td><a href="/customer.CustomerActionHandler.show?objId=${detail.id}" ><img alt="点击编辑" src="/images/button_edit.png" /></a></td>
     </tr>
 </c:forEach>

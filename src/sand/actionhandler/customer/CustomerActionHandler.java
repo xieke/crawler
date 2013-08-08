@@ -48,7 +48,7 @@ public class CustomerActionHandler extends ActionHandler {
 		customer.setID(this._objId);
 		customer.refresh();
 		this._request.setAttribute("obj", customer);
-		this._nextUrl = "template/customer/edit.jsp";
+		this._nextUrl = "/template/customer/edit.jsp";
 	}
 	
 	public void save() throws SQLException{
@@ -90,5 +90,18 @@ public class CustomerActionHandler extends ActionHandler {
 		
 		customer.set("status", 0);
 		this.getJdo().update(customer);
+	}
+	
+	public void feedbackList() throws SQLException{
+		String operator = this.getParameter("operator");
+		if(operator.equals("open"))
+			super.setHardcoreFilter("operator='open'");
+		else if(operator.equals("dis_like"))
+			super.setHardcoreFilter("(operator='dislike' or operator='like')");
+		super.listObj("userclicks");
+		List<BizObject> list = (List<BizObject>) this._request.getAttribute("objList");
+//		for(BizObject biz : list) biz.setFk("newsid", "news");
+		this._request.setAttribute("operator", operator);
+		this._nextUrl = "/template/customer/feedbackList.jsp";
 	}
 }
