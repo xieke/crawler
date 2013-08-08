@@ -1176,6 +1176,7 @@ public class NewsActionHandler extends ActionHandler {
         root.put("tags",tags);
         root.put("subject", subject);
         root.put("email",email);
+        root.put("senddate",new Date());
         root.put("greeting", greeting);
         root.put("ending", ending);
        // this.renderHtml();
