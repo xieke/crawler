@@ -1176,7 +1176,7 @@ public class NewsActionHandler extends ActionHandler {
         
         // - Templates are stoted in the WEB-INF/templates directory of the Web app.
         cfg.setServletContextForTemplateLoading(this._context  , "WEB-INF/templates");
-        cfg.setDefaultEncoding("utf-8");
+        cfg.setDefaultEncoding("UTF-8");
        // this._dispatched=true;
 		// Build the data-model
         Map root = new HashMap();
@@ -1194,7 +1194,7 @@ public class NewsActionHandler extends ActionHandler {
        // this.renderHtml();
         
         // Get the templat object
-        Template t = cfg.getTemplate("news/render.ftl");
+        Template t = cfg.getTemplate("news/render.ftl","UTF-8");
         
         // Prepare the HTTP response:
         // - Use the charset of template for the output
