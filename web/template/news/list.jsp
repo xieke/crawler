@@ -79,6 +79,14 @@
         <td width="40%"><m:radio type="news_status_all" name="status" value="${status}" /></td>
     </tr>
     <tr>
+        <td width="10%">最后更新时间：</td>
+        <td><input type="text" id="s_time1" name="startDate1" value="${startDate1}" readonly="readonly" plugin="date2" start="start1" />
+<span class="newfont06">-</span>
+<input type="text" id="e_time1" name="endDate1" value="${endDate1}" readonly="readonly" plugin="date2" end="start1" /></td>
+        <td>文章分类：</td>
+        <td><m:radio type="sort_all" name="sort" value="${sort}" /></td>
+    </tr>
+    <tr>
         <td>标题：</td>
         <td><input type="text" id="title" name="title" value="${title}" /></td>
         <td>客户重要度：</td>
@@ -92,9 +100,9 @@
     </tr>
     <tr>
         <td>标签：</td>
-        <td>
+        <td colspan="3">
 <input type="hidden" id="tags" name="tags2" value="${tags2}" />
-<ul style="float: none;height: 80px;width: 330px;" id="tags_result" class="tags_result select_label"></ul>
+<ul style="float: none;height: 80px;width: 660px;" id="tags_result" class="tags_result select_label"></ul>
 <c:set var="tagsList_pf" value="${tags}" />
 <%@ include file="/template/tag/tag_plugin.jsp"%>
 <style type="text/css">
@@ -114,8 +122,7 @@ $(function(){
 });
 </script>
         </td>
-        <td>文章分类：</td>
-        <td><m:radio type="sort_all" name="sort" value="${sort}" /></td>
+        
     </tr>
     <tr>
     	<td></td>
@@ -129,7 +136,7 @@ $(function(){
         <th>选择</th>
         <th>序号</th>
         <th>标题</th>
-        <th>中文summary</th>
+        <th>summary</th>
         <th>作者</th>
         <th>来源</th>
         <th><a href="javascript:setorderby('posttime')" id="posttime_orderby" class="order_ 
@@ -158,9 +165,9 @@ $(function(){
   	<td><input type="checkbox" value="${detail.id}" name="delid"/></td>
     <td>${status.index+1}</td>
     <td><a href="javascript:void(0)" onclick="show('${detail.id}')" ><m:out type="" value="${detail.title}" maxSize="12" /></a></td>
-    <td><m:out type="" value="${detail.c_summary}" maxSize="12" /></td>
-    <td>${detail.author}</td>
-    <td>${detail.copyfrom}</td>
+    <td>英：<m:out value="${detail.summary}" maxSize="20" /><br>中：<m:out value="${detail.c_summary}" maxSize="20" />  </td>
+    <td><m:out type="" value="${detail.author}" maxSize="3" /></td>
+    <td><m:out type="" value="${detail.copyfrom}" maxSize="4" /></td>
     <td><fmt:formatDate value="${detail.posttime}" pattern="yyyy-MM-dd HH:mm"/></td>
     <td><fmt:formatDate value="${detail.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
     <td><c:if test="${detail.sort=='1'}">I</c:if><c:if test="${detail.sort=='0'}">K</c:if></td>

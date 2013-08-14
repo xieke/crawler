@@ -81,17 +81,32 @@ function checkform(){
       <td><m:select value="${obj.taskcycle}" type="taskcycle" name="TASK$TASKCYCLE" id="TASK$TASKCYCLE"/></td>
     <tr>
     </tr>
-      <td class="z">运行日(周几,几号)：</td>
-      <td><input maxlength="25" size="20" name="TASK$TASKDATE" id="TASK$TASKDATE" value="<c:out value='${obj.TASKDATE}'/>"> ( 运行周期为每周，每月时填写 )</td>
+      <td class="z">日期(1-31)：</td>
+      <td><input maxlength="25" size="20" name="TASK$TASKDATE" id="TASK$TASKDATE" value="<c:out value='${obj.TASKDATE}'/>"> ( 运行周期为每月时填写 )</td>
+    </tr>
+
+	</tr>
+      <td class="z">星期(1-7)：</td>
+      <td><input maxlength="25" size="20" name="TASK$TASKweek" id="TASK$TASKweek" value="<c:out value='${obj.TASKweek}'/>"> ( 运行周期为每周时填写 )</td>
     </tr>
     <tr> 
-      <td class="z">运行时间：</td>
-      <td><input maxlength="25" size="20" name=TASK$TASKTIME id="TASK$TASKTIME" value="<c:out value='${obj.TASKTIME}'/>">(格式如 14:25:33)</td>
+      <td class="z">小时(0-23)：</td>
+      <td><input maxlength="25" size="20" name=TASK$TASKhour id="TASK$TASKhour" value="<c:out value='${obj.TASKhour}'/>">(* 表示每小时，也可以是逗号隔开的多个小时)</td>
     <tr>
-    </tr>
+    <tr> 
+      <td class="z">分钟(0-59)：</td>
+      <td><input maxlength="25" size="20" name=TASK$TASKminute id="TASK$TASKminute" value="<c:out value='${obj.TASKminute}'/>">(* 表示每分钟，也可以是逗号隔开的多个分钟)</td>
+    <tr>
+    <tr> 
+      <td class="z">秒(0-59)：</td>
+      <td><input maxlength="25" size="20" name=TASK$TASKsecond id="TASK$TASKsecond" value="<c:out value='${obj.TASKsecond}'/>">(* 表示每秒，也可以是逗号隔开的多个秒)</td>
+    <tr>
+
+	</tr>
       <td class="z">所在类名：</td>
       <td><input value="${obj.taskclass}" name="TASK$TASKCLASS" id="TASK$TASKCLASS" type="taskclass"/></td>
     </tr>
+	
     <tr>
       <td class="z">运行日期：</td>
       <td><input maxlength="25" size="20" name="TASK$runDATE" id="TASK$runDATE" onFocus="WdatePicker({startdate:'%y-%M-%1',dateFmt:'yyyy-MM-dd',alwaysUseStartdate:true})" value='${obj.rundate}'> (只运行一次时填写)</td>

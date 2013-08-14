@@ -173,6 +173,8 @@ public class NewsActionHandler extends ActionHandler {
 
 	@CandoCheck("session")
 	public void toListMail() throws SQLException{
+		//this.setPageSize(2000);
+		//this.setAttribute("pagesize", 2000);
 		log("163  list mail tag "+this.getParameter("tags2"));
 		//List<BizObject> objList = queryList();
 		String[] str = this.getParameter("tag_ids2").split(",");
@@ -202,6 +204,8 @@ public class NewsActionHandler extends ActionHandler {
 	@CandoCheck("session")
 	@TokenCheck
 	public void listMail() throws SQLException{
+		//this.list();
+		//this.setPageSize(2000);
 		log("163  list mail tag "+this.getParameter("tags2"));
 		List<BizObject> objList = queryList();
 		String[] str = this.getParameter("tag_ids2").split(",");
@@ -237,6 +241,7 @@ public class NewsActionHandler extends ActionHandler {
 	@CandoCheck("session")
 	
 	public void list() throws SQLException{
+		this.setPageSize(200);
 		List<BizObject> objList = queryList();
 		String[] str = this.getParameter("tag_ids2").split(",");
 
@@ -379,7 +384,7 @@ public class NewsActionHandler extends ActionHandler {
 		//PageVariable pv 
 		PageVariable pv=this.preparePageVar();
 		pv.type="simple";
-		pv.setPagesize(200);
+		//pv.setPagesize(200);
 		List<BizObject> objList = QueryFactory.executeQuerySQL(this.getQuerySQL(),pv);
 
 		return objList;
@@ -402,6 +407,7 @@ public class NewsActionHandler extends ActionHandler {
 		String order = this.getParameter("order");
 		String summary = this.getParameter("summary");
 		String issue = this.getParameter("issue");
+		String limit = this.getParameter("limit");
 		String lang=this.getParameter("lang");
 		String[] tag_ids = null;
 		if(StringUtils.isNotBlank(tag_ids2))
@@ -474,6 +480,7 @@ public class NewsActionHandler extends ActionHandler {
 		if(StringUtils.isNotBlank(order)) sql.append(" ").append(order);
 		else sql.append(" desc");
 
+		//if(StringUtils.isNotBlank(limit)) sql.append(" limit 0, ").append(limit);
 		//System.out.println(sql.toString());
 		log("392 sql is "+sql.toString());
 		//PageVariable pv 
@@ -486,6 +493,7 @@ public class NewsActionHandler extends ActionHandler {
 		String startDate = this.getParameter("startDate");
 		String startDate1 = this.getParameter("startDate1");
 		String endDate = this.getParameter("endDate");
+		String endDate1 = this.getParameter("endDate1");
 		String status = this.getParameter("status");
 		String title = this.getParameter("title");
 		String urgent = this.getParameter("urgent");
@@ -494,8 +502,9 @@ public class NewsActionHandler extends ActionHandler {
 		String tags2 = this.getParameter("tags2");
 		String sort = this.getParameter("sort");
 		String lang = this.getParameter("lang");
+		String limit = this.getParameter("limit");
 		String pagesize = this.getParameter("pagesize");
-		if(pagesize.equals("") ) pagesize="15";
+		if(pagesize.equals("") ) pagesize="2000";
 		String tag_ids2 = this.getParameter("tag_ids2");
 		String orderby = this.getParameter("orderby");
 		String order = this.getParameter("order");
@@ -516,6 +525,7 @@ public class NewsActionHandler extends ActionHandler {
 		this._request.setAttribute("startDate", startDate);
 		this._request.setAttribute("startDate1", startDate1);
 		this._request.setAttribute("endDate", endDate);
+		this._request.setAttribute("endDate1", endDate1);
 		this._request.setAttribute("status", status);
 		this._request.setAttribute("title", title);
 		this._request.setAttribute("urgent", urgent);
@@ -524,6 +534,7 @@ public class NewsActionHandler extends ActionHandler {
 		this._request.setAttribute("tags2", tags2);
 		this._request.setAttribute("sort", sort);
 		this._request.setAttribute("lang", lang);
+		this._request.setAttribute("limit", limit);
 		this._request.setAttribute("pagesize", pagesize);
 		this._request.setAttribute("tag_ids2", tag_ids2);
 		this._request.setAttribute("orderby", orderby);

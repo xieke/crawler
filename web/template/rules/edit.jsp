@@ -79,7 +79,7 @@
         <td>
 			<input type="hidden" id="tag_ids" name="tag_ids" value="${obj.tag_ids}" />
             <input type="hidden" id="tags" name="tags" />
-            <div id="tags_result" class="tags_result select_label"></div>
+			<ul style="float: none;height: 150px;width: 660px;" id="tags_result" class="tags_result select_label"></ul>
             <c:set var="tagsList_pf" value="${tags}" />
             <%@ include file="/template/tag/tag_plugin.jsp"%>
         </td>

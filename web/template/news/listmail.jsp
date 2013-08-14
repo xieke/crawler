@@ -38,7 +38,7 @@
 		$("#form1").submit();
 	}
 	function querylist(){
-		$("#reqType").attr("value","news.NewsActionHandler.list");
+		$("#reqType").attr("value","news.NewsActionHandler.listMail");
 		$("#form1").submit();
 	}
 	

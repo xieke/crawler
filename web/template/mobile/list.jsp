@@ -5,7 +5,6 @@
   <div class="result-text"></div>
 
   <tr class="effect">
-  	<td><input type="checkbox" value="${detail.id}" name="delid"/></td>
     <td></td>
     <td><a href="javascript:void(0)" onclick="show('${detail.id}')" ><m:out type="" value="${detail.title}" maxSize="12" /></a></td>
     <td><m:out type="" value="${detail.c_summary}" maxSize="12" /></td>

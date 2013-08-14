@@ -33,7 +33,7 @@ import freemarker.template.TemplateException;
 
 public class PostJob extends BaseJob {
 
-	private static Map<String,Object> renderMap = new HashMap();
+	
 	public static List<BizObject>  postList;
 	
 	static Logger logger = Logger.getLogger(PostJob.class);
@@ -154,6 +154,7 @@ public class PostJob extends BaseJob {
 	 * @throws SQLException
 	 */
 	public static  Map<String,List> getQryPostNews(BizObject rule) throws SQLException{
+		Map<String,Object> renderMap = new HashMap();
 		//BizObject post;
 		String tagids=rule.getString("tag_ids");
 		//String cycle=post.getString("cycle");
@@ -208,8 +209,24 @@ public class PostJob extends BaseJob {
 			//String tag[] = tagstr.split(",");
 			
 			int  total=0;
-			
+
+			/**
+			 * 此处计算所有的newsid
+			 */
+			String allids="";
+			for(int i=0;i<allv.size();i++){
+				
+				BizObject b=allv.get(i);
+				if (allids.equals(""))
+					allids=b.getId();
+				else
+					allids=allids+","+b.getId();
+				if(i>0) b.set("lastid", allv.get(i-1).getId());
+				if(i<allv.size()-1) b.set("nextid", allv.get(i+1).getId());
+			}
+
 			for(String tid:tagid){
+				
 				if(tid.equals("")) continue;
 				List<BizObject> onetags = new ArrayList();
 				
@@ -217,17 +234,6 @@ public class PostJob extends BaseJob {
 				BizObject tag= new BizObject("tag");
 				String tagname="";
 				
-				String allids="";
-				for(int i=0;i<allv.size();i++){
-					
-					BizObject b=allv.get(i);
-					if (allids.equals(""))
-						allids=b.getId();
-					else
-						allids=allids+","+b.getId();
-					if(i>0) b.set("lastid", allv.get(i-1).getId());
-					if(i<allv.size()-1) b.set("nextid", allv.get(i+1).getId());
-				}
 				
 				for(int i=0 ; i<allv.size();i++){
 					BizObject b=allv.get(i);					
@@ -603,8 +609,7 @@ public class PostJob extends BaseJob {
 
 				if(!checkDateDiv(job)) continue;				
 
-				if(job.getString("mailserver").equals("")) continue;
-				
+				if(job.getString("mailserver").equals("")) continue;				
 				
 				processJob(job, _jdo);
 			}
