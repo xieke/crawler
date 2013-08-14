@@ -1173,9 +1173,10 @@ public class NewsActionHandler extends ActionHandler {
 	private  String renderHtml2(String email,String tags,String subject,String greeting,String ending) throws IOException, ServletException, SQLException, TemplateException{
 		 Configuration cfg; 
         cfg = new Configuration();
+        
         // - Templates are stoted in the WEB-INF/templates directory of the Web app.
         cfg.setServletContextForTemplateLoading(this._context  , "WEB-INF/templates");
-        
+        cfg.setDefaultEncoding("utf-8");
        // this._dispatched=true;
 		// Build the data-model
         Map root = new HashMap();
