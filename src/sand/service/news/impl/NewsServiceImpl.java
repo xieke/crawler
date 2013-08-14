@@ -156,7 +156,7 @@ public class NewsServiceImpl implements NewsService {
 					if(StringUtils.isNotBlank(keyword)){
 						if(news.getString("title").indexOf(keyword)!=-1 || content.indexOf(keyword)!=-1){
 //							news.set("title", news.getString("title").replace(keyword, "<font style='background-color:#CF3'>"+keyword+"</font>"));
-							news.set("content", content.replace(keyword, "<font style=\"background-color:#CF3\">"+keyword+"</font>"));
+							news.set("content", content.replace(keyword, "<span style=\"background-color:#CF3\">"+keyword+"</span>"));
 							String[] tag_ids = tagRule.getString("tag_id").split(",");
 							for(String s : tag_ids){
 								if(news.getString("tag_ids").indexOf(s)==-1) {
