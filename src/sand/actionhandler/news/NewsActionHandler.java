@@ -607,8 +607,6 @@ public class NewsActionHandler extends ActionHandler {
 		biz.set("hits",biz.getInt("hits",0)+1);
 //		String email = this.getParameter("email");
 		String email=this.getParameter("email");
-		String newsid=this.getParameter("newsid");
-		if(newsid.equals("")) newsid=this._objId;
 
 		this.clickIt("open");
 		if(!email.equals("")){
@@ -994,6 +992,7 @@ public class NewsActionHandler extends ActionHandler {
 		String newsid=this.getParameter("newsid");
 		String senddate=this.getParameter("senddate");
 		if(newsid.equals("")) newsid=this._objId;
+		logger.info("newsid is "+newsid);
 
 		if(!email.equals("")&&!newsid.equals("")){
 			
