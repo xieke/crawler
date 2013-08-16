@@ -468,16 +468,19 @@ public class PostJob extends BaseJob {
 	 * @param rule
 	 * @return
 	 */
-	private static boolean checkDateValid(BizObject rule){
+	private  boolean checkDateValid(BizObject rule){
 		String w1 = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)+"";
 		String w2 = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+"";
+		String w3 =minute+"";
+		
 		String cycle = rule.getString("cycle");
-		String posttime= rule.getString("posttime");
+		String posthour= rule.getString("posthour");
+		String postminute= rule.getString("postminute");
 		int w = Integer.parseInt(w1);
 		w=w-1;
 		if (w==0) w=7;
-		log("check date valid "+w+" =  "+cycle+"   ,    "+w2+" = "+posttime);
-		if (cycle.indexOf(w+"")>=0&&posttime.equals(w2)){
+		log("check date valid "+w+" =  "+cycle+"   ,    "+w2+" = "+posthour+" , "+w3+" = "+postminute);
+		if (cycle.indexOf(w+"")>=0&&posthour.equals(w2)&&postminute.equals(w3)){
 			return true;
 		}		
 		else{
@@ -589,8 +592,11 @@ public class PostJob extends BaseJob {
 		return result;
 	}	
 	
+	int minute=0;
+	
 	public String run() {
-		
+		minute = Calendar.getInstance().get(Calendar.MINUTE);
+		super.setSynRun(false);  //本任务可以同时执行
 		String ret;
 		BizObject postjob = new BizObject("postjob");
 		try {
@@ -603,7 +609,8 @@ public class PostJob extends BaseJob {
 				BizObject rule =job.getBizObj("ruleid");
 				//rule.set("limits", job.getString("limits"));
 				//log("post time is "+ job.getString("posttime"));
-				rule.set("posttime", job.getString("posttime"));
+				rule.set("posthour", job.getString("posthour"));
+				rule.set("postminute", job.getString("postminute"));
 				
 				if(!checkDateValid(rule)) continue;
 

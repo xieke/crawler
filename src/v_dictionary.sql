@@ -1,8 +1,8 @@
 create or replace view v_dictionary as
 select `i`.`iKEY` AS `id`,`i`.`NAME` AS `name`,`i`.`DICID` AS `dicId`,`i`.`ODB` AS `odb` from `item` `i` where (isnull(`i`.`DISABLED`) or (`i`.`DISABLED` <> '1')) 
 
-union select DISTINCT '0','N','news_status','0' from dual  -- 状态(未处理)
-union select DISTINCT '1','Y','news_status','1' from dual  -- (已处理)
+union select DISTINCT '0','N','news_status','1' from dual  -- 状态(未处理)
+union select DISTINCT '1','Y','news_status','0' from dual  -- (已处理)
 -- union select DISTINCT '2','D','news_status','2' from dual  -- (删除)
 
 union select DISTINCT '','全部','news_status_all','0' from dual	 -- 状态(增加一个默认值)
@@ -191,6 +191,16 @@ union
 select '22','22点','hours','22' from dual 
 union
 select '23','23点','hours','23' from dual 
+
+
+union
+select '0','0分','minutes','01' from dual 
+union
+select '15','15分','minutes','02' from dual 
+union
+select '30','30分','minutes','03' from dual 
+union
+select '45','45分','minutes','04' from dual 
 
 union 
 

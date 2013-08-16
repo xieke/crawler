@@ -97,13 +97,13 @@
     	<td>发送周期</td>
         <td id="cycle_text">
             <c:forEach var="detail" items="${cycleList}" varStatus="status">
-                <label><input type="checkbox" id="${detail.id}" name="cycle" value="${detail.id}" ${detail.checked} />${detail.name}</label>
+                <label><input type="checkbox" id="${detail.id}" name="cycle" value="${detail.id}" checked="${detail.checked}" />${detail.name}</label>
             </c:forEach>
             <input type="hidden" name="rules$cycle" id="cycle_hidden" value="" />
     </tr>
     <tr>
     	<td>语言</td>
-        <td><input type="radio" name="rules$lang" value="c" <c:if test="${obj.lang=='c'||obj.lang==''||obj.lang==null}">checked="checked"</c:if> />中文&nbsp;<input type="radio" name="rules$lang" value="e" <c:if test="${obj.lang=='e'}">checked="checked"</c:if> />英文&nbsp;<input type="radio" name="rules$lang" value="ce" <c:if test="${obj.lang=='c'}">checked="checked"</c:if> />中英文&nbsp;</td>
+        <td><input type="radio" name="rules$lang" value="c" <c:if test="${obj.lang=='c'||obj.lang==''||obj.lang==null}">checked="checked"</c:if> />中文&nbsp;<input type="radio" name="rules$lang" value="e" <c:if test="${obj.lang=='e'}">checked="checked"</c:if> />英文&nbsp;<input type="radio" name="rules$lang" value="ce" <c:if test="${obj.lang=='ce'}">checked="checked"</c:if> />中英文&nbsp;</td>
     </tr>
     <tr>
     	<td>邮件标题</td>

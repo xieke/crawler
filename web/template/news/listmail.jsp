@@ -20,7 +20,13 @@
 			form1.submit();
 		
 		}
-
+		function switchit(id){
+			//alert("abcd");
+			form1.objId.value=id;
+			form1.action="/news.NewsActionHandler.switchIssue";
+			form1.submit();
+		
+		}
 	$(function(){
 		//refreshTags();
 	});
@@ -83,8 +89,9 @@
     </tr>
     <tr>
         <td width="10%">最后更新时间：</td>
-        <td><input type="text" id="s_time1" name="startDate1" value="${startDate1}" readonly="readonly" plugin="date2" start="start" />
-		</td>
+        <td><input type="text" id="s_time1" name="startDate1" value="${startDate1}" readonly="readonly" plugin="date2" start="start1" />
+	<span class="newfont06">-</span>
+	<input type="text" id="e_time1" name="endDate1" value="${endDate1}" readonly="readonly" plugin="date2" end="start1" /></td>
         <td></td>
         <td></td>
     </tr>    
@@ -123,7 +130,9 @@
     </tr>
     <tr>
         <td>摘要:</td>
-        <td><input type="text" id="summary" name="summary" value=" 非空 " /></td>
+        <td>中文非空<m:checkbox name="summary" value="notnull" checkValue="${summary}" /> &nbsp;
+		英文非空<m:checkbox name="esummary" value="notnull" checkValue="${esummary}" />
+		</td>
 
 		<td>发布：</td>
         <td><m:radio type="news_status_all" name="issue" value="${issue}" /></td>
@@ -156,11 +165,12 @@
         <th><a href="javascript:setorderby('posttime')" id="posttime_orderby" class="order_ 
         	<c:if test="${orderby=='posttime' && order=='desc'}">order_up</c:if>
             <c:if test="${orderby=='posttime' && order=='asc'}">order_down</c:if>
-            ">发布时间</a></th>
+            ">最后更新时间</a></th>
         <th><a href="javascript:setorderby('createdate')" id="createdate_orderby" class="order_ 
         	<c:if test="${orderby=='createdate' && order=='desc'}">order_up</c:if>
             <c:if test="${orderby=='createdate' && order=='asc'}">order_down</c:if>
             ">采集时间</a></th>
+            <!-- 
         <th>分类</th>
         <th><a href="javascript:setorderby('urgent')" id="urgent_orderby" class="order_ 
         	<c:if test="${orderby=='urgent' && order=='desc'}">order_up</c:if>
@@ -170,24 +180,26 @@
         	<c:if test="${orderby=='importance' && order=='desc'}">order_up</c:if>
             <c:if test="${orderby=='importance' && order=='asc'}">order_down</c:if>
             ">GP重要度</a></th>
-        <th>状态</th>
-        <th>操作</th>
+         -->
+        <th>发布操作</th>
     </tr>
 <c:forEach var="detail" items="${objList}" varStatus="status">
   <tr class="effect">
   	<td><input type="checkbox" value="${detail.id}" name="outids"/></td>
     <td>${status.index+1}</td>
-    <td><a href="/news.NewsActionHandler.show?objId=${detail.id}" >${detail.title}</a></td>
+    <td><a href="javascript:void(0)" onclick="javascript:openit('${detail.id}')" >${detail.title}</a></td>
     <td>英：<m:out value="${detail.summary}" maxSize="20" /><br>中：<m:out value="${detail.c_summary}" maxSize="20" />  </td>
     <td>${detail.tags} </td>
     <td>${detail.author}</td>
-    <td><fmt:formatDate value="${detail.posttime}" pattern="yyyy-MM-dd HH:mm"/></td>
+    
+    <td><fmt:formatDate value="${detail.modifydate}" pattern="yyyy-MM-dd HH:mm"/></td>
     <td><fmt:formatDate value="${detail.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
+    <!-- 
     <td><c:if test="${detail.sort=='1'}">I</c:if><c:if test="${detail.sort=='0'}">K</c:if></td>
     <td><m:out type="urgent" value="${detail.urgent}" /></td>
     <td><m:out type="importance" value="${detail.importance}" /></td>
-    <td><m:out type="news_status" value="${detail.status}" /></td>
-    <td><a href="javascript:void(0)" onclick="javascript:openit('${detail.id}')" ><img src="/images/button_edit.png" /></a>  | <a href="/news.NewsActionHandler.showHis?objId=${detail.his_news_id}" >原文</a></td>
+     -->
+    <td>${detail.issue=="1"?"<font color=red>Y</font>":"N"}<input type=button id=isissue onclick="javascript:switchit('${detail.id}')" value='切 换'/></td>
   </tr>
 </c:forEach>
 	<tr class="edit">

@@ -406,6 +406,7 @@ public class NewsActionHandler extends ActionHandler {
 		String orderby = this.getParameter("orderby");
 		String order = this.getParameter("order");
 		String summary = this.getParameter("summary");
+		String esummary = this.getParameter("esummary");
 		String issue = this.getParameter("issue");
 		String limit = this.getParameter("limit");
 		String lang=this.getParameter("lang");
@@ -462,12 +463,21 @@ public class NewsActionHandler extends ActionHandler {
 		if(StringUtils.isNotBlank(sort)) sql.append(" and n.sort='").append(sort).append("'");
 		
 		if(StringUtils.isNotBlank(summary)){
-			if(lang.equals("c"))
+		//	if(lang.equals("c"))
 				sql.append(" and (n.c_summary is not null) "); //输出html的时候，没有summary无意义
-			else if(lang.equals("e"))
+			//else if(lang.equals("e"))
+			//	sql.append(" and (n.summary is not null) "); //输出html的时候，没有summary无意义
+			//else //if(lang.equals("ce"))
+				//sql.append(" and (n.c_summary is not null or n.summary is not null) "); //输出html的时候，没有summary无意义
+			//else
+		} 
+		if(StringUtils.isNotBlank(esummary)){
+		//	if(lang.equals("c"))
+				//sql.append(" and (n.c_summary is not null) "); //输出html的时候，没有summary无意义
+			//else if(lang.equals("e"))
 				sql.append(" and (n.summary is not null) "); //输出html的时候，没有summary无意义
-			else //if(lang.equals("ce"))
-				sql.append(" and (n.c_summary is not null or n.summary is not null) "); //输出html的时候，没有summary无意义
+			//else //if(lang.equals("ce"))
+				//sql.append(" and (n.c_summary is not null or n.summary is not null) "); //输出html的时候，没有summary无意义
 			//else
 		} 
 			
@@ -510,7 +520,8 @@ public class NewsActionHandler extends ActionHandler {
 		String order = this.getParameter("order");
 		String rownum = this.getParameter("rownum");
 		String page = this.getParameter("page");
-		
+		String summary=this.getParameter("summary");
+		String esummary=this.getParameter("esummary");
 		if(StringUtils.isBlank(orderby)) orderby="posttime";
 		if(StringUtils.isBlank(order)) order="desc";
 		
@@ -541,8 +552,23 @@ public class NewsActionHandler extends ActionHandler {
 		this._request.setAttribute("order", order);
 		this._request.setAttribute("rownum", rownum);
 		this._request.setAttribute("page", page);
+		this._request.setAttribute("summary", summary);
+		this._request.setAttribute("esummary", esummary);
+
 	}
-	
+	public void switchIssue() throws SQLException{
+		BizObject b = new BizObject("news");
+		b.setID(this._objId);
+		b.refresh();
+		if(b.getString("issue").equals("1"))
+			b.set("issue","0");
+		else
+			b.set("issue", "1");
+		
+		this.getJdo().update(b);
+		this.listMail();
+			
+	}
 
 	public void last() throws SQLException{
 		String allids = this.getParameter("allids");

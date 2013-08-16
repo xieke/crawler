@@ -70,7 +70,8 @@
 				  <tr>
 					<td>预定时间：</td>
                     <td>
-                    <m:select name="postjob$posttime" value="${obj.posttime}" type="hours" />
+                    <m:select name="postjob$posthour" value="${obj.posthour}" type="hours" />
+                    <m:select name="postjob$postminute" value="${obj.postminute}" type="minutes" />
 					&nbsp; &nbsp; 
                     <jsp:useBean id="now" class="java.util.Date" />
 					上次发送时间 <input style="border-color:#FFF;color: #005AFF;text-decoration: underline;" type="text" name="postjob$lastposttime" value='<fmt:formatDate value="${obj.lastposttime}" pattern="yyyy-MM-dd HH:mm:ss"/>' readonly="readonly" plugin="date2" start="" end="" /></td>

@@ -146,7 +146,7 @@
   <tr class="effect">
   	<td>${detail.no}</td>
     <td><a href="/post.PostJobAH.show?objId=${detail.id}" >${detail.name}</a></td>
-    <td><m:out type="hours" value="${detail.posttime}" /></td>
+    <td><m:out type="hours" value="${detail.posthour}" /> <m:out type="minutes" value="${detail.postminute}" /></td>
     <td><m:out type="active" value="${detail.status}"/> </td>
     <td>${detail.ruleid.name}</td>
     <td><fmt:formatDate value="${detail.lastposttime}" pattern="yyyy-MM-dd HH:mm"/></td>
