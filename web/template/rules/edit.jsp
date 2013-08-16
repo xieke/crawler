@@ -99,7 +99,7 @@
             <c:forEach var="detail" items="${cycleList}" varStatus="status">
                 <label><input type="checkbox" id="${detail.id}" name="cycle" value="${detail.id}" checked="${detail.checked}" />${detail.name}</label>
             </c:forEach>
-            <input type="hidden" name="rules$cycle" id="cycle_hidden" value="" />
+            <input type="hidden" name="rules$cycle" id="cycle_hidden" value="${obj.cycle}" />
     </tr>
     <tr>
     	<td>语言</td>
