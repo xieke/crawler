@@ -97,7 +97,7 @@
     	<td>发送周期</td>
         <td id="cycle_text">
             <c:forEach var="detail" items="${cycleList}" varStatus="status">
-                <label><input type="checkbox" id="${detail.id}" name="cycle" value="${detail.id}" checked="${detail.checked}" />${detail.name}</label>
+                <label><input type="checkbox" id="${detail.id}" name="cycle" value="${detail.id}" ${detail.checked} />${detail.name}</label>
             </c:forEach>
             <input type="hidden" name="rules$cycle" id="cycle_hidden" value="${obj.cycle}" />
     </tr>
