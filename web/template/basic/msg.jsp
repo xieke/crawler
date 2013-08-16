@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <%@ include file="/template/basic/common_head.jsp"%>
-<title>PLMWeb v1.0</title>
+<title>GpCore System</title>
 <style type="text/css">
 body {
 	background-color: #b7b7b7;

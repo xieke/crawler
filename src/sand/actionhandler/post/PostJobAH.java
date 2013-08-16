@@ -77,8 +77,9 @@ public class PostJobAH extends ActionHandler {
 	}
 	private List<BizObject> getCustomers(BizObject pj) throws SQLException{
 		BizObject csts = new BizObject("customers");
-		csts.setHardcoreFilter(" status=1 ");
-		List<BizObject> v = csts.getQF().query(csts);
+		QueryFactory qf = csts.getQF();
+		qf.setHardcoreFilter(" status=1 ");
+		List<BizObject> v = qf.query();
 		for(BizObject b:v){
 			b.set("name",b.getString("name")+"("+b.getString("mail")+")");
 			if(pj.getString("customers").indexOf(b.getId())>=0)
