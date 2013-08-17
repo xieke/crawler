@@ -578,6 +578,9 @@ public class NewsActionHandler extends ActionHandler {
 			if(this._objId.equals(ids[i])){
 				if(i>0)
 					this._objId=ids[i-1];
+				else
+					this._objId=ids[i];
+				break;
 			}
 		}
 		log("2 objid is "+_objId);
@@ -591,6 +594,9 @@ public class NewsActionHandler extends ActionHandler {
 			if(this._objId.equals(ids[i])){
 				if(i<ids.length-1)
 					this._objId=ids[i+1];
+				else
+					this._objId=ids[i];
+				break;
 			}
 		}
 		log("2 objid is "+_objId);
