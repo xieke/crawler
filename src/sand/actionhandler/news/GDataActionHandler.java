@@ -103,6 +103,10 @@ public class GDataActionHandler extends ActionHandler {
 		logger.info("要处理的文章ids:"+this.getParameter("dels"));
 		try{
 			String dels = this.getParameter("dels");
+			if(StringUtils.isBlank(dels)){
+				logger.info("要处理的文章ids为空,直接返回");
+				return "no";
+			}
 			String[] del_ids = dels.split(",");
 			logger.info("要处理的文章ids的大小为:"+del_ids.length);
 			int i=0;
@@ -114,7 +118,7 @@ public class GDataActionHandler extends ActionHandler {
 				BizObject news = new BizObject("news");
 				news.setID(id);
 				news.refresh();
-				if(news==null) {
+				if(StringUtils.isBlank(id) || news.isEmpty()) {
 					logger.info("第"+i+"个:"+id+"  对应的文章不存在,或者已处理过,继续下一个");
 				}else{
 					j++;
