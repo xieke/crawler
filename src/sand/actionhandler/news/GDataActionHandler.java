@@ -106,7 +106,7 @@ public class GDataActionHandler extends ActionHandler {
 			String dels = this.getParameter("dels");
 			if(StringUtils.isBlank(dels)){
 				logger.info("要处理的文章ids为空,直接返回");
-				return "no";
+				return "null";
 			}
 			String[] del_ids = dels.split(",");
 			logger.info("要处理的文章ids的大小为:"+del_ids.length);
