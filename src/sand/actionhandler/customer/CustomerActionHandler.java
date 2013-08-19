@@ -100,7 +100,7 @@ public class CustomerActionHandler extends ActionHandler {
 			super.setHardcoreFilter("(operator='dislike' or operator='like')");
 		super.listObj("userclicks");
 		List<BizObject> list = (List<BizObject>) this._request.getAttribute("objList");
-//		for(BizObject biz : list) biz.setFk("newsid", "news");
+		for(BizObject biz : list) biz.setFk("newsid", "news");
 		this._request.setAttribute("operator", operator);
 		this._nextUrl = "/template/customer/feedbackList.jsp";
 	}
