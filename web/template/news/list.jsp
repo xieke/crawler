@@ -93,18 +93,10 @@
         <td><m:radio type="urgent_all" name="urgent" value="${urgent}" /></td>
     </tr>
     <tr>
-    	<td>摘要:</td>
-        <td><input type="text" id="summary" name="summary" value=" 非空 " /></td>
-        <!--<td>作者：</td>
-        <td><input type="text" id="author" name="author" value="${author}" /></td>-->
+        <td>作者：</td>
+        <td><input type="text" id="author" name="author" value="${author}" /></td>
         <td>GP重要度：</td>
         <td><m:radio type="importance_all" name="importance" value="${importance}" /></td>
-    </tr>
-    <tr>
-    	<td>发布：</td>
-        <td><m:radio type="news_status_all" name="issue" value="${issue}" /></td>
-        <td></td>
-        <td></td>
     </tr>
     <tr>
         <td>标签：</td>
@@ -139,7 +131,7 @@ $(function(){
     </tr>
 </table>
 <table class="ui list">
-	<tr class="title"><td class="title" colspan="8">信息手动处理</td><td class="title" ><a style=" color: #FFFFFF" href="/news.NewsActionHandler.showAdd?job=default" >Add文章</a></td></tr>
+	<tr class="title"><td class="title" colspan="13">信息手动处理</td><td class="title" ><a style=" color: #FFFFFF" href="/news.NewsActionHandler.showAdd?job=default" >Add文章</a></td></tr>
     <tr class="effect">
         <th>选择</th>
         <th>序号</th>
@@ -155,11 +147,7 @@ $(function(){
         	<c:if test="${orderby=='createdate' && order=='desc'}">order_up</c:if>
             <c:if test="${orderby=='createdate' && order=='asc'}">order_down</c:if>
             ">采集时间</a></th>
-        <th><a href="javascript:setorderby('modifydate')" id="modifydate_orderby" class="order_ 
-        	<c:if test="${orderby=='modifydate' && order=='desc'}">order_up</c:if>
-            <c:if test="${orderby=='modifydate' && order=='asc'}">order_down</c:if>
-            ">更新时间</a></th>
-        <!--<th>分类</th>
+        <th>分类</th>
         <th width="7px"><a href="javascript:setorderby('urgent')" id="urgent_orderby" class="order_ 
         	<c:if test="${orderby=='urgent' && order=='desc'}">order_up</c:if>
             <c:if test="${orderby=='urgent' && order=='asc'}">order_down</c:if>
@@ -169,26 +157,25 @@ $(function(){
             <c:if test="${orderby=='importance' && order=='asc'}">order_down</c:if>
             ">GP重要度</a></th>
         <th>标签</th>
-        <th>状态</th>-->
+        <th>状态</th>
         <th>操作</th>
     </tr>
 <c:forEach var="detail" items="${objList}" varStatus="status">
   <tr class="effect">
   	<td><input type="checkbox" value="${detail.id}" name="delid"/></td>
     <td>${status.index+1}</td>
-    <td><a href="javascript:void(0)" onclick="show('${detail.id}')" ><m:out type="" value="${detail.title}" maxSize="20" /></a></td>
+    <td><a href="javascript:void(0)" onclick="show('${detail.id}')" ><m:out type="" value="${detail.title}" maxSize="12" /></a></td>
     <td>英：<m:out value="${detail.summary}" maxSize="20" /><br>中：<m:out value="${detail.c_summary}" maxSize="20" />  </td>
     <td><m:out type="" value="${detail.author}" maxSize="3" /></td>
     <td><m:out type="" value="${detail.copyfrom}" maxSize="4" /></td>
     <td><fmt:formatDate value="${detail.posttime}" pattern="yyyy-MM-dd HH:mm"/></td>
     <td><fmt:formatDate value="${detail.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
-    <td><fmt:formatDate value="${detail.modifydate}" pattern="yyyy-MM-dd HH:mm" /></td>
-    <!--<td><c:if test="${detail.sort=='1'}">I</c:if><c:if test="${detail.sort=='0'}">K</c:if></td>
+    <td><c:if test="${detail.sort=='1'}">I</c:if><c:if test="${detail.sort=='0'}">K</c:if></td>
     <td><m:out type="urgent" value="${detail.urgent}" /></td>
     <td><m:out type="importance" value="${detail.importance}" /></td>
     <td><m:out type="" value="${detail.tags}" maxSize="8"/></td>
-    <td><m:out type="news_status" value="${detail.status}" /></td>-->
-    <td><!--<a href="javascript:void(0)" onclick="show('${detail.id}','${pageVariable.npage*pageVariable.pagesize+status.index}')" ><img src="/images/button_edit.png" /></a> --><c:if test="${detail.his_news_id!='' && detail.his_news_id!=null}">| <a href="/news.NewsActionHandler.showHis?objId=${detail.his_news_id}" >原文</a></c:if></td>
+    <td><m:out type="news_status" value="${detail.status}" /></td>
+    <td><a href="javascript:void(0)" onclick="show('${detail.id}','${pageVariable.npage*pageVariable.pagesize+status.index}')" ><img src="/images/button_edit.png" /></a> <c:if test="${detail.his_news_id!='' && detail.his_news_id!=null}">| <a href="/news.NewsActionHandler.showHis?objId=${detail.his_news_id}" >原文</a></c:if></td>
   </tr>
 </c:forEach>
 	<tr class="edit">
