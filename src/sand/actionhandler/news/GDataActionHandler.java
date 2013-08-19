@@ -101,6 +101,7 @@ public class GDataActionHandler extends ActionHandler {
 	public String nlpirProcess() {
 		logger.info("-------------------------");
 		logger.info("要处理的文章ids:"+this.getParameter("dels"));
+		
 		try{
 			String dels = this.getParameter("dels");
 			if(StringUtils.isBlank(dels)){
@@ -111,14 +112,17 @@ public class GDataActionHandler extends ActionHandler {
 			logger.info("要处理的文章ids的大小为:"+del_ids.length);
 			int i=0;
 			int j=0;
+			
+			QueryFactory qf = new QueryFactory("news");
+			
 			if(del_ids.length<=0) return "no";
 			for(String id : del_ids){
 				i++;
 				logger.info("开始处理第"+i+"个:"+id);
 				BizObject news = new BizObject("news");
-				news.setID(id);
-				news.refresh();
-				if(StringUtils.isBlank(id) || news.isEmpty()) {
+				news.set("his_news_id", id);
+				news = qf.getOne(news);
+				if(StringUtils.isBlank(id) || news.isEmpty() || news==null) {
 					logger.info("第"+i+"个:"+id+"  对应的文章不存在,或者已处理过,继续下一个");
 				}else{
 					j++;

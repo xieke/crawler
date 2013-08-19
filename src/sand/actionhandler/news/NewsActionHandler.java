@@ -60,6 +60,9 @@ public class NewsActionHandler extends ActionHandler {
 		this._objType = "news";
 		this._moduleId = "news";
 	}
+	public void render3(){
+		
+	}
 	
 	public void render() throws SQLException {
 		log("in render  begin render ...............................");
@@ -1159,7 +1162,7 @@ public class NewsActionHandler extends ActionHandler {
 	}
 	public  void render2() throws IOException, ServletException, SQLException, TemplateException{
 	   
-		log("in render 2   ok  ,  tags is "+this.getParameter("tags"));
+		log("in render 2   ok  ,  tags is "+this.getParameter("tags2"));
 		this.render();
 		Configuration cfg; 
        cfg = new Configuration();

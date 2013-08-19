@@ -16,7 +16,13 @@
 
 		function render(){
 			//alert("abcd");
-			form1.action="/news.NewsActionHandler.render";
+			form1.action="/news.NewsActionHandler.render2";
+			form1.submit();
+		
+		}
+		function sendmail(){
+			//alert("abcd");
+			form1.action="/news.NewsActionHandler.sendMail";
 			form1.submit();
 		
 		}
@@ -213,7 +219,11 @@ $(".unselect_all").click(function(){
 	$("input[name='outids']").attr("checked",false);
 });
 </script>
-                <input type="button" class="button" id="dels"  onclick="javascript:render();" value="生成邮件html输出" />
+<input  id="subject" name="subject" type=hidden value="Goldpebble Research Customized News" />
+        邮箱地址：<input  id="email" name="email" value="" />         
+        <m:radio name="mailserver" value="" type="mailservers"/>
+        <input type="button" class="button" id="dels"  onclick="javascript:render();" value="预览邮件" />
+        <input type="submit" onclick="javascript:sendmail();" value="发 送 " />
         </td>
     </tr>
 </table>
