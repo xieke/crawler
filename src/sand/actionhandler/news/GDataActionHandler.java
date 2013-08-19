@@ -6,13 +6,18 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import basic.BasicContext;
 
 import sand.actionhandler.basic.MailAH;
 import sand.actionhandler.system.ActionHandler;
 import sand.annotation.AccessControl;
 import sand.annotation.Ajax;
+import sand.annotation.CandoCheck;
+import sand.depot.tool.system.ErrorException;
 import sand.service.basic.service.TagService;
 import sand.service.news.NewsService;
 import tool.dao.BizObject;
@@ -33,6 +38,7 @@ public class GDataActionHandler extends ActionHandler {
 	private static int i=0;
 	
 	@Ajax
+	@CandoCheck("session")
 	public String gData() {
 		if(RUNNING==true){
 			logger.info("上次采集还未完成   "+i);
@@ -95,6 +101,49 @@ public class GDataActionHandler extends ActionHandler {
 		//RUNNING=false;
 		
 		
+	}
+	
+	@Ajax
+	public String nlpirProcess() {
+		logger.info("-------------------------");
+		logger.info("要处理的文章ids:"+this.getParameter("dels"));
+		try{
+			String dels = this.getParameter("dels");
+			String[] del_ids = dels.split(",");
+			
+			int i=0;
+			int j=0;
+			for(String id : del_ids){
+				i++;
+				logger.info("开始处理第"+i+"个:"+id);
+				BizObject news = new BizObject("news");
+				news.setID(id);
+				news.refresh();
+				if(news==null) {
+					logger.info("第"+i+"个:"+id+"  对应的文章不存在,或者已处理过,继续下一个");
+					continue;
+				}
+				j++;
+				if(StringUtils.isNotBlank(news.getString("his_news_id"))){
+					BizObject his = new BizObject("his_news");
+					his.setID(news.getString("his_news_id"));
+					his.set("status", BasicContext.STATUS_DISPOSE_DELETE);
+					this.getJdo().update(his);
+				}
+				//删除文章对应的标签
+//				this.getTagService().deleteReBillTagsByBillId(news.getId());
+				
+				//删除新闻
+				this.getJdo().delete(news);
+				logger.info("第"+i+"个:"+id+"  对应的文章处理完成");
+			}
+			logger.info("本次处理请求共处理"+j+"个,"+(i-j)+"篇文章不存在或者已删除,总数是:"+i);
+			return "ok";
+		}catch(SQLException s){
+			s.printStackTrace();
+			logger.info(s.getMessage());
+			return "no";
+		}
 	}
 	
 	public TagService getTagService() {

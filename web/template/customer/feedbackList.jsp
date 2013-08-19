@@ -24,11 +24,10 @@
                 <a href="javascript:void(0)" onclick="history.back(-1)">返回上一级</a>
 		</span>
 </div>
-<form method="post" action="/GeneralHandleSvt" id="form1">
-<input type="hidden" id="reqType" name="reqType" value="customer.RulesActionHandler.list" />
+<form method="post" action="/GeneralHandleSvt" name="form1" id="form1">
+<input type="hidden" id="reqType" name="reqType" value="customer.CustomerActionHandler.feedbackList" />
 <input type="hidden" id="operator" name="operator" value="${operator}" />
 <input type="hidden" id="userclicks_customerid" name="userclicks$customerid" value="${param.userclicks$customerid}" />
-<input type="hidden" id="_id" name="_id" value="" />
 
 <table class="ui edit" style="display:none">
 <tr class="title"><td colspan="4">查询条件</td></tr>
