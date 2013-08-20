@@ -113,16 +113,17 @@ public class GDataActionHandler extends ActionHandler {
 			int i=0;
 			int j=0;
 			
-			QueryFactory qf = new QueryFactory("news");
+//			QueryFactory qf = new QueryFactory("news");
 			
 			if(del_ids.length<=0) return "no";
 			for(String id : del_ids){
 				i++;
 				logger.info("开始处理第"+i+"个:"+id);
 				BizObject news = new BizObject("news");
-				news.set("his_news_id", id);
-				news = qf.getOne(news);
-				if(StringUtils.isBlank(id) || news==null || news.isEmpty() ) {
+				news.setID(id);
+				news.refresh();
+//				news = qf.getOne(news);
+				if(StringUtils.isBlank(id) || news.isEmpty() ) {
 					logger.info("第"+i+"个:"+id+"  对应的文章不存在,或者已处理过,继续下一个");
 				}else{
 					j++;

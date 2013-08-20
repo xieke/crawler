@@ -144,6 +144,25 @@
     	<tr><td id="content_title"></td></tr>
         <tr>
         	<td>
+            	<!--富文本编辑控件引入文件 开始-->
+<script charset="utf-8" src="/plugin/kindeditor-4.1.2/kindeditor-min.js"></script>
+<script charset="utf-8" src="/plugin/kindeditor-4.1.2/lang/zh_CN.js"></script>
+<script>
+    var editor;
+    KindEditor.ready(function(K) {
+        editor = K.create('#content_txt', {
+            resizeType : 1,
+            allowPreviewEmoticons : false,
+            allowImageUpload : false,
+			autoHeightMode : true,
+            items : [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'emoticons', 'image', 'link']
+        });
+    });
+</script>
+                <!--富文本编辑控件引入文件 结束-->
             	<textarea id="content_txt" rows="9" cols="52" name="content_txt"></textarea>
                 <input type="hidden" id="item_type" value="" />
             </td>
@@ -166,6 +185,7 @@
 			autoOpen: true,
 			buttons: {
 				"确定": function() {	
+					editor.sync();
 					$.post("/rules.RulesActionHandler.editItem",{item_type:src,item_id:$(obj).attr("item_id"),item_content:$("#content_txt").val()},function(result){
 						var result2=eval(result);
 						var json=result2[0];

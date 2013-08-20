@@ -26,7 +26,7 @@ import tool.basic.DateUtils;
 import tool.dao.BizObject;
 import tool.dao.JDO;
 import tool.dao.QueryFactory;
-import weibo4j.model.Status;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -371,7 +371,7 @@ public class PostJob extends BaseJob {
 	}
 	
 
-	public void insertStatus(Status s) throws SQLException{}
+	
 	
 	public static void main(String args[]){
 		String s= "@name agfadsfadf";
