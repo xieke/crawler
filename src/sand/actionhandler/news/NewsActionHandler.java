@@ -840,7 +840,7 @@ public class NewsActionHandler extends ActionHandler {
 			
 			BizObject his_news = news.duplicate();
 			his_news.resetObjType("his_news");
-			his_news.setID("");
+//			his_news.setID("");
 			this.getJdo().addOrUpdate(his_news);
 			
 			news.set("his_news_id", his_news.getId());

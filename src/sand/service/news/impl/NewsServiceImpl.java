@@ -108,14 +108,14 @@ public class NewsServiceImpl implements NewsService {
 		//添	加到历史新闻表中,以便后面查询原文所用
 		 BizObject his_news = news.duplicate();
 		his_news.resetObjType(NewsService.HIS_TABLE_NAME);
-		his_news.setID("");
+//		his_news.setID("");
 		ActionHandler.currentSession().add(his_news);
 		/**暂时先不用news_content表,先不移出去
 		BizObject news_content = new BizObject(NewsService.NEWS_CONTENT);
 		news_content.set("content", news.getString("content"));
 		**/
 		//添	加到新闻表中
-		news.setID("");
+//		news.setID("");
 		news.set("status", BasicContext.STATUS_DISPOSE_NO);
 		news.set("issue", BasicContext.ISSUE_NO);
 		news.set("hits", 0);
