@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=utf-8" %>
@@ -82,8 +81,8 @@ addEventListener('load', function() { setTimeout(hideURLbar, 0); }, false );
     <div id="menu-head">
       <div id="tabnav"> <a href="#head-pages">菜单</a> <a href="#head-tags">标签</a> <a href="#head-cats">关于</a> </div>
       <ul id="head-pages">
-        <li><a href="http://www.shengchao.name/blog"><img src="images/mobile/Default.png" alt=""/>首页</a></li>
-        <li><a href="http://www.shengchao.name/blog/?feed=rss2"><img src="images/mobile/RSS.png" alt="" />订阅</a></li>
+        <li><a href="http://hct1.dingweila.com:8080/news.NewsActionHandler.listPhone"><img src="images/mobile/Default.png" alt=""/>首页</a></li>
+        <li><a href="http://hct1.dingweila.com:8080/news.NewsActionHandler.listPhone/?feed=rss2"><img src="images/mobile/RSS.png" alt="" />订阅</a></li>
         <li><a href="mailto:calvinsh@gmail.com"><img src="images/mobile/Mail.png" alt="" />设置邮箱</a></li>
       </ul>
       <ul id="head-cats">
@@ -105,7 +104,7 @@ addEventListener('load', function() { setTimeout(hideURLbar, 0); }, false );
 <div id="headerbar">
   <div id="headerbar-title"> 
     <!-- This fetches the admin selection logo icon for the header, which is also the bookmark icon --> 
-    <img id="logo-icon" src="images/mobile/Default.png" alt="盛超Calvin" /> <a href="http://www.shengchao.name/blog">GpCore</a> </div>
+    <img id="logo-icon" src="images/mobile/Default.png" alt="GpHiden" /> <a href="http://hct1.dingweila.com:8080/news.NewsActionHandler.listPhone">GpHiden</a> </div>
   <div id="headerbar-menu"> <a href="javascript:return false;"></a> </div>
 </div>
 

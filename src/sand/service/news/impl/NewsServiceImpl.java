@@ -232,7 +232,7 @@ public class NewsServiceImpl implements NewsService {
 					
 					update_sql.append("update basic.news news,");
 					select_sql.append(" (select n.id from basic.news n where 1=1 ");
-					count_sql.append(" select count(*) cnt from basic.news n where 1=1 ");
+					count_sql.append(" select count(id) cnt from basic.news n where 1=1 ");
 					
 					if(tag_rule.getString("type").equals(BasicContext.TAGRULE_TYPE_CONTENT)){
 						select_sql.append(" and (n.title like '%").append(keyword).append("%' or n.content like '%").append(keyword).append("%')");
@@ -278,7 +278,7 @@ public class NewsServiceImpl implements NewsService {
 		
 			update_sql.append("update basic.news news,");
 			select_sql.append(" (select n.id from basic.news n,basic.news_content c where n.id=c.news_id ");
-			count_sql.append(" select count(*) cnt from basic.news n,basic.news_content c where n.id=c.news_id ");
+			count_sql.append(" select count(id) cnt from basic.news n,basic.news_content c where n.id=c.news_id ");
 			
 			if(tag_rule.getString("type").equals(BasicContext.TAGRULE_TYPE_CONTENT)){
 				select_sql.append(" and (n.title like '%").append(tag_rule.getString("keyword")).append("%' or c.content like '%")
