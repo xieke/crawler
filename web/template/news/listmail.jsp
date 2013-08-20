@@ -219,7 +219,9 @@ $(".unselect_all").click(function(){
 	$("input[name='outids']").attr("checked",false);
 });
 </script>
-<input  id="subject" name="subject" type=hidden value="Goldpebble Research Customized News" />
+<br></br>
+邮件标题：<input  id="subject" name="subject"  size=80 value="Goldpebble Research Customized News" />
+<br></br>
         邮箱地址：<input  id="email" name="email" value="" />         
         <m:radio name="mailserver" value="" type="mailservers"/>
         <input type="button" class="button" id="dels"  onclick="javascript:render();" value="预览邮件" />
