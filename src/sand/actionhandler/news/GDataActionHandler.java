@@ -122,7 +122,7 @@ public class GDataActionHandler extends ActionHandler {
 				BizObject news = new BizObject("news");
 				news.set("his_news_id", id);
 				news = qf.getOne(news);
-				if(StringUtils.isBlank(id) || news.isEmpty() || news==null) {
+				if(StringUtils.isBlank(id) || news==null || news.isEmpty() ) {
 					logger.info("第"+i+"个:"+id+"  对应的文章不存在,或者已处理过,继续下一个");
 				}else{
 					j++;
