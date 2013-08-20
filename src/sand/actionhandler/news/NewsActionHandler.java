@@ -420,8 +420,10 @@ public class NewsActionHandler extends ActionHandler {
 		
 		if(StringUtils.isNotBlank(job) && job.equals("default")){
 			//如果是从最外层点进去的列表链接,则是查询默认近两天的日期的记录
-			endDate = DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDDHHMMSS);
 			Calendar c = Calendar.getInstance();
+			c.add(Calendar.MINUTE, -20);
+			endDate = DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDDHHMMSS);
+			c = Calendar.getInstance();
 			c.add(Calendar.DAY_OF_YEAR, -2);
 			startDate = DateUtils.formatDate(c.getTime(), DateUtils.PATTERN_YYYYMMDDHHMMSS);
 		}
@@ -1284,7 +1286,7 @@ public class NewsActionHandler extends ActionHandler {
 		
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 		String str = "[Properties/地产]<br>Guangzhou is seeking public opinion for a new land regulation which requires land buyers " +
 				"to pay 20% of contractual prices if they keep the plot idle for over a year.    " +
 				"<a href=\"http://10.38.128.105:16666/news.NewsActionHandler.showIt?objId=0fae5a728acd413389ec69b95cdff8aa\" " +
@@ -1307,5 +1309,6 @@ public class NewsActionHandler extends ActionHandler {
 		str = str.substring(0,str.indexOf(ss_last));
 		int index = str.lastIndexOf(ssend);
 		System.out.println(str.substring(index+ssend.length(), index+ssend.length()+32));
+		
 	}
 }

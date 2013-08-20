@@ -159,6 +159,22 @@
     </tr>
 
 </table>
+<table class="ui edit">
+<tr class="title"><td colspan="4">邮件操作</td></tr>
+    <tr>
+        <td width="10%">邮件标题：</td>
+        <td><input  id="subject" name="subject"  size=80 value="Goldpebble Research Customized News" /></td>
+        <td>邮件服务器：</td>
+        <td><m:radio name="mailserver" value="" type="mailservers"/></td>
+    </tr>
+    <tr>
+        <td width="10%">邮箱地址：</td>
+        <td><input  id="email" name="email" value="" /></td>
+        <td><input type="button" class="button" id="dels"  onclick="javascript:render();" value="预览邮件" /></td>
+        <td><input type="submit" class="button" onclick="javascript:sendmail();" value="发 送 " /></td>
+    </tr>
+
+</table>
 <table class="ui list">
 	<tr class="title"><td class="title" colspan="13">信息手动处理</td></tr>
     <tr class="effect">
@@ -219,13 +235,6 @@ $(".unselect_all").click(function(){
 	$("input[name='outids']").attr("checked",false);
 });
 </script>
-<br></br>
-邮件标题：<input  id="subject" name="subject"  size=80 value="Goldpebble Research Customized News" />
-<br></br>
-        邮箱地址：<input  id="email" name="email" value="" />         
-        <m:radio name="mailserver" value="" type="mailservers"/>
-        <input type="button" class="button" id="dels"  onclick="javascript:render();" value="预览邮件" />
-        <input type="submit" onclick="javascript:sendmail();" value="发 送 " />
         </td>
     </tr>
 </table>
