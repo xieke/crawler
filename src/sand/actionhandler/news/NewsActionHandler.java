@@ -422,7 +422,7 @@ public class NewsActionHandler extends ActionHandler {
 			//如果是从最外层点进去的列表链接,则是查询默认近两天的日期的记录
 			Calendar c = Calendar.getInstance();
 			c.add(Calendar.MINUTE, -20);
-			endDate = DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDDHHMMSS);
+			endDate = DateUtils.formatDate(c.getTime(), DateUtils.PATTERN_YYYYMMDDHHMMSS);
 			c = Calendar.getInstance();
 			c.add(Calendar.DAY_OF_YEAR, -2);
 			startDate = DateUtils.formatDate(c.getTime(), DateUtils.PATTERN_YYYYMMDDHHMMSS);
@@ -534,7 +534,7 @@ public class NewsActionHandler extends ActionHandler {
 			//如果是从最外层点进去的列表链接,则是查询默认近两天的日期的记录
 			Calendar c = Calendar.getInstance();
 			c.add(Calendar.MINUTE, -20);
-			endDate = DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDDHHMMSS);
+			endDate = DateUtils.formatDate(c.getTime(), DateUtils.PATTERN_YYYYMMDDHHMMSS);
 			c = Calendar.getInstance();
 			c.add(Calendar.DAY_OF_YEAR, -2);
 			startDate = DateUtils.formatDate(c.getTime(), DateUtils.PATTERN_YYYYMMDDHHMMSS);
