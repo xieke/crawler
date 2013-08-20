@@ -115,7 +115,7 @@ public class NewsServiceImpl implements NewsService {
 		news_content.set("content", news.getString("content"));
 		**/
 		//添	加到新闻表中
-//		news.setID("");
+		news.setID(his_news.getId());
 		news.set("status", BasicContext.STATUS_DISPOSE_NO);
 		news.set("issue", BasicContext.ISSUE_NO);
 		news.set("hits", 0);

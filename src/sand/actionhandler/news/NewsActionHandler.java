@@ -842,7 +842,7 @@ public class NewsActionHandler extends ActionHandler {
 			his_news.resetObjType("his_news");
 //			his_news.setID("");
 			this.getJdo().addOrUpdate(his_news);
-			
+			news.setID(his_news.getId());
 			news.set("his_news_id", his_news.getId());
 			news.set("issue", BasicContext.ISSUE_NO);
 			news.set("hits", 0);
