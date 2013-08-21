@@ -99,8 +99,8 @@ public class GDataActionHandler extends ActionHandler {
 	
 	@Ajax
 	public String nlpirProcess() {
-		logger.info("-------------------------");
-		logger.info("要处理的文章ids:"+this.getParameter("dels"));
+//		logger.info("-------------------------");
+//		logger.info("要处理的文章ids:"+this.getParameter("dels"));
 		
 		try{
 			String dels = this.getParameter("dels");
@@ -109,7 +109,7 @@ public class GDataActionHandler extends ActionHandler {
 				return "null";
 			}
 			String[] del_ids = dels.split(",");
-			logger.info("要处理的文章ids的大小为:"+del_ids.length);
+			logger.info("要处理的文章ids:"+this.getParameter("dels")+",要处理的文章ids的大小为:"+del_ids.length);
 			int i=0;
 			int j=0;
 			
@@ -118,7 +118,7 @@ public class GDataActionHandler extends ActionHandler {
 			if(del_ids.length<=0) return "no";
 			for(String id : del_ids){
 				i++;
-				logger.info("开始处理第"+i+"个:"+id);
+//				logger.info("开始处理第"+i+"个:"+id);
 				BizObject news = new BizObject("news");
 				news.setID(id);
 				news.refresh();
@@ -136,7 +136,7 @@ public class GDataActionHandler extends ActionHandler {
 					
 					//删除新闻
 					this.getJdo().delete(news);
-					logger.info("第"+i+"个:"+id+"  对应的文章处理完成");
+//					logger.info("第"+i+"个:"+id+"  对应的文章处理完成");
 				}
 			}
 			logger.info("本次处理请求共处理"+j+"个,"+(i-j)+"篇文章不存在或者已删除,总数是:"+i);
@@ -146,6 +146,47 @@ public class GDataActionHandler extends ActionHandler {
 			logger.info(s.getMessage());
 			return "no";
 		}
+	}
+	
+	/**
+	 * 自动打标签
+	 * 
+	 * @throws SQLException
+	 */
+	@Ajax
+	public String hitTagging() {
+		String id = this.getParameter("id");
+		String tag_rules = this.getParameter("tag_rules");
+		logger.info("自动打标签id is :"+id);
+		logger.info("自动打标签tags is :"+tag_rules);
+		if(StringUtils.isBlank(id)) return "id is null";
+		if(StringUtils.isBlank(tag_rules)) return "tag_rules is null";
+		try{
+			BizObject biz = new BizObject("news");
+			biz.setID(id);
+			biz.refresh();
+			if(biz==null) return "id error";
+			String[] tag_ids = tag_rules.split(",");
+			String str ="";
+			for(int i=0;i<tag_ids.length;i++) {
+				if(i>0) str+=",";
+				str+="'"+tag_ids[i]+"'";
+			}
+			
+			String sql = "select GROUP_CONCAT(tag_id) tag_ids,GROUP_CONCAT(tag_name) tag_names from basic.tag_rule where id in ("+str+")";
+			List<BizObject> list = QueryFactory.executeQuerySQL(sql);
+			if(list==null || list.size()<=0) return "tags error";
+			biz.set("tags", ","+list.get(0).getString("tag_names")+",");
+			biz.set("tag_ids", ","+list.get(0).getString("tag_ids")+",");
+			
+//			this.getJdo().update(biz);
+			logger.info("标签的名字:"+biz.toString());
+		}catch(SQLException s){
+			s.printStackTrace();
+			logger.info(s.getMessage());
+			return "no";
+		}
+		return "ok";
 	}
 	
 	public TagService getTagService() {

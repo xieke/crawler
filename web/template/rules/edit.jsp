@@ -148,7 +148,7 @@
 <script charset="utf-8" src="/plugin/kindeditor-4.1.2/kindeditor-min.js"></script>
 <script charset="utf-8" src="/plugin/kindeditor-4.1.2/lang/zh_CN.js"></script>
 <script>
-				    var editor;
+				    var editor=false;
 					var editor_k;
 					KindEditor.ready(function(K) {
 							
@@ -168,9 +168,11 @@
 		var title;
 		if(src=='head') title= "编辑邮件头部信息";
 		if(src=='foot') title= "编辑邮件尾部信息";
-		$("#content_txt").attr("value",$(obj).attr("insert_text"));
-		alert($("#content_txt").val());
-		alert($(obj).attr("insert_text"));
+		//$("#content_txt").attr("value",$(obj).attr("insert_text"));
+		//alert($("#content_txt").val());
+		//alert($(obj).attr("insert_text"));
+		if(editor!=false)
+		editor.html($(obj).attr("insert_text"));
 		$("#item_content" ).dialog({
 			title:title,
 			width:500,
@@ -179,6 +181,8 @@
 			resizable:false,
 			autoOpen: true,
 			open: function( event, ui ){
+				//$("#content_txt").attr("value",$(obj).attr("insert_text"));
+				if(editor!=false)return;
 				editor = editor_k.create('#content_txt', {
 					resizeType : 1,
 					allowPreviewEmoticons : false,
