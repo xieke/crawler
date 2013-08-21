@@ -77,7 +77,7 @@ function refreshTags_custom(){
 	<div class="search"> &nbsp;模糊搜索：<input id="search_custom" type="text" /> &nbsp;<a href="javascript:void(0)" onclick="$('#search_custom').val('').focus()">重填</a></div>
     <div class="result">
     <c:forEach var="detail" items="${tagsList_pf}" varStatus="status">
-		<label title="${detail.name}"><span class="dx">${detail.level}${fn:toLowerCase(detail.name)}</span>${detail.level}<m:out maxSize="20" value="${detail.name}" /><input level="${fn:length(detail.level)}" type="checkbox" id="${detail.id}" tagsid="${detail.id}" tagsname="${detail.name}" name="tactics" value="${detail.id}" ${detail.checked} /></label>
+		<label title="${detail.name}"><span class="dx">${fn:toLowerCase(detail.name)}</span><m:out maxSize="20" value="${detail.name}" /><input level="${fn:length(detail.level)}" type="checkbox" id="${detail.id}" tagsid="${detail.id}" tagsname="${detail.name}" name="tactics" value="${detail.id}" ${detail.checked} /></label>
 	</c:forEach>
     </div>
 </div>

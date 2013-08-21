@@ -61,6 +61,7 @@ public class CustomerActionHandler extends ActionHandler {
 			BizObject job = qf.getByID(postjobId);
 			if(job.getString("customers").indexOf("customers.getId()")==-1){
 				job.set("customers", (StringUtils.isBlank(job.getString("customers"))?"":(job.getString("customers")+","))+customers.getId());
+				job.set("cnames", (StringUtils.isBlank(job.getString("customers"))?"":(job.getString("customers")+","))+customers.getString("name"));
 				this.getJdo().update(job);
 			}
 		}

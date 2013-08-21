@@ -46,9 +46,14 @@ public class RulesActionHandler extends ActionHandler {
 			}
 			this._request.setAttribute("tags_order", str);
 			this._request.setAttribute("head_id", "head_content");
-			this._request.setAttribute("head_txt", SystemKit.getParamById("system_core", "head_content"));
+			String head_txt=SystemKit.getParamById("system_core", "head_content");
+			head_txt=head_txt.replaceAll("\"","&quot;");
+			this._request.setAttribute("head_txt", head_txt);
+			
+			String foot_txt=SystemKit.getParamById("system_core", "foot_content");
+			foot_txt=foot_txt.replaceAll("\"","&quot;");
 			this._request.setAttribute("foot_id", "foot_content");
-			this._request.setAttribute("foot_txt", SystemKit.getParamById("system_core", "foot_content"));
+			this._request.setAttribute("foot_txt",foot_txt);
 			
 			String[] cycle = rules.getString("cycle").split(",");
 			if(cycle!=null && cycle.length>0){

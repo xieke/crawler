@@ -771,6 +771,31 @@ public class NewsActionHandler extends ActionHandler {
         this.log("结束 show_operator:"+usetime);
 	}
 	
+	public void resume() throws SQLException{
+		BizObject biz = new BizObject("his_news");
+		biz.setID(this._objId);
+		biz.refresh();
+		
+		if(biz==null) throw new ErrorException("当前要恢复的原文章不存,请重复操作!");
+
+		biz.set("status", BasicContext.STATUS_DISPOSE_NO);
+		this.getJdo().update(biz);
+		
+		biz.resetObjType("news");
+		biz.set("status", BasicContext.STATUS_DISPOSE_NO);
+		biz.set("issue", BasicContext.ISSUE_NO);
+		biz.set("hits", 0);
+		biz.set("isrecommend", BasicContext.IS_RECOMMEND_NO);
+		biz.set("istop", BasicContext.ISTOP_NO);
+		biz.set("isautotag", BasicContext.ISAUTOTAG_NO);
+		biz.set("his_news_id", biz.getId());
+		this.getJdo().addOrUpdate(biz);
+		this._tipInfo = "恢复成功！";
+		this._request.setAttribute("msg_type", "SUCCESS");
+		this._request.setAttribute("nextUrl", "news.NewsActionHandler.listHistory?his_news$status=2");
+		this._nextUrl = super._msgUrl;
+	}
+	
 //	private List<BizObject> queryUrgents(String news_urgent) throws SQLException{
 //		String[] types = news_urgent.split(",");
 //		List<BizObject> urgentList = SystemKit.getNoCachePickList("urgent");

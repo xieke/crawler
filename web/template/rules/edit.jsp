@@ -148,19 +148,13 @@
 <script charset="utf-8" src="/plugin/kindeditor-4.1.2/kindeditor-min.js"></script>
 <script charset="utf-8" src="/plugin/kindeditor-4.1.2/lang/zh_CN.js"></script>
 <script>
-    var editor;
-    KindEditor.ready(function(K) {
-        editor = K.create('#content_txt', {
-            resizeType : 1,
-            allowPreviewEmoticons : false,
-            allowImageUpload : false,
-			autoHeightMode : true,
-            items : [
-                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-                'insertunorderedlist', '|', 'emoticons', 'image', 'link']
-        });
-    });
+				    var editor;
+					var editor_k;
+					KindEditor.ready(function(K) {
+							
+							editor_k=K;
+
+					});
 </script>
                 <!--富文本编辑控件引入文件 结束-->
             	<textarea id="content_txt" rows="9" cols="52" name="content_txt"></textarea>
@@ -175,7 +169,8 @@
 		if(src=='head') title= "编辑邮件头部信息";
 		if(src=='foot') title= "编辑邮件尾部信息";
 		$("#content_txt").attr("value",$(obj).attr("insert_text"));
-		
+		alert($("#content_txt").val());
+		alert($(obj).attr("insert_text"));
 		$("#item_content" ).dialog({
 			title:title,
 			width:500,
@@ -183,6 +178,18 @@
 			modal:true,
 			resizable:false,
 			autoOpen: true,
+			open: function( event, ui ){
+				editor = editor_k.create('#content_txt', {
+					resizeType : 1,
+					allowPreviewEmoticons : false,
+					allowImageUpload : false,
+					autoHeightMode : true,
+					items : [
+						'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+						'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+						'insertunorderedlist', '|', 'emoticons', 'image', 'link']
+				});
+			},
 			buttons: {
 				"确定": function() {	
 					editor.sync();

@@ -27,6 +27,7 @@ import sand.depot.job.PostJob;
 import sand.depot.tool.system.ControllableException;
 import sand.depot.tool.system.ErrorException;
 import sand.depot.tool.system.InfoException;
+import sand.depot.tool.system.SystemKit;
 import sand.mail.MailServer;
 import tool.basic.DateUtils;
 import tool.dao.BizObject;
@@ -81,7 +82,7 @@ public class PostJobAH extends ActionHandler {
 		qf.setHardcoreFilter(" status=1 ");
 		List<BizObject> v = qf.query();
 		for(BizObject b:v){
-			b.set("name",b.getString("name")+"("+b.getString("mail")+")");
+			b.set("name",b.getString("name")+"("+b.getString("email")+")");
 			if(pj.getString("customers").indexOf(b.getId())>=0)
 				b.set("checked", "checked");
 		}
@@ -151,6 +152,7 @@ public class PostJobAH extends ActionHandler {
 		this.getJdo().addOrUpdate(b);
 		this._objId=b.getId();
 		this.clearQueryParam();
+		SystemKit.removeCache("postjobs");
 		this.list();
 		//this._nextUrl="/template/post/showPostJob.jsp";
 	}
@@ -160,6 +162,7 @@ public class PostJobAH extends ActionHandler {
 		b.setID(this._objId);
 		this.getJdo().delete(b);
 		this.clearQueryParam();
+		SystemKit.removeCache("postjobs");
 		this.list();
 
 	}
@@ -172,6 +175,7 @@ public class PostJobAH extends ActionHandler {
 			
 		}
 		this.clearQueryParam();
+		SystemKit.removeCache("postjobs");
 		this.list();
 
 	}	
@@ -198,7 +202,7 @@ public class PostJobAH extends ActionHandler {
 			b.set("status", 1);
 		else
 			b.set("status", 0);
-		
+		SystemKit.removeCache("postjobs");
 		this.getJdo().update(b);
 		this.clearQueryParam();
 		this.list();
@@ -216,6 +220,7 @@ public class PostJobAH extends ActionHandler {
 				b.set("status", status);
 			
 			this.getJdo().update(b);
+			SystemKit.removeCache("postjobs");
 			
 		}
 		

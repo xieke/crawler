@@ -493,7 +493,7 @@ public class PostJob extends BaseJob {
 	public static String processJob(BizObject job,JDO jdo) throws SQLException, TemplateException{
 
 		String result ="";
-		log("begin 处理  job "+job.getString("name"));
+		
 		BizObject rule =job.getBizObj("ruleid");
 		rule.set("limits", job.getString("limits"));
 		//log("post time is "+ job.getString("posttime"));
@@ -540,8 +540,8 @@ public class PostJob extends BaseJob {
 			
 			BizObject email = new BizObject("email");
 			// address=mailinfo[1];
-			//email.set("toaddr", c.getString("address"));
-			email.set("bcc",emailaddress);
+			email.set("toaddr", emailaddress);
+			//email.set("bcc",emailaddress);
 			email.set("content",content);
 			//	log("title "+subject);
 			//email.set("title", title);
@@ -606,6 +606,7 @@ public class PostJob extends BaseJob {
 			List<BizObject> v = postjob.getQF().query(postjob);
 			String memo="";
 			for(BizObject job:v){
+				log("begin 处理  job "+job.getString("name"));
 				BizObject rule =job.getBizObj("ruleid");
 				//rule.set("limits", job.getString("limits"));
 				//log("post time is "+ job.getString("posttime"));
