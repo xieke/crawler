@@ -78,7 +78,7 @@
     <td>${detail.author}</td>
     <td>${detail.copyfrom}</td>
     <td><fmt:formatDate value="${detail.posttime}" pattern="yyyy-MM-dd HH:mm"/></td>
-    <td><a title="取消删除" href="/news.NewsActionHandler.resume?objId=${detail.id}" >恢复</a><a href="/news.NewsActionHandler.showHis?objId=${detail.id}" >详细</a></td>
+    <td><a title="取消删除" href="/news.NewsActionHandler.resume?objId=${detail.id}" >恢复</a>&nbsp;&nbsp;<a href="/news.NewsActionHandler.showHis?objId=${detail.id}" >详细</a></td>
   </tr>
 </c:forEach>
 </table>

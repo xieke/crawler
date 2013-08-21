@@ -172,7 +172,7 @@
 		//alert($("#content_txt").val());
 		//alert($(obj).attr("insert_text"));
 		if(editor!=false)
-		editor.html($(obj).attr("insert_text"));
+			editor.html($(obj).attr("insert_text"));
 		$("#item_content" ).dialog({
 			title:title,
 			width:500,

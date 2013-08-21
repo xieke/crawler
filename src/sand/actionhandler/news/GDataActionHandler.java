@@ -179,7 +179,7 @@ public class GDataActionHandler extends ActionHandler {
 			biz.set("tags", ","+list.get(0).getString("tag_names")+",");
 			biz.set("tag_ids", ","+list.get(0).getString("tag_ids")+",");
 			
-//			this.getJdo().update(biz);
+			this.getJdo().update(biz);
 			logger.info("标签的名字:"+biz.toString());
 		}catch(SQLException s){
 			s.printStackTrace();

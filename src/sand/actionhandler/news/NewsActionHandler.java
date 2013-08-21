@@ -781,15 +781,16 @@ public class NewsActionHandler extends ActionHandler {
 		biz.set("status", BasicContext.STATUS_DISPOSE_NO);
 		this.getJdo().update(biz);
 		
-		biz.resetObjType("news");
-		biz.set("status", BasicContext.STATUS_DISPOSE_NO);
-		biz.set("issue", BasicContext.ISSUE_NO);
-		biz.set("hits", 0);
-		biz.set("isrecommend", BasicContext.IS_RECOMMEND_NO);
-		biz.set("istop", BasicContext.ISTOP_NO);
-		biz.set("isautotag", BasicContext.ISAUTOTAG_NO);
-		biz.set("his_news_id", biz.getId());
-		this.getJdo().addOrUpdate(biz);
+		BizObject news = biz.duplicate();
+		news.resetObjType("news");
+		news.set("status", BasicContext.STATUS_DISPOSE_NO);
+		news.set("issue", BasicContext.ISSUE_NO);
+		news.set("hits", 0);
+		news.set("isrecommend", BasicContext.IS_RECOMMEND_NO);
+		news.set("istop", BasicContext.ISTOP_NO);
+		news.set("isautotag", BasicContext.ISAUTOTAG_NO);
+		news.set("his_news_id", news.getId());
+		this.getJdo().addOrUpdate(news);
 		this._tipInfo = "恢复成功！";
 		this._request.setAttribute("msg_type", "SUCCESS");
 		this._request.setAttribute("nextUrl", "news.NewsActionHandler.listHistory?his_news$status=2");
