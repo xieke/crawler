@@ -1,7 +1,6 @@
 package weibo4j;
 
 import java.util.List;
-
 import weibo4j.model.PostParameter;
 import weibo4j.model.RateLimitStatus;
 import weibo4j.model.School;

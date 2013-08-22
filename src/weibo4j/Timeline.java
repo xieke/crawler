@@ -80,16 +80,6 @@ public class Timeline extends Weibo{
 
 	}
 
-	
-	public StatusWapper getStatus() throws WeiboException {
-		return Status.constructWapperStatus(client.get(WeiboConfig.getValue("baseURL") + "search/topics.json?q=%E5%BE%AE%E5%8D%9A"));
-
-	}
-	public StatusWapper getStatus2() throws WeiboException {
-		return Status.constructWapperStatus(client.get("https://c.api.weibo.com/2/search/statuses/limited.json?q=%E5%BE%AE%E5%8D%9A"));
-
-	}
-	
 	/**
 	 * 获取当前登录用户及其所关注用户的最新微博消息。<br/>
 	 * 和用户登录 http://weibo.com 后在“我的首页”中看到的内容相同。

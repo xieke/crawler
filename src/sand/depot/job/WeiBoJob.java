@@ -4,8 +4,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import sand.actionhandler.system.ActionHandler;
 import sand.actionhandler.weibo.UdaClient;
 import sand.depot.tool.system.SystemKit;
+import sand.service.news.NewsService;
 import tool.dao.BizObject;
 import tool.dao.JDO;
 import weibo4j.Timeline;
@@ -44,6 +48,59 @@ public class WeiBoJob extends BaseJob {
 		this._jdo.addOrUpdate(b);
 	}
 
+	public void insertNews(Status s) throws SQLException{
+
+		BizObject b = new BizObject("news");
+		b.set("id", s.getId());
+		if(b.getQF().getByID(s.getId())!=null){
+			this.log(s.getId()+" exist; continue;");
+			return;
+		}
+		b.set("createdate", s.getCreatedAt());
+		//b.set("author", s.getUser().getId());	
+		b.set("author", s.getUser().getName());
+		this.log(" text :" +s.getText().length());
+		//b.set("mid", s.getMid());	
+		b.set("content", s.getText());
+		b.set("copyfrom", s.getSource().getName());
+		//b.set("favorited", s.isFavorited());
+		//b.set("inReplyToStatusId", s.getInReplyToStatusId());
+		//b.set("inReplyToUserId", s.getInReplyToUserId());
+		//b.set("inReplyToScreenName", s.getInReplyToScreenName());
+		//b.set("thumbnailPic", s.getThumbnailPic());
+		//b.set("bmiddlePic", s.getBmiddlePic());
+		//b.set("originalPic", s.getOriginalPic());
+//		b.set("retweetedStatus", s.getRetweetedStatus().getId());
+		String picurl = UdaClient.download(s.getOriginalPic());
+		if(!picurl.equals("")){
+			int i=picurl.indexOf("/erp.upload");
+			b.set("pic_url", picurl.substring(i));
+		}
+		b.set("isweibo", "1");
+		//b.set("geo", s.getGeo());
+		//b.set("latitude", s.getLatitude());
+		//b.set("longitude", s.getLongitude());
+		//b.set("repostsCount", s.getRepostsCount());
+		//b.set("commentsCount", s.getCommentsCount());
+		try {
+		//	Thread.sleep(200);
+			this.getNewsService().addNews(b);
+		} catch (SQLException e){
+			log("",e);
+			log("错误记录:"+b);
+			e.printStackTrace();
+		}
+//		return "ok";
+
+	//	this._jdo.addOrUpdate(b);
+	
+	}
+	private NewsService newsService;
+	public NewsService getNewsService() {
+		if(newsService == null) 
+			newsService = (NewsService)WebApplicationContextUtils.getWebApplicationContext(ActionHandler._context).getBean("newsService");
+		return newsService;
+	}
 	public void insertStatus(Status s) throws SQLException{
 		BizObject b = new BizObject("weibo_status");
 		b.set("id", s.getId());
@@ -103,6 +160,7 @@ public class WeiBoJob extends BaseJob {
 					User user = s.getUser();
 					insertUser(user);
 					insertStatus(s);
+					insertNews(s);
 					i++;
 					//result = result + s.getUser().getName()+":"+s.getText()+"<br>";
 				}
