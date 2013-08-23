@@ -590,6 +590,7 @@ public class NewsActionHandler extends ActionHandler {
 	public void last() throws SQLException{
 		
 		String allids =this.getPosted().getString("newsids");
+		logger.info(allids);
 		String ids[]=allids.split(",");
 		log("1 objid is "+_objId);
 		for(int i=0;i<ids.length;i++){
