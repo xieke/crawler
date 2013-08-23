@@ -213,17 +213,17 @@ public class PostJob extends BaseJob {
 			/**
 			 * 此处计算所有的newsid
 			 */
-			String allids="";
-			for(int i=0;i<allv.size();i++){
-				
-				BizObject b=allv.get(i);
-				if (allids.equals(""))
-					allids=b.getId();
-				else
-					allids=allids+","+b.getId();
-				if(i>0) b.set("lastid", allv.get(i-1).getId());
-				if(i<allv.size()-1) b.set("nextid", allv.get(i+1).getId());
-			}
+//			String allids="";
+//			for(int i=0;i<allv.size();i++){
+//				
+//				BizObject b=allv.get(i);
+//				if (allids.equals(""))
+//					allids=b.getId();
+//				else
+//					allids=allids+","+b.getId();
+//				if(i>0) b.set("lastid", allv.get(i-1).getId());
+//				if(i<allv.size()-1) b.set("nextid", allv.get(i+1).getId());
+//			}
 
 			for(String tid:tagid){
 				
@@ -237,7 +237,7 @@ public class PostJob extends BaseJob {
 				
 				for(int i=0 ; i<allv.size();i++){
 					BizObject b=allv.get(i);					
-					b.set("allids", allids);
+				//	b.set("allids", allids);
 					//log("lastid "+b.getString("lastid")+"  nextid "+b.getString("nextid"));
 					/**
 					 * 根据配置文件决定文章归在哪一类tag,并决定语言显示summary
@@ -289,7 +289,7 @@ public class PostJob extends BaseJob {
 		else
 		return (Map<String,List>) renderMap.get(key);
 	}
-	public  static String render(Map<String ,List> postv, String greeting, String ending,String email) throws IOException, TemplateException, SQLException{
+	public  static String render(Map<String ,List> postv, String greeting, String ending,String email,String jobid) throws IOException, TemplateException, SQLException{
 		
 		 Configuration cfg; 
 	        cfg = new Configuration();
@@ -303,7 +303,8 @@ public class PostJob extends BaseJob {
 	        root.put("greeting", greeting);
 	        root.put("ending",ending);
 	        root.put("email",email);
-	        root.put("senddate",new Date());
+	      //  root.put("senddate",new Date());
+	        root.put("jobid", jobid);
 	        //this.render();
 	        root.put("www_url", SystemKit.getParamById("system_core","www_url"));
 	        root.put("objList", postv);
@@ -489,6 +490,26 @@ public class PostJob extends BaseJob {
 		}
 			
 	}
+	/*
+	 * 取map中所有newsid
+	 */
+	public static String getAllNewsId(Map<String,List> m){
+		String newsids="";
+		//int newscount=0;
+		for(String o : m.keySet()){ 
+		   List<BizObject>  list=m.get(o); 
+			for(BizObject b:list){
+				//newscount++;
+				//NewsActionHandler.clickIt(email.getString("bcc"), b.getId(), "send",_jdo);
+				if(newsids.equals(""))
+					newsids=b.getId();
+				else
+					newsids=newsids+","+b.getId();
+			}
+			
+		} 
+		return newsids;
+	}
 	
 	public static String processJob(BizObject job,JDO jdo) throws SQLException, TemplateException{
 
@@ -528,8 +549,9 @@ public class PostJob extends BaseJob {
 			String ending=rule.getString("foot").replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDD));
 			String subject=rule.getString("title").replaceAll("@name",c.getString("name")).replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDD));
 			String content="";
+			
 			try {
-				content=render(m,greeting,ending,emailaddress);
+				content=render(m,greeting,ending,emailaddress,job.getId());
 				content_posted=content;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -565,29 +587,17 @@ public class PostJob extends BaseJob {
 			
 		}
 		
-		String newsids="";
-		int newscount=0;
-		for(String o : m.keySet()){ 
-		   List<BizObject>  list=m.get(o); 
-			for(BizObject b:list){
-				newscount++;
-				//NewsActionHandler.clickIt(email.getString("bcc"), b.getId(), "send",_jdo);
-				if(newsids.equals(""))
-					newsids=b.getId();
-				else
-					newsids=newsids+","+b.getId();
-			}
+		String newsids = getAllNewsId(m);
 
-		} 
 		
 		job.set("lastposttime", new Date());
 		jdo.update(job);
 		job.set("newsids", newsids);
-		result = result+" 发送文章："+newscount+" , ";
+		//result = result+" 发送文章："+newscount+" , ";
 		job.set("content", content_posted);
 		job.resetObjType("posted");
-		job.setID("");
-		jdo.add(job);
+	//	job.setID("");
+		jdo.add(job);   //这里是把 postjob 表 和 posted 表的id设成一致
 						
 		return result;
 	}	

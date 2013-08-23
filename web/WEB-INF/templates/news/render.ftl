@@ -20,7 +20,7 @@ ${greeting!""}<br><br>
 					<#if item?size!=0 > 
 [${key}]<br>
 							<#list item as e>
-${(e.summary)?default("")}    <a href="${www_url}/news.NewsActionHandler.showIt?objId=${e.id}&email=${email}&allids=${(e.allids)?default('')}&senddate=${senddate?string('yyyy-MM-dd HH:mm:ss')}" class="more" target="_blank">more</a><br><br>
+${(e.summary)?default("")}    <a href="${www_url}/news.NewsActionHandler.showIt?objId=${e.id}&email=${email}&jobid=${(jobid)?default('')}" class="more" target="_blank">more</a><br><br>
 							</#list>
                             <br>
 					</#if>

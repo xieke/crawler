@@ -27,6 +27,7 @@ import sand.annotation.AccessControl;
 import sand.annotation.Ajax;
 import sand.annotation.CandoCheck;
 import sand.annotation.TokenCheck;
+import sand.depot.job.PostJob;
 import sand.depot.job.QuartzManager;
 import sand.depot.tool.system.ControllableException;
 import sand.depot.tool.system.ErrorException;
@@ -41,6 +42,7 @@ import tool.dao.BizObject;
 import tool.dao.JDO;
 import tool.dao.PageVariable;
 import tool.dao.QueryFactory;
+import tool.dao.UidGenerator;
 import tool.util.CachedResponseWrapper;
 import basic.BasicContext;
 import freemarker.template.Configuration;
@@ -576,9 +578,18 @@ public class NewsActionHandler extends ActionHandler {
 		this.listMail();
 			
 	}
+	
+	private BizObject getPosted() throws SQLException{
+		String jobid=this.getParameter("jobid");
+		BizObject posted =new BizObject("posted");
+		posted.setID(jobid);
+		posted.refresh();
+		return posted;
+	}
 
 	public void last() throws SQLException{
-		String allids = this.getParameter("allids");
+		
+		String allids =this.getPosted().getString("newsids");
 		String ids[]=allids.split(",");
 		log("1 objid is "+_objId);
 		for(int i=0;i<ids.length;i++){
@@ -594,7 +605,7 @@ public class NewsActionHandler extends ActionHandler {
 		this.showIt();
 	}
 	public void next() throws SQLException{
-		String allids = this.getParameter("allids");
+		String allids =this.getPosted().getString("newsids");
 		String ids[]=allids.split(",");
 		log("1 objid is "+_objId);
 		for(int i=0;i<ids.length;i++){
@@ -1039,7 +1050,7 @@ public class NewsActionHandler extends ActionHandler {
 			b.set("email", email);
 			b.set("newsid",newsid);
 			b.set("operator", operator);
-			b.set("senddate",senddate);
+			b.set("senddate",this.getPosted().getDate("lastposttime"));
 			
 			if(b.getQF().getOne(b)!=null){
 				return "您已经点过了";
@@ -1141,10 +1152,13 @@ public class NewsActionHandler extends ActionHandler {
 		//logger.info("sfix is "+sfix);
 		// email.set("fromaddr", "xieke3@hnair.com");
 
-		String content=this.renderHtml2(address,this.getParameter("tags"),this.getParameter("subject"),this.getParameter("greeting"),this.getParameter("ending"));
+		String content=this.renderForSendMail(address,this.getParameter("tags"),this.getParameter("subject"),this.getParameter("greeting"),this.getParameter("ending"));
 		email.set(
 				"content",content);
 		
+//		Map<String,List> map = (Map<String, List>) _request.getAttribute("objList");
+
+
 		if(this.getParameter("subject").equals(""))
 			email.set("subject", "Goldpebble Research Customized News");
 		else
@@ -1209,7 +1223,7 @@ public class NewsActionHandler extends ActionHandler {
        root.put("objList", _request.getAttribute("objList"));
        root.put("tags",this.getParameter("tags"));
        root.put("email", this.getParameter("email"));
-       root.put("senddate",new Date());
+      // root.put("senddate",new Date());
        root.put("subject", this.getParameter("subject"));
        root.put("greeting", this.getParameter("greeting"));
        root.put("ending", this.getParameter("ending"));       
@@ -1234,7 +1248,7 @@ public class NewsActionHandler extends ActionHandler {
 
 		//return _SUBMIT_TYPE;
 	}
-	private  String renderHtml2(String email,String tags,String subject,String greeting,String ending) throws IOException, ServletException, SQLException, TemplateException{
+	private  String renderForSendMail(String email,String tags,String subject,String greeting,String ending) throws IOException, ServletException, SQLException, TemplateException{
 		 Configuration cfg; 
         cfg = new Configuration();
         
@@ -1243,16 +1257,23 @@ public class NewsActionHandler extends ActionHandler {
         cfg.setDefaultEncoding("UTF-8");
        // this._dispatched=true;
 		// Build the data-model
+
+        this.render();
+        
+        String postid=UidGenerator.getUUId();
+        //posted.set("content", content);
+        
+        Map<String,List> map = (Map<String, List>) _request.getAttribute("objList");
+
         Map root = new HashMap();
         root.put("message", "Hello World!");
 
-        this.render();
         root.put("www_url", SystemKit.getParamById("system_core", "www_url"));
-        root.put("objList", _request.getAttribute("objList"));
+        root.put("objList", map);
         root.put("tags",tags);
         root.put("subject", subject);
         root.put("email",email);
-        root.put("senddate",new Date());
+        root.put("jobid",postid);
         root.put("greeting", greeting);
         root.put("ending", ending);
        // this.renderHtml();
@@ -1266,6 +1287,22 @@ public class NewsActionHandler extends ActionHandler {
 //        _response.setContentType("text/html; charset=" + t.getEncoding());
 //        Writer out = _response.getWriter();
         String s =FreeMarkerTemplateUtils.processTemplateIntoString(t, root);
+        
+        String newsids= PostJob.getAllNewsId(map);
+        BizObject posted = new BizObject("posted");
+        posted.set("newsids", newsids);
+        posted.setID(postid);
+        //\result=result + emailaddress +"  发送结果：  "+success+" , ";
+        posted.set("content", s);
+        posted.set("memo", email);
+        posted.set("lastposttime", new Date());        
+      //  posted.set("posttime", new Date());
+        posted.set("no","manual");
+        posted.set("limits", 0);
+        posted.set("name", "手动发邮件");
+        this.getJdo().add(posted);
+
+        
         return s;
        // String s;
       //  s.to
