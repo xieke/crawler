@@ -434,7 +434,7 @@ public class NewsActionHandler extends ActionHandler {
 //		if(StringUtils.isBlank(tag_ids2)) 
 			sql.append("select DISTINCT n.id,n.title,n.posttime,n.fname,n.author,n.copyfrom,n.copyfromurl," +
 				"n.category_id,n.status,n.issue,n.hits,n.isrecommend,n.istop,n.isautotag,n.summary,n.c_summary,n.importance," +
-				"n.urgent,n.sort,n.his_news_id,n.tags,n.createdate from basic.news n where 1=1 ");
+				"n.urgent,n.sort,n.his_news_id,n.tags,n.createdate,n.modifydate from basic.news n where 1=1 ");
 //		else sql.append("select DISTINCT n.id,n.title,n.posttime,n.fname,n.author,n.copyfrom,n.copyfromurl," +
 //				"n.category_id,n.status,n.issue,n.hits,n.isrecommend,n.istop,n.isautotag,n.summary,n.c_summary,n.tags,n.importance," +
 //				"n.urgent,n.sort,n.his_news_id,n.createdate from basic.news n left join basic.re_bill_tag r on n.id=r.bill_id where r.tag_id in (")

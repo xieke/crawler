@@ -605,6 +605,7 @@ public class PostJob extends BaseJob {
 	int minute=0;
 	
 	public String run() {
+		super.setSynRun(true);
 		minute = Calendar.getInstance().get(Calendar.MINUTE);
 		super.setSynRun(false);  //本任务可以同时执行
 		String ret;
