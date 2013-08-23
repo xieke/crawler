@@ -80,6 +80,7 @@ public class RulesActionHandler extends ActionHandler {
 		BizObject rules = this.getBizObjectFromMap("rules");
 		rules.set("tags", this.getParameter("tags"));
 		rules.set("tag_ids", this.getParameter("tag_ids"));
+		if(StringUtils.isBlank(rules.getId())) rules.set("status", 1);
 		this.getJdo().addOrUpdate(rules);
 		this.clearQueryParam();
 		this.list();
@@ -134,11 +135,12 @@ public class RulesActionHandler extends ActionHandler {
 		rules.setID(id);
 		rules.refresh();
 		if(rules==null) throw new ErrorException("要删除的记录不存在 ,请重新操作!");
-
-		this.getJdo().delete(rules);
+		rules.set("status", 0);
+		this.getJdo().update(rules);
 	}
 	
 	public void list() throws SQLException{
+		super.setHardcoreFilter("status=1");
 		super.listObj();
 		this._nextUrl = "/template/rules/list.jsp";
 	}

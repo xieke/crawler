@@ -122,6 +122,10 @@ public class GDataActionHandler extends ActionHandler {
 				BizObject news = new BizObject("news");
 				news.setID(id);
 				news.refresh();
+				if(StringUtils.isNotBlank("summary")||StringUtils.isNotBlank("c_summary")){
+					logger.info("第"+i+"个:"+id+"文章编辑过,不能删除");
+					continue;
+				}
 //				news = qf.getOne(news);
 				if(StringUtils.isBlank(id) || news.isEmpty() ) {
 					logger.info("第"+i+"个:"+id+"  对应的文章不存在,或者已处理过,继续下一个");
