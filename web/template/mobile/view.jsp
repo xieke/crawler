@@ -23,11 +23,10 @@
     <input type="hidden" name="urgent" value="${urgent}" />
     <input type="hidden" id="author" name="author" value="${author}" />
     <input type="hidden" name="newsid" value="" />
-    <input type="hidden" name="allids" value="${param.allids}" />
+    <input type="hidden" name="jobid" value="${param.jobid}" />
     <input type="hidden" name="email" value="${param.email}" />
     <input type="hidden" name="sort" value="${sort}" />
-	<input type="hidden" name="senddate" value='<fmt:formatDate value="${senddate}" pattern="yyyy-MM-dd HH:mm:ss"/>' />
-    <input type="hidden" name="objId" value="${obj.id}" />
+	<input type="hidden" name="objId" value="${obj.id}" />
     <input type="hidden" name="tag_ids2" value="${tag_ids2}" />
 	<input type="hidden" id="orderby" name="orderby" value="${orderby }"/>
 	<input type="hidden" id="order" name="order" value="${order }"/>
