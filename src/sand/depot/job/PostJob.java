@@ -26,6 +26,7 @@ import tool.basic.DateUtils;
 import tool.dao.BizObject;
 import tool.dao.JDO;
 import tool.dao.QueryFactory;
+import tool.dao.UidGenerator;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -537,6 +538,8 @@ public class PostJob extends BaseJob {
 		}
 		String c_ids[]=job.getString("customers").split(",");
 		String content_posted="";
+		String postid=UidGenerator.getUUId();
+		
 		for(String cid:c_ids){
 			if(cid.equals("")) continue;
 			BizObject c = new BizObject("customers");
@@ -549,9 +552,10 @@ public class PostJob extends BaseJob {
 			String ending=rule.getString("foot").replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDD));
 			String subject=rule.getString("title").replaceAll("@name",c.getString("name")).replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDD));
 			String content="";
-			
+		
 			try {
-				content=render(m,greeting,ending,emailaddress,job.getId());
+				
+				content=render(m,greeting,ending,emailaddress,postid);
 				content_posted=content;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -596,8 +600,8 @@ public class PostJob extends BaseJob {
 		//result = result+" 发送文章："+newscount+" , ";
 		job.set("content", content_posted);
 		job.resetObjType("posted");
-	//	job.setID("");
-		jdo.add(job);   //这里是把 postjob 表 和 posted 表的id设成一致
+		job.setID(postid);//这里是新的postid
+		jdo.add(job);   
 						
 		return result;
 	}	

@@ -634,20 +634,8 @@ public class NewsActionHandler extends ActionHandler {
 		String email=this.getParameter("email");
 
 		this.clickIt("open");
-		if(!email.equals("")){
-//			BizObject customer = new BizObject("customers");
-//			customer.set("email",email);			
-//			customer = customer.getQF().getOne(customer);
-//			
-//			if(customer!=null){
-//					customer.set("hits", customer.getString("hits")+","+this._objId);
-//					this.getJdo().update(customer);
-//			}
-			
-			biz.set("clickmails", biz.getString("clickmails")+","+email);
-			
-		}
-		this.getJdo().update(biz);
+
+		//this.getJdo().update(biz);
 		List<BizObject> list = this.getTagService().openAllWithSelectedTag(this._objId);
 		List<BizObject> retags = this.getTagService().queryTagsByBillId(this._objId);
 		
