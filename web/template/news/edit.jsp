@@ -79,10 +79,10 @@
         <td valign="top" style="background:#f1f1f1">
 <div style="padding:5px">新闻标题：<input type="text" style="width:420px" id="title" name="news$title" value="${obj.title}" /></div>
 <div style="padding:5px">&nbsp;&nbsp;&nbsp;&nbsp;作者：<input type="text" style="width:80px" id="news_author" name="news$author" value="${obj.author}" />&nbsp;&nbsp;&nbsp;原文地址：<input type="text" id="news_copyfrom" name="news$copyfrom" value="${obj.copyfrom}" /></div>
-<div style="padding:5px">原文URL：&nbsp;<input type="text" id="news_copyfromurl" name="news$copyfromurl" value="${obj.copyfromurl}" style="width:420px"  /></div>
-<c:if test="${obj.his_news_id!='' && obj.his_news_id!=null}">
-	<div style="padding:5px">查看原文：<a href="${obj.copyfromurl}" target="_blank" >${obj.copyfromurl}</a></div>
-</c:if>
+<div style="padding:5px">原文URL：&nbsp;<input type="text" id="news_copyfromurl" name="news$copyfromurl" value="${obj.copyfromurl}" style="width:420px"  /><c:if test="${obj.his_news_id!='' && obj.his_news_id!=null}">
+	<a href="${obj.copyfromurl}" target="_blank" >查看原文</a>
+</c:if></div>
+
 <div>
     	<!--富文本编辑控件引入文件 开始-->
 <script charset="utf-8" src="/plugin/kindeditor-4.1.2/kindeditor-min.js"></script>
@@ -148,10 +148,10 @@
     <td><m:radio type="sort" name="news$sort" value="${obj.sort}" defaultValue="1" /></td>
 </tr>
 </table>
-<div class="title">英文摘要 <span id="show_summary_length">0</span> / 1000</div>
-<div><textarea style="height:150px" id="summary" name="news$summary" data-maxsize="1000" data-output="show_summary_length">${obj.summary}</textarea></div>
 <div class="title">中文摘要 <span id="show_c_summary_length">0</span> / 1000</div>
 <div><textarea style="height:150px" id="c_summary" name="news$c_summary" data-maxsize="1000" data-output="show_c_summary_length">${obj.c_summary}</textarea></div>
+<div class="title">英文摘要 <span id="show_summary_length">0</span> / 1000</div>
+<div><textarea style="height:150px" id="summary" name="news$summary" data-maxsize="1000" data-output="show_summary_length">${obj.summary}</textarea></div>
 <div class="title">备忘</div>
 <div>
 	<c:forEach var="detail" items="${commentsList}" varStatus="status">
@@ -179,6 +179,8 @@
 <div>
 	<input type="hidden" id="s_time" name="startDate" value="${startDate}" readonly="readonly" plugin="date" start="start" />
 	<input type="hidden" id="e_time" name="endDate" value="${endDate}" readonly="readonly" plugin="date" end="start" />
+	<input type="hidden" id="s_time1" name="startDate1" value="${startDate1}" readonly="readonly" plugin="date" start="start1" />
+	<input type="hidden" id="e_time1" name="endDate1" value="${endDate1}" readonly="readonly" plugin="date" end="start1" />
     <input type="hidden" name="status" value="${status}" />
     <input type="hidden" id="title" name="title" value="${title}" />
     <input type="hidden" name="urgent" value="${urgent}" />
@@ -195,6 +197,8 @@
 	<input type="hidden" id="page" name="page" value="${page}" />
 	<input type="hidden" id="job" name="job" value="${job}" />
 	<input type="hidden" id="from" name="from" value="${param.from}" />
+	<input type="hidden" id="esummary" name="esummary" value="${esummary}" />
+	<input type="hidden" id="summary" name="summary" value="${summary}" />
 </div>
 
 
