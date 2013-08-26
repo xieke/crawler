@@ -667,6 +667,7 @@ public class UdaClient {
 //        return null; 
 //}     
     
+    public static String REDIRECT_URI="http://60.172.229.19:18080/basic.LoginAH.weibo";
     
 	public static AccessToken getToken(String userid,String password) throws Exception{
 		
@@ -684,7 +685,7 @@ public class UdaClient {
 
         	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1); 
         	nameValuePairs.add(new BasicNameValuePair("client_id", "2517196057")); 
-        	nameValuePairs.add(new BasicNameValuePair("redirect_uri", "http://116.236.101.196:18080/weibo.WeiBoAH.weibo")); 
+        	nameValuePairs.add(new BasicNameValuePair("redirect_uri",REDIRECT_URI)); 
         	nameValuePairs.add(new BasicNameValuePair("userId",userid)); 
         	nameValuePairs.add(new BasicNameValuePair("passwd", password)); 
         	nameValuePairs.add(new BasicNameValuePair("isLoginSina", "")); 
@@ -702,7 +703,7 @@ public class UdaClient {
 //          headers.add(new Header("Host", "api.weibo.com")); 
 //          headers.add(new Header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; rv:11.0) Gecko/20100101 Firefox/11.0")); 
         	
-            httppost.addHeader("Referer","https://api.weibo.com/oauth2/authorize?client_id=2517196057&redirect_uri=http://116.236.101.196:18080/weibo.WeiBoAH.weibo&from=sina&response_type=code");
+            httppost.addHeader("Referer","https://api.weibo.com/oauth2/authorize?client_id=2517196057&redirect_uri="+REDIRECT_URI+"&from=sina&response_type=code");
             httppost.addHeader("Host","api.weibo.com");
             httppost.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; rv:11.0) Gecko/20100101 Firefox/11.0");
             

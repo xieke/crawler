@@ -74,7 +74,12 @@ public class WeiBoJob extends BaseJob {
 		String picurl = UdaClient.download(s.getOriginalPic());
 		if(!picurl.equals("")){
 			int i=picurl.indexOf("/erp.upload");
-			b.set("pic_url", picurl.substring(i));
+			if(i>=0)
+				b.set("picurl", picurl.substring(i));
+			else
+				b.set("picurl", picurl);
+
+//			b.set("pic_url", picurl.substring(i));
 		}
 		b.set("isweibo", "1");
 		//b.set("geo", s.getGeo());
@@ -125,8 +130,12 @@ public class WeiBoJob extends BaseJob {
 //		b.set("retweetedStatus", s.getRetweetedStatus().getId());
 		String picurl = UdaClient.download(s.getOriginalPic());
 		if(!picurl.equals("")){
+			log("pic url is "+picurl);
 			int i=picurl.indexOf("/erp.upload");
-			b.set("picurl", picurl.substring(i));
+			if(i>=0)
+				b.set("picurl", picurl.substring(i));
+			else
+				b.set("picurl", picurl);
 		}
 		b.set("geo", s.getGeo());
 		b.set("latitude", s.getLatitude());
