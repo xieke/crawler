@@ -39,6 +39,9 @@ public class PostJob extends BaseJob {
 	
 	static Logger logger = Logger.getLogger(PostJob.class);
 
+	public PostJob(){
+		super.setMultiRun(true); //可以并行执行
+	}
 	private static  String constructCycleSql(String cycle){
 		String sql="";
 		if(cycle.trim().equals("D")){
@@ -609,9 +612,9 @@ public class PostJob extends BaseJob {
 	int minute=0;
 	
 	public String run() {
-		super.setSynRun(true);
+		//super.setMultiRun(true);
 		minute = Calendar.getInstance().get(Calendar.MINUTE);
-		super.setSynRun(false);  //本任务可以同时执行
+		//super.setSynRun(false);  //本任务可以同时执行
 		String ret;
 		BizObject postjob = new BizObject("postjob");
 		try {
