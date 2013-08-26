@@ -1341,23 +1341,26 @@ public class NewsActionHandler extends ActionHandler {
 	}
 	
 	public void reset() throws SQLException{
-		String sql = "select * from basic.his_news where status='2' and createdate>=STR_TO_DATE('2013-08-23 22:00:00','%Y-%m-%d %H:%i:%s') " +
-				"and createdate<=STR_TO_DATE('2013-08-26 10:00:00','%Y-%m-%d %H:%i:%s') limit 0,100";
-		List<BizObject> list = QueryFactory.executeQuerySQL(sql);
-		for(BizObject biz : list){
-			biz.set("status", 0);
-			this.getJdo().update(biz);
-			
-			BizObject news = biz.duplicate();
-			news.resetObjType("news");
-			news.set("status", BasicContext.STATUS_DISPOSE_NO);
-			news.set("issue", BasicContext.ISSUE_NO);
-			news.set("hits", 0);
-			news.set("isrecommend", BasicContext.IS_RECOMMEND_NO);
-			news.set("istop", BasicContext.ISTOP_NO);
-			news.set("isautotag", BasicContext.ISAUTOTAG_NO);
-			news.set("his_news_id", news.getId());
-			this.getJdo().addOrUpdate(news);
+		while(true){
+			String sql = "select * from basic.his_news where status='2' and createdate>=STR_TO_DATE('2013-08-23 22:00:00','%Y-%m-%d %H:%i:%s') " +
+					"and createdate<=STR_TO_DATE('2013-08-26 10:00:00','%Y-%m-%d %H:%i:%s') limit 0,100";
+			List<BizObject> list = QueryFactory.executeQuerySQL(sql);
+			if(list==null || list.size()<=0) break;
+			for(BizObject biz : list){
+				biz.set("status", 0);
+				this.getJdo().update(biz);
+				
+				BizObject news = biz.duplicate();
+				news.resetObjType("news");
+				news.set("status", BasicContext.STATUS_DISPOSE_NO);
+				news.set("issue", BasicContext.ISSUE_NO);
+				news.set("hits", 0);
+				news.set("isrecommend", BasicContext.IS_RECOMMEND_NO);
+				news.set("istop", BasicContext.ISTOP_NO);
+				news.set("isautotag", BasicContext.ISAUTOTAG_NO);
+				news.set("his_news_id", news.getId());
+				this.getJdo().addOrUpdate(news);
+			}
 		}
 	}
 

@@ -50,7 +50,7 @@ public class WeiBoJob extends BaseJob {
 
 	public void insertNews(Status s) throws SQLException{
 
-		BizObject b = new BizObject("news");
+		BizObject b = new BizObject("his_news");
 		b.set("id", s.getId());
 		if(b.getQF().getByID(s.getId())!=null){
 			this.log(s.getId()+" exist; continue;");
