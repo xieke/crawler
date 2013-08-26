@@ -94,7 +94,8 @@
     </tr>
     <tr>
     	<td>摘要:</td>
-        <td><input type="text" id="summary" name="summary" value=" 非空 " /></td>
+        <td>中文非空<m:checkbox name="summary" value="notnull" checkValue="${summary}" /> &nbsp;
+		英文非空<m:checkbox name="esummary" value="notnull" checkValue="${esummary}" /></td>
         <!--<td>作者：</td>
         <td><input type="text" id="author" name="author" value="${author}" /></td>-->
         <td>GP重要度：</td>
