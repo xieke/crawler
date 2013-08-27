@@ -76,9 +76,9 @@ public class WeiBoJob extends BaseJob {
 		if(!picurl.equals("")){
 			int i=picurl.indexOf("/erp.upload");
 			if(i>=0)
-				b.set("picurl", picurl.substring(i));
+				b.set("pic_url", picurl.substring(i));
 			else
-				b.set("picurl", picurl);
+				b.set("pic_url", picurl);
 
 //			b.set("pic_url", picurl.substring(i));
 		}

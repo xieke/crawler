@@ -1039,12 +1039,14 @@ public class NewsActionHandler extends ActionHandler {
 			b.set("email", email);
 			b.set("newsid",newsid);
 			b.set("operator", operator);
-			b.set("senddate",this.getPosted().getDate("lastposttime"));
+			
 			
 			if(b.getQF().getOne(b)!=null){
 				return "您已经点过了";
 			}
-
+			
+			b.set("senddate",this.getPosted().getDate("lastposttime"));
+			
 			BizObject customer = new BizObject("customers");
 			customer.set("email",email);			
 			customer = customer.getQF().getOne(customer);
