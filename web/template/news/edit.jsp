@@ -169,7 +169,7 @@
     	<td colspan="2" style="border-top:1px solid #ccc; text-align:right">
         	<input type="button" id="save" name="save" class="button" value="完成处理_list" />　
         	<input type="button" id="save_next" name="save_next" class="button" value="完成处理_next" />　
-            <input type="button" id="save_last" name="save_last" class="button" value="完成处理_pre" />　
+            <input type="button" id="save_last" name="save_last" class="button" value="完成处理_prev" />　
 			<input type="button" name="Submit2" value="放弃保存" class="button" onclick="window.history.go(-1);"/></td>
     </tr>
 </table>
