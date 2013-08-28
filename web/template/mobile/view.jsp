@@ -8,10 +8,10 @@
   <div class="clearer"></div>
   <div class="post" id="post-572">
     <div id="singlentry" class="left-justified">${obj.content}</div>
-    <div class="single-post-meta-bottom"> 所属标签： <a href="#" title="信息技术">信息技术</a> , <a href="#" title="商业和经济" rel="category">商业和经济</a> </div>
+    <div class="single-post-meta-bottom"> 所属标签：${obj.tags}</div>
     <ul id="post-options">
       <li><a href="javascript:last('${param.lastid}','${param.email}')" id="oprev" title="上一篇"></a></li>
-      <li><a href="javascript:dislike('${obj.id}','${param.email}')" id="omail" title="喜欢"></a></li>
+      <li class="ahover"><a href="javascript:dislike('${obj.id}','${param.email}')" id="omail" title="喜欢"></a></li>
       <li><a href="javascript:like('${obj.id}','${param.email}')" id="otweet" title="不喜欢"></a></li>
       <li><a href="javascript:next('${param.nextid}','${param.email}')" id="onext" title="下一篇"></a></li>
     </ul>

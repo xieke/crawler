@@ -27,6 +27,7 @@ import sand.depot.job.PostJob;
 import sand.depot.tool.system.ControllableException;
 import sand.depot.tool.system.ErrorException;
 import sand.depot.tool.system.InfoException;
+import sand.mail.MailSender;
 import sand.mail.MailServer;
 import tool.basic.DateUtils;
 import tool.dao.BizObject;
@@ -209,6 +210,26 @@ public class GpMailAH extends ActionHandler {
 		this.setAttribute("objList",v);
 		this._nextUrl="/template/news/listmodify.jsp";
 		
+	}
+	
+	public String sendMail() throws SQLException{
+		String author= this.getParameter("author");
+		String content = this.getParameter("content");
+		String address=this.getParameter("email");
+		
+		BizObject email = new BizObject("email");
+
+	//	String address=this.getParameter("email");
+		//email.set("toaddr", address);
+		email.set("bcc", address);
+		email.set("subject", author+"有一个留言");
+		email.set("content", content);
+
+		MailSender mailSender = new MailSender("4c395f8a75d246e48c6c6b3f1729f6bc");
+		
+		String result=mailSender.sendMailSyn(email)+"";
+		return result;
+
 	}
 
 	public void showPost() throws SQLException, IOException, TemplateException{
