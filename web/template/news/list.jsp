@@ -94,7 +94,8 @@
     </tr>
     <tr>
     	<td>摘要:</td>
-        <td><input type="text" id="summary" name="summary" value=" 非空 " /></td>
+        <td>中文非空<m:checkbox name="summary" value="notnull" checkValue="${summary}" /> &nbsp;
+		英文非空<m:checkbox name="esummary" value="notnull" checkValue="${esummary}" /></td>
         <!--<td>作者：</td>
         <td><input type="text" id="author" name="author" value="${author}" /></td>-->
         <td>GP重要度：</td>
@@ -176,7 +177,7 @@ $(function(){
   <tr class="effect">
   	<td><input type="checkbox" value="${detail.id}" name="delid"/></td>
     <td>${status.index+1}</td>
-    <td><a href="javascript:void(0)" onclick="show('${detail.id}')" ><m:out type="" value="${detail.title}" maxSize="20" /></a></td>
+    <td><a href="javascript:void(0)" onclick="show('${detail.id}','${pageVariable.npage*pageVariable.pagesize+status.index}')" ><m:out type="" value="${detail.title}" maxSize="20" /></a></td>
     <td>英：<m:out value="${detail.summary}" maxSize="20" /><br>中：<m:out value="${detail.c_summary}" maxSize="20" />  </td>
     <td><m:out type="" value="${detail.author}" maxSize="3" /></td>
     <td><m:out type="" value="${detail.copyfrom}" maxSize="4" /></td>

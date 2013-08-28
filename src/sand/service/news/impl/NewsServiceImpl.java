@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 
 import sand.actionhandler.system.ActionHandler;
+import sand.depot.job.BaseJob;
 import sand.service.basic.service.TagRuleService;
 import sand.service.basic.service.TagService;
 import sand.service.news.NewsService;
@@ -109,7 +110,7 @@ public class NewsServiceImpl implements NewsService {
 		 BizObject his_news = news.duplicate();
 		his_news.resetObjType(NewsService.HIS_TABLE_NAME);
 //		his_news.setID("");
-		ActionHandler.currentSession().add(his_news);
+		BaseJob.currentSession().add(his_news);
 		/**暂时先不用news_content表,先不移出去
 		BizObject news_content = new BizObject(NewsService.NEWS_CONTENT);
 		news_content.set("content", news.getString("content"));
@@ -127,7 +128,7 @@ public class NewsServiceImpl implements NewsService {
 //		news.set("content", "");
 		**/
 
-		ActionHandler.currentSession().add(news);
+		BaseJob.currentSession().add(news);
 		/**暂时先不用news_content表,先不移出去
 		news_content.set("news_id", news.getId());
 		ActionHandler.currentSession().add(news_content);
@@ -162,7 +163,7 @@ public class NewsServiceImpl implements NewsService {
 								if(news.getString("tag_ids").indexOf(s)==-1) {
 									news.set("tags", (StringUtils.isBlank(news.getString("tags"))?",":news.getString("tags"))+tagService.getById(s).getString("name")+",");
 									news.set("tag_ids", (StringUtils.isBlank(news.getString("tag_ids"))?",":news.getString("tag_ids"))+s+",");
-									ActionHandler.currentSession().update(news);
+									BaseJob.currentSession().update(news);
 								}
 		//						tagService.addReBillTag(s, news.getId());
 							}
@@ -181,7 +182,7 @@ public class NewsServiceImpl implements NewsService {
 								if(news.getString("tag_ids").indexOf(s)==-1) {
 									news.set("tags", (StringUtils.isBlank(news.getString("tags"))?",":news.getString("tags"))+tagService.getById(s).getString("name")+",");
 									news.set("tag_ids", (StringUtils.isBlank(news.getString("tag_ids"))?",":news.getString("tag_ids"))+s+",");
-									ActionHandler.currentSession().update(news);
+									BaseJob.currentSession().update(news);
 								}
 		//						tagService.addReBillTag(s, news.getId());
 							}

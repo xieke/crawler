@@ -50,12 +50,13 @@ public class WeiBoJob extends BaseJob {
 
 	public void insertNews(Status s) throws SQLException{
 
-		BizObject b = new BizObject("news");
+		BizObject b = new BizObject("his_news");
 		b.set("id", s.getId());
 		if(b.getQF().getByID(s.getId())!=null){
 			this.log(s.getId()+" exist; continue;");
 			return;
 		}
+		b.resetObjType("news");
 		b.set("createdate", s.getCreatedAt());
 		//b.set("author", s.getUser().getId());	
 		b.set("author", s.getUser().getName());
@@ -74,7 +75,12 @@ public class WeiBoJob extends BaseJob {
 		String picurl = UdaClient.download(s.getOriginalPic());
 		if(!picurl.equals("")){
 			int i=picurl.indexOf("/erp.upload");
-			b.set("pic_url", picurl.substring(i));
+			if(i>=0)
+				b.set("pic_url", picurl.substring(i));
+			else
+				b.set("pic_url", picurl);
+
+//			b.set("pic_url", picurl.substring(i));
 		}
 		b.set("isweibo", "1");
 		//b.set("geo", s.getGeo());
@@ -125,8 +131,12 @@ public class WeiBoJob extends BaseJob {
 //		b.set("retweetedStatus", s.getRetweetedStatus().getId());
 		String picurl = UdaClient.download(s.getOriginalPic());
 		if(!picurl.equals("")){
+			log("pic url is "+picurl);
 			int i=picurl.indexOf("/erp.upload");
-			b.set("picurl", picurl.substring(i));
+			if(i>=0)
+				b.set("picurl", picurl.substring(i));
+			else
+				b.set("picurl", picurl);
 		}
 		b.set("geo", s.getGeo());
 		b.set("latitude", s.getLatitude());

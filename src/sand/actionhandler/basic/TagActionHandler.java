@@ -132,6 +132,10 @@ public class TagActionHandler extends ActionHandler {
 		
 		if(StringUtils.isBlank(tag.getString("parent_id")))
 			tag.set("parent_id", "root");
+		
+		if(StringUtils.isNotBlank(tag.getId()))
+			if(tag.getId().equals(tag.getString("parent_id")))
+				throw new ErrorException("标签修改出错,当前标签的父标签不能是自己,请重新操作!");
 		this.getJdo().addOrUpdate(tag);
 		
 		if(!old_name.equals(tag.getString("name"))){

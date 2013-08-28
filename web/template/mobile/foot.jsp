@@ -7,7 +7,7 @@
   </center>
   <p>All content Copyright GpCore</p>
   <p>Powered by GpCore 1.9.39</p>
-  <script type='text/javascript' src='images/mobile/jquery.form.min.js?ver=2.73'></script> 
+  <script type='text/javascript' src='/images/mobile/jquery.form.min.js?ver=2.73'></script> 
 </div>
 </body>
 </html>
