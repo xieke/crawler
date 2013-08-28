@@ -166,7 +166,7 @@ public class PostJob extends BaseJob {
 		String lastposttime=rule.getString("lastposttime");
 		//String address = post.getString("address");
 		
-		String sql="select * from news where status=1  and issue=1  ";
+		String sql="select * from news where issue=1  ";
 		int now = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)+Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 		String key = tagids+lastposttime+importance+urgent+ limit+lang+now;
 		//log("key is "+key+"   ");
