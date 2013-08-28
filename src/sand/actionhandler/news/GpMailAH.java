@@ -27,6 +27,7 @@ import sand.depot.job.PostJob;
 import sand.depot.tool.system.ControllableException;
 import sand.depot.tool.system.ErrorException;
 import sand.depot.tool.system.InfoException;
+import sand.depot.tool.system.SystemKit;
 import sand.mail.MailSender;
 import sand.mail.MailServer;
 import tool.basic.DateUtils;
@@ -225,9 +226,10 @@ public class GpMailAH extends ActionHandler {
 		email.set("subject", author+"有一个留言");
 		email.set("content", content);
 
-		MailSender mailSender = new MailSender("4c395f8a75d246e48c6c6b3f1729f6bc");
+		//String mailserver = SystemKit.getParamById("", "")
+		//MailSender mailSender = new MailSender("4c395f8a75d246e48c6c6b3f1729f6bc");
 		
-		String result=mailSender.sendMailSyn(email)+"";
+		String result=MailServer.sendMailSyn(email)+"";
 		return result;
 
 	}
