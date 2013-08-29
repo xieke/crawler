@@ -172,7 +172,7 @@ public class PostJob extends BaseJob {
 		String sql="select * from news where issue=1  ";
 		int now = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)+Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 		String key = tagids+lastposttime+importance+urgent+ limit+lang+now;
-		//log("key is "+key+"   ");
+		log("key is "+key+"   ");
 		
 		
 		if(renderMap.get(key)==null){
@@ -253,6 +253,8 @@ public class PostJob extends BaseJob {
 						tagname=tag.getString("name");
 						
 						b.set("tag", tagname);
+						//if()
+						logger.info("lang is "+lang);
 						if(lang==null||lang.equals("c")||lang.equals("")){
 							b.set("summary",b.getString("c_summary"));
 						}
@@ -265,7 +267,7 @@ public class PostJob extends BaseJob {
 						else if(lang.equals("ec")){
 							b.set("summary",b.getString("summary")+"<br>"+b.getString("c_summary"));
 						}
-						
+						logger.info("summary is "+b.getString("summary"));
 						//log("put  "+s+"  "+);
 						onetags.add(b);
 						allv.remove(b);
@@ -552,7 +554,10 @@ public class PostJob extends BaseJob {
 			
 			String emailaddress=c.getString("email");
 			String greeting=rule.getString("head").replaceAll("@name",c.getString("name"));
+			
 			String ending=rule.getString("foot").replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDD));
+			ending=ending.replaceAll("@name", c.getString("name"));
+			
 			String subject=rule.getString("title").replaceAll("@name",c.getString("name")).replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDD));
 			String content="";
 		
