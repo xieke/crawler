@@ -11,8 +11,8 @@
     <div class="single-post-meta-bottom"> 所属标签：${obj.tags}</div>
     <ul id="post-options">
       <li><a href="javascript:last('${param.lastid}','${param.email}')" id="oprev" title="上一篇"></a></li>
-      <li class="ahover"><a href="javascript:dislike('${obj.id}','${param.email}')" id="omail" title="喜欢"></a></li>
-      <li><a href="javascript:like('${obj.id}','${param.email}')" id="otweet" title="不喜欢"></a></li>
+      <li id="like" ><a href="javascript:like('${obj.id}','${param.email}')" id="omail" title="喜欢"></a></li>
+      <li id="dislike" ><a href="javascript:dislike('${obj.id}','${param.email}')" id="otweet" title="不喜欢"></a></li>
       <li><a href="javascript:next('${param.nextid}','${param.email}')" id="onext" title="下一篇"></a></li>
     </ul>
 <form action="GeneralHandleSvt" method="post" name="post_form" id="post_form" onsumit="" >
@@ -30,6 +30,7 @@
     <input type="hidden" name="tag_ids2" value="${tag_ids2}" />
 	<input type="hidden" id="orderby" name="orderby" value="${orderby }"/>
 	<input type="hidden" id="order" name="order" value="${order }"/>
+
 </form>
 <script type="text/javascript">
 	function last(id,mail){
@@ -57,7 +58,9 @@
 		post_form.newsid.value=id;
 		post_form.email.value=mail;
 		$wpt.get("/news.NewsActionHandler.like",$wpt("#post_form").serialize(),function(result){
-		alert(result);
+		//alert(result);
+			if(result=='ok')
+				$wpt("#like").addClass("ahover");
 		
 		});	
 	}
@@ -65,7 +68,10 @@
 		post_form.newsid.value=id;
 		post_form.email.value=mail;		
 		$wpt.get("/news.NewsActionHandler.dislike",$wpt("#post_form").serialize(),function(result){
-		alert(result);		
+//		alert(result);		
+			if(result=='ok')
+				$wpt("#dislike").addClass("ahover");
+
 		});	
 	}
 </script>

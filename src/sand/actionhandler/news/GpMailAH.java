@@ -213,6 +213,7 @@ public class GpMailAH extends ActionHandler {
 		
 	}
 	
+	@Ajax
 	public String sendMail() throws SQLException{
 		String author= this.getParameter("author");
 		String content = this.getParameter("content");

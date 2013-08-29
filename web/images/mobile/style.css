@@ -1301,6 +1301,9 @@ ul#post-options li.ahover a#omail{
 ul#post-options li a#otweet {
 	background: url(post-options.png) no-repeat center -82px;
 }
+ul#post-options li.ahover a#otweet {
+	background: url(post-options_hover.png) no-repeat center -82px;
+}
 
 ul#post-options li a#facebook {
 	background: url(post-options.png) no-repeat center -293px;

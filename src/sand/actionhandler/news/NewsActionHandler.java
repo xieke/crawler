@@ -1058,7 +1058,7 @@ public class NewsActionHandler extends ActionHandler {
 			
 			
 			if(b.getQF().getOne(b)!=null){
-				return "您已经点过了";
+				return "ok";
 			}
 			
 			b.set("senddate",this.getPosted().getDate("lastposttime"));
@@ -1075,7 +1075,7 @@ public class NewsActionHandler extends ActionHandler {
 			b.set("operator", operator);
 			b.set("clickdate",new Date());
 			this.getJdo().addOrUpdate(b);
-			return "谢谢您的参与";
+			return "ok";
 
 		}
 		logger.info("email "+email+"  newsid "+newsid);
