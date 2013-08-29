@@ -256,7 +256,7 @@ public class PostJob extends BaseJob {
 						//if()
 						String summary = b.getString("summary");
 						String c_summary=b.getString("c_summary");
-						logger.info("lang is "+lang);
+						logger.info("lang is "+lang+ "  summary is "+summary+"  c_summary is "+c_summary);
 						if(lang==null||lang.equals("c")||lang.equals("")){
 							b.set("summary",c_summary);
 						}

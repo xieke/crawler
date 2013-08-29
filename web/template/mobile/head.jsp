@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="m" uri="/WEB-INF/sand-html.tld"%>
 <%@ page contentType="text/html;charset=utf-8" %>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
 <head profile="http://gmpg.org/xfn/11">
@@ -81,8 +82,8 @@ addEventListener('load', function() { setTimeout(hideURLbar, 0); }, false );
     <div id="menu-head">
       <div id="tabnav"> <a href="#head-pages">菜单</a> <a href="#head-tags">标签</a> <a href="#head-cats">关于</a> </div>
       <ul id="head-pages">
-        <li><a href="http://hct1.dingweila.com:8080/news.NewsActionHandler.listPhone"><img src="/images/mobile/Default.png" alt=""/>首页</a></li>
-        <li><a href="http://hct1.dingweila.com:8080/news.NewsActionHandler.listPhone/?feed=rss2"><img src="/images/mobile/RSS.png" alt="" />订阅</a></li>
+        <li><a href="<m:out value='www_url' type='system_core'/>/news.NewsActionHandler.listPhone?jobid=${param.jobid}&email=${param.email}"><img src="/images/mobile/Default.png" alt=""/>首页</a></li>
+        <li><a href="<m:out value='www_url' type='system_core'/>/news.NewsActionHandler.listPhone?jobid=${param.jobid}&email=${param.email}&feed=rss2"><img src="/images/mobile/RSS.png" alt="" />订阅</a></li>
         <li><a href="mailto:calvinsh@gmail.com"><img src="/images/mobile/Mail.png" alt="" />设置邮箱</a></li>
       </ul>
       <ul id="head-cats">
@@ -104,7 +105,7 @@ addEventListener('load', function() { setTimeout(hideURLbar, 0); }, false );
 <div id="headerbar">
   <div id="headerbar-title"> 
     <!-- This fetches the admin selection logo icon for the header, which is also the bookmark icon --> 
-    <img id="logo-icon" src="/images/mobile/Default.png" alt="GpHiden" /> <a href="http://hct1.dingweila.com:8080/news.NewsActionHandler.listPhone">GpHiden</a> </div>
+    <img id="logo-icon" src="/images/mobile/Default.png" alt="GpHiden" /> <a href=<m:out value='www_url' type='system_core'/>/news.NewsActionHandler.listPhone?jobid=${param.jobid}&email=${param.email}">GpHiden</a> </div>
   <div id="headerbar-menu"> <a href="javascript:return false;"></a> </div>
 </div>
 
