@@ -75,13 +75,13 @@ $(function(){
 			temp_val="";
 			temp_val2="";
 			$("#tags_result li").each(function(i){
-			//	if(i==0){
-			//		temp_val+=$(this).attr("tagsid");
-			//		temp_val2+=$(this).attr("tagsname");
-			//	}else{
+				if(i==0){
+					temp_val+=$(this).attr("tagsid");
+					temp_val2+=$(this).attr("tagsname");
+				}else{
 					temp_val+=","+$(this).attr("tagsid");
 					temp_val2+=","+$(this).attr("tagsname");
-			//	}
+				}
 			})
 			$("#tag_ids").val(temp_val+",");
 			$("#tags").val(temp_val2+",");

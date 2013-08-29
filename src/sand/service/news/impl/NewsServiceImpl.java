@@ -161,8 +161,8 @@ public class NewsServiceImpl implements NewsService {
 							String[] tag_ids = tagRule.getString("tag_id").split(",");
 							for(String s : tag_ids){
 								if(news.getString("tag_ids").indexOf(s)==-1) {
-									news.set("tags", (StringUtils.isBlank(news.getString("tags"))?",":news.getString("tags"))+tagService.getById(s).getString("name")+",");
-									news.set("tag_ids", (StringUtils.isBlank(news.getString("tag_ids"))?",":news.getString("tag_ids"))+s+",");
+									news.set("tags", (StringUtils.isBlank(news.getString("tags"))?"":news.getString("tags"))+tagService.getById(s).getString("name")+",");
+									news.set("tag_ids", (StringUtils.isBlank(news.getString("tag_ids"))?"":news.getString("tag_ids"))+s+",");
 									BaseJob.currentSession().update(news);
 								}
 		//						tagService.addReBillTag(s, news.getId());
@@ -180,7 +180,7 @@ public class NewsServiceImpl implements NewsService {
 							String[] tag_ids = tagRule.getString("tag_id").split(",");
 							for(String s : tag_ids){
 								if(news.getString("tag_ids").indexOf(s)==-1) {
-									news.set("tags", (StringUtils.isBlank(news.getString("tags"))?",":news.getString("tags"))+tagService.getById(s).getString("name")+",");
+									news.set("tags", (StringUtils.isBlank(news.getString("tags"))?"":news.getString("tags"))+tagService.getById(s).getString("name")+",");
 									news.set("tag_ids", (StringUtils.isBlank(news.getString("tag_ids"))?",":news.getString("tag_ids"))+s+",");
 									BaseJob.currentSession().update(news);
 								}
@@ -255,7 +255,7 @@ public class NewsServiceImpl implements NewsService {
 					select_sql.append(" and (tag_ids not like '%").append(tag_id).append("%' or tag_ids is null) limit 0,100) nc ");
 					count_sql.append(" and (tag_ids not like '%").append(tag_id).append("%' or tag_ids is null)");
 					
-					update_sql.append(select_sql).append("set news.tags=CONCAT(case when news.tags is null || news.tags='' then ',' else news.tags end ,'").append(tagService.getById(tag_id).getString("name"))
+					update_sql.append(select_sql).append("set news.tags=CONCAT(case when news.tags is null || news.tags='' then '' else news.tags end ,'").append(tagService.getById(tag_id).getString("name"))
 						.append(",'),news.tag_ids=CONCAT(case when news.tag_ids is null || news.tag_ids='' then ',' else news.tag_ids end ,'").append(tag_id).append(",') where news.id=nc.id");
 					 
 					System.out.println("统计的sql:"+count_sql.toString());
