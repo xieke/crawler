@@ -254,18 +254,20 @@ public class PostJob extends BaseJob {
 						
 						b.set("tag", tagname);
 						//if()
+						String summary = b.getString("summary");
+						String c_summary=b.getString("c_summary");
 						logger.info("lang is "+lang);
 						if(lang==null||lang.equals("c")||lang.equals("")){
-							b.set("summary",b.getString("c_summary"));
+							b.set("summary",c_summary);
 						}
 						else if(lang.equals("e")){
-							b.set("summary",b.getString("summary"));
+							b.set("summary",summary);
 						}
 						else if(lang.equals("ce")){
-							b.set("summary",b.getString("c_summary")+"<br>"+b.getString("summary"));
+							b.set("summary",c_summary+"<br>"+summary);
 						}
 						else if(lang.equals("ec")){
-							b.set("summary",b.getString("summary")+"<br>"+b.getString("c_summary"));
+							b.set("summary",summary+"<br>"+c_summary);
 						}
 						logger.info("summary is "+b.getString("summary"));
 						//log("put  "+s+"  "+);
