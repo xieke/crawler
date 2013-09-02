@@ -430,6 +430,7 @@ public class NewsActionHandler extends ActionHandler {
 		String issue = this.getParameter("issue");
 		String limit = this.getParameter("limit");
 		String lang=this.getParameter("lang");
+		String isweibo=this.getParameter("isweibo");
 		String[] tag_ids = null;
 		if(StringUtils.isNotBlank(tag_ids2))
 			tag_ids = tag_ids2.split(",");
@@ -506,6 +507,7 @@ public class NewsActionHandler extends ActionHandler {
 			
 		if(StringUtils.isNotBlank(issue)) sql.append(" and n.issue ='").append(issue).append("'"); //输出html的时候，没有summary无意义
 		if(StringUtils.isNotBlank(tag)) sql.append(" and n.tags is not null "); //输出html的时候，没有summary无意义
+		if(StringUtils.isNotBlank(isweibo)) sql.append(" and n.isweibo ='1' "); //输出html的时候，没有summary无意义
 		
 		if(StringUtils.isNotBlank(orderby)) sql.append(" order by ").append(orderby);
 		else sql.append(" order by n.posttime");
@@ -544,6 +546,8 @@ public class NewsActionHandler extends ActionHandler {
 		String page = this.getParameter("page");
 		String summary=this.getParameter("summary");
 		String esummary=this.getParameter("esummary");
+		String isweibo = this.getParameter("isweibo");
+		
 		if(StringUtils.isBlank(orderby)) orderby="posttime";
 		if(StringUtils.isBlank(order)) order="desc";
 		
@@ -578,6 +582,7 @@ public class NewsActionHandler extends ActionHandler {
 		this._request.setAttribute("page", page);
 		this._request.setAttribute("summary", summary);
 		this._request.setAttribute("esummary", esummary);
+		this._request.setAttribute("isweibo", isweibo);
 
 	}
 	public void switchIssue() throws SQLException{

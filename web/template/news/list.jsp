@@ -104,8 +104,8 @@
     <tr>
     	<td>发布：</td>
         <td><m:radio type="news_status_all" name="issue" value="${issue}" /></td>
-        <td></td>
-        <td></td>
+        <td>仅限微博</td>
+        <td><m:checkbox name="isweibo" value="1" checkValue="${isweibo}" /></td>
     </tr>
     <tr>
         <td>标签：</td>
