@@ -58,6 +58,7 @@ public class WeiBoJob extends BaseJob {
 		}
 		b.resetObjType("news");
 		b.set("createdate", s.getCreatedAt());
+		b.set("posttime", s.getCreatedAt());
 		//b.set("author", s.getUser().getId());	
 		b.set("author", s.getUser().getName());
 		this.log(" text :" +s.getText().length());
