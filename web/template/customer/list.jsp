@@ -46,7 +46,7 @@
 </table>
 
 <table class="ui list">
-	<tr class="title"><td class="title" colspan="7">客户/组</td><td class="title" style="text-align:right" ><a style=" color: #FFFFFF; " href="/customer.CustomerActionHandler.show?job=default" >Add客户/组</a></td></tr>
+	<tr class="title"><td class="title" colspan="8">客户/组</td><td class="title" style="text-align:right" ><a style=" color: #FFFFFF; " href="/customer.CustomerActionHandler.show?job=default" >Add客户/组</a></td></tr>
     <tr class="effect">
         <th>选择</th>
         <th>序号</th>
