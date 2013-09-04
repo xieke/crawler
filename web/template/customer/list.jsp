@@ -20,7 +20,7 @@
 
 
 
-<form method="post" action="/GeneralHandleSvt" id="form1">
+<form method="post" action="/GeneralHandleSvt" id="form1" name="form1">
 <input type="hidden" id="reqType" name="reqType" value="customer.RulesActionHandler.list" />
 <input type="hidden" id="id" name="tag$id" value="" />
 
@@ -111,7 +111,7 @@ $(".unselect_all").click(function(){
       <td height="33"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="right-font08">
           <tr>
             <td width="150">共 <span class="right-text09">${pageVariable.totalpage}</span> 页 | 第 <span class="right-text09">${pageVariable.npage+1}</span> 页</td>
-            <td align="right"><m:page action="customer.CustomerActionHandler.list" size="30" /></td>
+            <td align="right"><m:page action="/customer.CustomerActionHandler.list" size="30" /></td>
           </tr>
       </table></td>
     </tr>

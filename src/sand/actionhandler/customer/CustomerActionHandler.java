@@ -27,11 +27,11 @@ public class CustomerActionHandler extends ActionHandler {
 		super.listObj();
 		List<BizObject> objList = (ArrayList)this._request.getAttribute("objList");
 		for(BizObject biz : objList){
-			String sql = "select GROUP_CONCAT(p.name) jobs from basic.postjob p where status='1' and customers like '%"+this._objId+"%'";
+			String sql = "select GROUP_CONCAT(p.name) jobs from basic.postjob p where status='1' and customers like '%"+biz.getId()+"%'";
 			List<BizObject> list = QueryFactory.getInstance("postjob").executeQuerySQL(sql);
 			if(list.size()>0) biz.set("jobs", list.get(0).getString("jobs"));
 			
-			sql = "select lastposttime from basic.postjob p where status='1' and customers like '%"+this._objId+"%' order by lastposttime desc limit 0,1";
+			sql = "select lastposttime from basic.postjob p where status='1' and customers like '%"+biz.getId()+"%' order by lastposttime desc limit 0,1";
 			list = QueryFactory.getInstance("postjob").executeQuerySQL(sql);
 			if(list.size()>0) biz.set("lastposttime", list.get(0).getString("lastposttime"));
 		}
