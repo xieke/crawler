@@ -547,6 +547,8 @@ public class PostJob extends BaseJob {
 		String content_posted="";
 		String postid=UidGenerator.getUUId();
 		
+		String memo="";
+		
 		for(String cid:c_ids){
 			if(cid.equals("")) continue;
 			BizObject c = new BizObject("customers");
@@ -594,16 +596,16 @@ public class PostJob extends BaseJob {
 
 			}
 			
-			job.set("memo",job.getString("memo")+" ,\r\n"+c.getString("name")+"-"+c.getString("email")+"-"+new Date()+"-"+success);					
+			memo=memo+" ,\r\n"+c.getString("name")+"-"+c.getString("email")+"-"+new Date()+"-"+success;
+					
 			
 			//boolean success =true;
 								
-			
 		}
 		
 		String newsids = getAllNewsId(m);
 
-		
+		job.set("memo",memo);					
 		job.set("lastposttime", new Date());
 		jdo.update(job);
 		job.set("newsids", newsids);
