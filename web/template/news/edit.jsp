@@ -123,7 +123,7 @@
 </tr>
 <tr>
 	<td>是否发邮件：</td>
-    <td><label><input type="radio" id="issue" name="news$issue" <c:if test="${obj.issue=='1'}">checked</c:if> value="1" />Y</label>&nbsp;&nbsp;<label><input type="radio" id="issue" name="news$issue" <c:if test="${obj.issue=='0'||obj.issue==null}">checked</c:if> value="0" />N</label></td>
+    <td><label><input type="radio" id="issue" name="news$issue" <c:if test="${obj.issue=='1'}">checked</c:if> value="1" />Y</label>&nbsp;<label><input type="radio" id="issue" name="news$issue" <c:if test="${obj.issue=='0'||obj.issue==null}">checked</c:if> value="0" />N</label></td>
 </tr>
 <tr>
 	<td>客户重要度：</td>
@@ -157,20 +157,20 @@
 	<c:forEach var="detail" items="${commentsList}" varStatus="status">
 		<div style="padding:4px; border-bottom:1px dotted #ccc; margin:4px; overflow:auto">
         <div style="background:#ccc; padding:1px 4px; overflow:auto"><span style="float:left">${detail.userid.username}</span><span style="float:right"><fmt:formatDate value="${detail.posttime}" pattern="yyyy-MM-dd HH:mm"/></span></div>
-        <div id="merger_text" style="padding:4px"><input style="display:none" type="checkbox" name="merger_content" value="${detail.content}" />${detail.content}</div></div>
+        <div id="merger_text" style="padding:4px"><input type="checkbox" name="merger_content" value="${detail.content}" />${detail.content}</div></div>
     </c:forEach>
     <textarea id="content" name="newcomments$content" ></textarea>
-    <input style="margin-left:10px" type="button" id="commit" name="commit" value="Commit" />
-  <!--  <input style="margin-left:10px" style="display:none" type="button" id="merger" name="merger" value="Merger" />-->
+    <input style="margin-left:10px; display:none" type="button" id="commit" name="commit" value="Commit" />
+    <input style="margin-left:10px" type="button" id="merger" name="merger" value="Merger" />
 </div>
         </td>
     </tr>
     <tr>
     	<td colspan="2" style="border-top:1px solid #ccc; text-align:right">
-        	<input type="button" id="save" name="save" class="button" value="完成处理_list" />　
-        	<input type="button" id="save_next" name="save_next" class="button" value="完成处理_next" />　
-            <input type="button" id="save_last" name="save_last" class="button" value="完成处理_prev" />　
-			<input type="button" name="Submit2" value="放弃保存" class="button" onclick="window.history.go(-1);"/></td>
+        	<input style="display:inline; margin:8px 0px; float:none" type="button" id="save" name="save" class="button" value="完成处理_list" />　
+        	<input style="display:inline; margin:8px 0px; float:none" type="button" id="save_next" name="save_next" class="button" value="完成处理_next" />　
+            <input style="display:inline; margin:8px 0px; float:none" type="button" id="save_last" name="save_last" class="button" value="完成处理_prev" />　
+			<input style="display:inline; margin:8px 0px; float:none" type="button" name="Submit2" value="放弃保存" class="button" onclick="window.history.go(-1);"/></td>
     </tr>
 </table>
 

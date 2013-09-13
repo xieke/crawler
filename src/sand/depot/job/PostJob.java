@@ -372,8 +372,8 @@ public class PostJob extends BaseJob {
 		//this.getTagService().
 		
 	}
-	private TagService tagService;
-	public TagService getTagService() {
+	private static TagService tagService;
+	public static TagService getTagService() {
 		if(tagService == null) 
 			tagService = (TagService)WebApplicationContextUtils.getWebApplicationContext(ActionHandler._context).getBean("tagService");
 		return tagService;
@@ -518,7 +518,42 @@ public class PostJob extends BaseJob {
 		} 
 		return newsids;
 	}
+
 	
+	private static String getSelectedTagTree(String ruleid) throws SQLException{
+		List<String> tagids = getTagService().getTagIdsByRuleId(ruleid);
+		List<BizObject> tagtree = getTagService().getSelectdTagsTree(tagids);
+		
+		String tree="";
+		for(BizObject b:tagtree){
+			tree=tree+"<br>"+b.getString("level")+""+b.getString("name");
+		}
+		return tree;
+		
+	}
+	private static String getAllTagTree() throws SQLException{
+		List<BizObject> list = getTagService().openAllWithSelectedTag("");
+	//	List<String> tagids = getTagService().getTagIdsByRuleId(ruleid);
+		//List<BizObject> tagtree = getTagService().getUnSelectdTagsTree(tagids);
+		
+		String tree="";
+		for(BizObject b:list){
+			tree=tree+"<br>"+b.getString("level")+""+b.getString("name");
+		}
+		return tree;
+		
+	}	
+	private static String getUnSelectedTagTree(String ruleid) throws SQLException{
+		List<String> tagids = getTagService().getTagIdsByRuleId(ruleid);
+		List<BizObject> tagtree = getTagService().getUnSelectdTagsTree(tagids);
+		
+		String tree="";
+		for(BizObject b:tagtree){
+			tree=tree+"<br>"+b.getString("level")+""+b.getString("name");
+		}
+		return tree;
+		
+	}		
 	public static String processJob(BizObject job,JDO jdo) throws SQLException, TemplateException{
 
 		String result ="";
@@ -548,7 +583,10 @@ public class PostJob extends BaseJob {
 		String postid=UidGenerator.getUUId();
 		
 		String memo="";
-		
+
+		String selectTree=getSelectedTagTree(rule.getId());
+		String uselectTree=getUnSelectedTagTree(rule.getId());
+		String allTree=getAllTagTree();
 		for(String cid:c_ids){
 			if(cid.equals("")) continue;
 			BizObject c = new BizObject("customers");
@@ -559,8 +597,17 @@ public class PostJob extends BaseJob {
 			String emailaddress=c.getString("email");
 			String greeting=rule.getString("head").replaceAll("@name",c.getString("name"));
 			
+			greeting = greeting.replaceAll("@subscribedTags", selectTree);			
+			greeting = greeting.replaceAll("@unsubscribedTags", uselectTree);
+			greeting = greeting.replaceAll("@allTags", allTree);
+			
 			String ending=rule.getString("foot").replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDD));
 			ending=ending.replaceAll("@name", c.getString("name"));
+			
+			
+			ending = ending.replaceAll("@subscribedTags", selectTree);			
+			ending = ending.replaceAll("@unsubscribedTags", uselectTree);
+			ending = ending.replaceAll("@allTags", allTree);
 			
 			String subject=rule.getString("title").replaceAll("@name",c.getString("name")).replaceAll("@date", DateUtils.formatDate(new Date(), DateUtils.PATTERN_YYYYMMDD));
 			String content="";

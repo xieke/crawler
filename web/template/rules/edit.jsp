@@ -112,10 +112,13 @@
     <tr>
     	<td>邮件头部</td>
         <td>
-<div style="float:left; width:450px"><textarea style="width:430px" type="text" id="head" name="rules$head" cols="50" rows="3">${obj.head}</textarea></div>
+<div style="float:left; width:450px"><textarea style="width:430px" type="text" id="head" name="rules$head" cols="50" rows="4">${obj.head}</textarea></div>
 <div style="float:left">
-<input type="button" title="插入name变量" insert_text="@name" insert_text_obj="#head" value="插入name变量" style="margin:3px 20px 5px 0; float:none" />
-<input type="button" title="插入固定短语" insert_text="${head_txt}" insert_text_obj="#head" value="插入固定短语" item_id="${head_id}" id="head_txt" style="margin:3px 5px 5px 0;float:none; display:inline" />
+<input type="button" title="插入name变量" insert_text="@name" insert_text_obj="#head" value="插入name变量" style="width:180px;margin:3px 20px 5px 0" />
+<input type="button" title="插入subscribedTags变量" insert_text="@subscribedTags" insert_text_obj="#head" value="插入subscribedTags变量" style="width:180px;margin:3px 20px 5px 0; clear:both " />
+<input type="button" title="插入unsubscribedTags变量" insert_text="@unsubscribedTags" insert_text_obj="#head" value="插入unsubscribedTags变量" style="width:180px;margin:3px 20px 5px 0; float:none" />
+<input type="button" title="插入allTags变量" insert_text="@allTags" insert_text_obj="#head" value="插入allTags变量" style="width:180px;margin:3px 20px 5px 0;" />
+<input type="button" title="插入固定短语" insert_text="${head_txt}" insert_text_obj="#head" value="插入固定短语" item_id="${head_id}" id="head_txt" style="width:180px;margin:3px 20px 5px 0;float:none; display:inline" />
 <a title="编辑对以后有效,当前无效" style="text-decoration:underline ; color:#0000FF; " href="javascript:void(0)" onclick="editItem('head','#head_txt')" >编辑</a>
 </div>
 		</td>
@@ -123,10 +126,13 @@
     <tr>
     	<td>邮件尾部</td>
         <td>
-<div style="float:left; width:450px"><textarea style="width:430px" type="text" id="foot" name="rules$foot" cols="50" rows="3">${obj.foot}</textarea></div>
+<div style="float:left; width:450px"><textarea style="width:430px" type="text" id="foot" name="rules$foot" cols="50" rows="4">${obj.foot}</textarea></div>
 <div style="float:left">
-<input type="button" title="插入Date变量=当时日期" insert_text="@date" insert_text_obj="#foot" value="插入Date变量" style="margin:3px 20px 5px 0; float:none" />
-<input type="button" title="插入固定短语" insert_text="${foot_txt}" insert_text_obj="#foot" value="插入固定短语" item_id="${foot_id}" id="foot_txt" style="margin:3px 5px 5px 0; float:none; display:inline" />
+<input type="button" title="插入Date变量=当时日期" insert_text="@date" insert_text_obj="#foot" value="插入Date变量" style="width:180px;margin:3px 20px 5px 0" />
+<input type="button" title="插入subscribedTags变量" insert_text="@subscribedTags" insert_text_obj="#foot" value="插入subscribedTags变量" style="width:180px;margin:3px 20px 5px 0; clear:both" />
+<input type="button" title="插入unsubscribedTags变量" insert_text="@unsubscribedTags" insert_text_obj="#foot" value="插入unsubscribedTags变量" style="width:180px;margin:3px 20px 5px 0; float:none" />
+<input type="button" title="插入allTags变量" insert_text="@allTags" insert_text_obj="#foot" value="插入allTags变量" style="width:180px;margin:3px 20px 5px 0" />
+<input type="button" title="插入固定短语" insert_text="${foot_txt}" insert_text_obj="#foot" value="插入固定短语" item_id="${foot_id}" id="foot_txt" style="width:180px;margin:3px 20px 5px 0; float:none; display:inline" />
 <a title="编辑对以后有效,当前无效" style="text-decoration:underline ; color:#0000FF; " href="javascript:void(0)" onclick="editItem('foot','#foot_txt')" >编辑</a>
 </div>
 		</td>

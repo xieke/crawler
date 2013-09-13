@@ -2,6 +2,7 @@ package sand.service.news.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,6 +14,7 @@ import sand.depot.job.BaseJob;
 import sand.service.basic.service.TagRuleService;
 import sand.service.basic.service.TagService;
 import sand.service.news.NewsService;
+import tool.basic.DateUtils;
 import tool.dao.BizObject;
 import tool.dao.QueryFactory;
 import basic.BasicContext;
@@ -40,7 +42,8 @@ public class NewsServiceImpl implements NewsService {
 		for(String s : tag_ids) tag_id_lists.add(s);
 		return tag_id_lists;
 	}
-	
+
+
 	/**
 	 * 自动打标签
 	 * 
@@ -389,7 +392,34 @@ public class NewsServiceImpl implements NewsService {
 			}
 		}
 	}
+	
+	public int moveNews() throws SQLException{
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.DAY_OF_YEAR, 180);
+		String updatedate = "";
+		String sql = "select * from basic.news where createdate<=STR_TO_DATE('"+DateUtils.formatDate(c.getTime(), DateUtils.PATTERN_YYYYMMDD)+"','%Y-%m-%d %H:%i:%s') limit 0,100";
+		List<BizObject> list = null;
+		BizObject bak = new BizObject("news_his_bak");
+		int i=0;
+		while(true){
+			list = QueryFactory.executeQuerySQL(sql);
+			if(list==null || list.size()<=0) break;
+			for(BizObject biz : list){
+				i+=list.size();
+				bak = biz.duplicate();
+				ActionHandler.currentActionHandler().addOrUpdate(bak);
+				ActionHandler.currentActionHandler().delete(biz);
+			}
+		}
+		return i;
+	}
 
+	public static void main(String[] args) {
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.DAY_OF_YEAR, -7);
+		System.out.println(c.getTime());
+	}
+	
 	@Override
 	public void deleteCopyforms() throws SQLException {
 		String sql = "delete from ben.origin_news where 1=1";

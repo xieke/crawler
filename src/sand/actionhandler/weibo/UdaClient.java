@@ -754,6 +754,7 @@ public class UdaClient {
 
         } catch  (Exception e) {
 			// TODO Auto-generated catch block
+        	logger.error("error",e);
 			e.printStackTrace();
 			throw e;
 		} finally {

@@ -32,5 +32,7 @@ public interface TagService {
 	public void addReBillTags(String[] tag_ids,String bill_id) throws SQLException;
 	
 	public void addReBillTag(String tag_id,String bill_id) throws SQLException;
-	
+	public List<BizObject> getSelectdTagsTree(List<String> tag_ids)throws SQLException;
+	public List<BizObject> getUnSelectdTagsTree(List<String> tagList) throws SQLException;
+	public List<String> getTagIdsByRuleId(String rule_id) throws SQLException;
 }

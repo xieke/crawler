@@ -217,14 +217,14 @@ public class GpMailAH extends ActionHandler {
 	public String sendMail() throws SQLException{
 		String author= this.getParameter("author");
 		String content = this.getParameter("content");
-		String address=this.getParameter("email");
+		String semail=this.getParameter("email");
 		
 		BizObject email = new BizObject("email");
 
 	//	String address=this.getParameter("email");
-		//email.set("toaddr", address);
-		email.set("bcc", address);
-		email.set("subject", author+"有一个留言");
+		email.set("toaddr", "info@goldpebble.com");
+		//email.set("bcc", address);
+		email.set("subject", "有一个留言来自"+author+" ( "+semail+" ) ");
 		email.set("content", content);
 
 		//String mailserver = SystemKit.getParamById("", "")

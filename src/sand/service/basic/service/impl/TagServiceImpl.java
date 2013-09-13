@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
+
 import sand.actionhandler.system.ActionHandler;
 import sand.service.basic.service.TagService;
 import sand.service.news.NewsService;
@@ -149,4 +151,86 @@ public class TagServiceImpl implements TagService {
 		biz.set("bill_id", bill_id);
 		ActionHandler.currentSession().add(biz);
 	}
+	
+	
+	/**
+	 * 根据所给的tagids取部分树
+	 * @param tagids
+	 * @throws SQLException
+	 */
+	public List<BizObject> getSelectdTagsTree(List tagList) throws SQLException{
+		
+		List<BizObject> list = this.openAllWithSelectedTag("");
+		List<BizObject> newlist=new ArrayList(); 
+			List<String> wholeTagList =getWholeTreeList(tagList);
+			
+			for(BizObject biz : list){
+				if(wholeTagList.contains(biz.getId())) newlist.add(biz);
+			}
+		return newlist;
+	}
+	
+	/**
+	 * 根据所给的tagids取部分树
+	 * @param tagids
+	 * @throws SQLException
+	 */
+	public List<BizObject> getUnSelectdTagsTree(List<String> tagList) throws SQLException{
+		
+		List<BizObject> list = this.openAllWithSelectedTag("");
+		List<BizObject> newlist=new ArrayList(); 
+		//	List<String> wholeTagList =getWholeTreeList(tagList);
+			
+			for(BizObject biz : list){
+				if(tagList.contains(biz.getId()))
+					newlist.add(biz);
+			}
+			list.removeAll(newlist);
+		return list;
+	}
+	
+	public List<String> getTagIdsByRuleId(String rule_id) throws SQLException{
+		List<String> tag_id_lists = new ArrayList<String>();
+		BizObject rule = QueryFactory.getInstance("rules").getByID(rule_id);
+		if(rule==null||StringUtils.isBlank(rule.getString("tag_ids"))) return tag_id_lists;
+		String[] tag_ids = rule.getString("tag_ids").split(",");
+		for(String s : tag_ids) 
+			if(!s.equals("")) tag_id_lists.add(s);
+		return tag_id_lists;
+	}
+	
+	/**
+	 * 取完整树节点
+	 * @throws SQLException 
+	 */
+	public List<String> getWholeTreeList(List<String> tagids) throws SQLException{
+		List<String> wtagList = new ArrayList<String>();
+		for(String s:tagids){
+			List<String> v = getTreeList(s);			
+			for(String tid:v){
+				if(wtagList.contains(tid)) continue;
+				wtagList.add(tid);
+			}
+			//wtagList.addAll(getTreeList(s));
+		}
+		return wtagList;
+	}
+	
+	/*
+	 * 根据叶子节点取整条分支
+	 */
+	private List<String> getTreeList(String tid) throws SQLException{
+		List<String> tagList = new ArrayList<String>();
+		tagList.add(tid);
+		BizObject tag = new BizObject("tag");
+		tag.setID(tid);
+		tag.refresh();
+		String pid = tag.getString("parent_id");
+		if(!pid.equals("")) {
+			List v = getTreeList(pid);
+			tagList.addAll(v);
+		}
+		return tagList;		
+		
+	}	
 }

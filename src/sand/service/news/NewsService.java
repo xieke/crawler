@@ -41,4 +41,6 @@ public interface NewsService {
 	 * @throws SQLException
 	 */
 	public void doHittingTag(String tagRuleIds,String startDate,String endDate) throws SQLException;
+	
+	public int moveNews() throws SQLException;
 }

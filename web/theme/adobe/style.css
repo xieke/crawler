@@ -15,7 +15,7 @@ table.ui .button,table.edit input[type='button'],table.edit input[type='submit']
 	line-height:20px;
 	width: 99px;
 	background-image: url(/images/button10.gif);
-	border: 0px;
+	border: 1px solid #87a3c1;
 	display:block;
 	text-decoration:none;
 	float:left; margin:2px 12px 2px 0;
