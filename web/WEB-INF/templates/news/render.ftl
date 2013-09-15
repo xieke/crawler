@@ -8,11 +8,11 @@
 
 <body>
 
-${tree}
+${tree!""}
 <br>
-${utree}
+${utree!""}
 <br>
-${atree}
+${atree!""}
 <br>
 ${greeting!""}<br><br>
 
