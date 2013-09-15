@@ -1260,39 +1260,30 @@ public class NewsActionHandler extends ActionHandler {
 			
 		
 		String tree="";
+		List<String> tagList = new ArrayList<String>();
 		if(str!=null && str.length>0){
-			List<String> tagList = new ArrayList<String>();
-			for(String s : str) tagList.add(s);
-			List<BizObject> tagtree = getTagService().getSelectdTagsTree(tagList);
-			for(BizObject b:tagtree){
-				tree=tree+"<br>"+b.getString("level")+""+b.getString("name");
-			}
 			
+			for(String s : str) tagList.add(s);
+			
+		}
+		List<BizObject> tagtree = getTagService().getSelectdTagsTree(tagList);
+		for(BizObject b:tagtree){
+			tree=tree+"<br>"+b.getString("level")+""+b.getString("name");
 		}
 		
 		String utree="";
-		if(str!=null && str.length>0){
-			List<String> tagList = new ArrayList<String>();
-			for(String s : str) tagList.add(s);
-			List<BizObject> tagtree = getTagService().getUnSelectdTagsTree(tagList);
-			for(BizObject b:tagtree){
-				utree=utree+"<br>"+b.getString("level")+""+b.getString("name");
-			}
-			
+		tagtree = getTagService().getUnSelectdTagsTree(tagList);
+		for(BizObject b:tagtree){
+			utree=utree+"<br>"+b.getString("level")+""+b.getString("name");
 		}
-		
+
+
 		String atree="";
-		if(str!=null && str.length>0){
-			List<String> tagList = new ArrayList<String>();
-			for(String s : str) tagList.add(s);
-			List<BizObject> tagtree = getTagService().openAllWithSelectedTag("");
-		//	List<BizObject> tagtree = getTagService().getgetAllTagsTree();
-			for(BizObject b:tagtree){
-				atree=atree+"<br>"+b.getString("level")+""+b.getString("name");
-			}
-			
+		tagtree = getTagService().openAllWithSelectedTag("");
+
+		for(BizObject b:tagtree){
+			atree=atree+"<br>"+b.getString("level")+""+b.getString("name");
 		}
-		
 		
 //		List<String> tagids = getTagService().getTagIdsByRuleId(rule.getId());
 		
@@ -1312,6 +1303,7 @@ public class NewsActionHandler extends ActionHandler {
        root.put("objList", _request.getAttribute("objList"));
        root.put("tags",this.getParameter("tags"));
        root.put("email", this.getParameter("email"));
+       root.put("tree",tree);
        root.put("utree",utree);
        root.put("atree",atree);
       // root.put("senddate",new Date());
