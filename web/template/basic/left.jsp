@@ -92,10 +92,11 @@ $(function(){
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
 				  <td width="91%"><a href="/news.NewsActionHandler.toList?job=default" target="mainFrame" class="left-font03 class_2">手动数据处理</a></td>
 				</tr>
+                <!--
 				<tr>
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
 				  <td width="91%"><a href="/news.NewsActionHandler.toList_bak?job=his_bak" target="mainFrame" class="left-font03 class_2">手动数据-历史</a></td>
-				</tr>
+				</tr>-->
 				<tr>
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
 				  <td width="91%"><a href="/news.NewsActionHandler.listHistory?his_news$status=2" target="mainFrame" class="left-font03 class_2">已删除的数据</a></td>

@@ -43,6 +43,7 @@ import java.util.Properties;
 import java.util.zip.GZIPInputStream;
 
 
+import org.apache.commons.httpclient.params.HttpParams;
 import org.apache.http.Header;
 import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
@@ -667,7 +668,7 @@ public class UdaClient {
 //        return null; 
 //}     
     
-    public static String REDIRECT_URI="http://60.172.229.19:18080/basic.LoginAH.weibo";
+    public static String REDIRECT_URI="http://60.172.229.19:8080/basic.LoginAH.weibo";
     
 	public static AccessToken getToken(String userid,String password) throws Exception{
 		
@@ -719,10 +720,17 @@ public class UdaClient {
 	        // 设置存储
 	        httpclient.setCookieStore(cookieStore);
 	        //httpclient.ex
+	        System.out.println(httppost.getURI());
+	        System.out.println("https://api.weibo.com/oauth2/authorize?client_id=2517196057&redirect_uri="+REDIRECT_URI+"&from=sina&response_type=code");
             HttpResponse response = httpclient.execute(httppost);
-            
+            System.out.println("response  "+response.getAllHeaders());
+            for(Header h:response.getAllHeaders()){
+            	System.out.println(h.getName()+",  "+h.getValue());
+            }
+            logger.info("response  "+response);
             Header location = response.getFirstHeader("Location"); 
             logger.info("location "+location);
+            System.out.println("location "+location);
           if(location != null){ 
         	  String retUrl = location.getValue(); 
         	  System.out.println(retUrl);
@@ -773,7 +781,7 @@ public class UdaClient {
 			//System.out.println(xml);
 			//UdaClientJob.parserXml(xml);
 		AccessToken ac = UdaClient.getToken("tarzon@21cn.com","qjdble597969");
-		System.out.println(ac.getAccessToken());
+		//System.out.println(ac.getAccessToken());
 			
 	    }
 }

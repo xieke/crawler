@@ -157,6 +157,8 @@ public class WeiBoJob extends BaseJob {
 			
 			AccessToken accesstoken =UdaClient.getToken(b.getString("id"), b.getString("name"));
 			this.log("accesstoken "+accesstoken);
+			if(accesstoken==null)
+				this.log("error   ,   accesstoken is null  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    exit  ...................");
 
 			String access_token = accesstoken.getAccessToken();
 			Timeline tm = new Timeline();
