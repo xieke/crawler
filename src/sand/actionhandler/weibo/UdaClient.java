@@ -307,8 +307,10 @@ public class UdaClient {
 
         } catch (ParseException e) {
 			// TODO Auto-generated catch block
+        	logger.error("",e);
 			e.printStackTrace();
 		} catch (IOException e) {
+			logger.error("",e);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
