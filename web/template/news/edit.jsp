@@ -167,6 +167,7 @@
     </tr>
     <tr>
     	<td colspan="2" style="border-top:1px solid #ccc; text-align:right">
+        	<input style="display:inline; margin:8px 8px; float:none" type="checkbox" id="update_date" name="update_date" value="1" />更新"最后更新日期"
         	<input style="display:inline; margin:8px 0px; float:none" type="button" id="save" name="save" class="button" value="完成处理_list" />　
         	<input style="display:inline; margin:8px 0px; float:none" type="button" id="save_next" name="save_next" class="button" value="完成处理_next" />　
             <input style="display:inline; margin:8px 0px; float:none" type="button" id="save_last" name="save_last" class="button" value="完成处理_prev" />　

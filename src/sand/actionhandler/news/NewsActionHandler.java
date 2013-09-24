@@ -26,6 +26,7 @@ import sand.annotation.AccessControl;
 import sand.annotation.Ajax;
 import sand.annotation.CandoCheck;
 import sand.annotation.TokenCheck;
+import sand.depot.job.BaseJob;
 import sand.depot.job.PostJob;
 import sand.depot.job.QuartzManager;
 import sand.depot.tool.system.ControllableException;
@@ -67,6 +68,8 @@ public class NewsActionHandler extends ActionHandler {
 		log("in render  begin render ...............................");
 		String[] outids = this.getParameters("outids");
 		//List<BizObject> objList = queryList();
+		log(" lang is "+this.getParameter("lang"));
+		String lang=this.getParameter("lang");
 		
 		List<BizObject> v= new ArrayList();
 		if(outids==null) throw new ErrorException("没有文章");
@@ -74,8 +77,6 @@ public class NewsActionHandler extends ActionHandler {
 			BizObject b = new BizObject("news");
 			b.setID(id);
 			b.refresh();
-			log(" lang is "+this.getParameter("lang"));
-			String lang=this.getParameter("lang");
 			if (lang.equals("")) lang="c";
 			if(lang.equals("c")){
 				b.set("summary",b.getString("c_summary"));
@@ -154,7 +155,7 @@ public class NewsActionHandler extends ActionHandler {
 			}	
 			if(onetags.size()>0){
 				log("put "+s+"  "+onetags.size());
-				newtags.put(s, onetags);				
+				newtags.put(PostJob.parseTag(s, lang), onetags);				
 			}
 		}
 		log("j is "+j+"   v size is "+v.size());
@@ -472,10 +473,10 @@ public class NewsActionHandler extends ActionHandler {
 		}else if(StringUtils.isNotBlank(job) && job.equals("his_bak")){
 			//如果是从最外层点进去的列表链接,则是查询默认近两天的日期的记录
 			Calendar c = Calendar.getInstance();
-			c.add(Calendar.DAY_OF_YEAR, -180);
+			c.add(Calendar.DAY_OF_YEAR, -NewsService.history_dates);
 			endDate = DateUtils.formatDate(c.getTime(), DateUtils.PATTERN_YYYYMMDDHHMMSS);
 			c = Calendar.getInstance();
-			c.add(Calendar.DAY_OF_YEAR, -182);
+			c.add(Calendar.DAY_OF_YEAR, (-NewsService.history_dates-2));
 			startDate = DateUtils.formatDate(c.getTime(), DateUtils.PATTERN_YYYYMMDDHHMMSS);
 		}
 		
@@ -593,10 +594,10 @@ public class NewsActionHandler extends ActionHandler {
 		}else if(StringUtils.isNotBlank(job) && job.equals("his_bak")){
 			//如果是从最外层点进去的列表链接,则是查询默认近两天的日期的记录
 			Calendar c = Calendar.getInstance();
-			c.add(Calendar.DAY_OF_YEAR, -180);
+			c.add(Calendar.DAY_OF_YEAR, -NewsService.history_dates);
 			endDate = DateUtils.formatDate(c.getTime(), DateUtils.PATTERN_YYYYMMDDHHMMSS);
 			c = Calendar.getInstance();
-			c.add(Calendar.DAY_OF_YEAR, -182);
+			c.add(Calendar.DAY_OF_YEAR, (-NewsService.history_dates-2));
 			startDate = DateUtils.formatDate(c.getTime(), DateUtils.PATTERN_YYYYMMDDHHMMSS);
 		}
 		
@@ -855,6 +856,16 @@ public class NewsActionHandler extends ActionHandler {
 		this._nextUrl = super._msgUrl;
 	}
 	
+	public void moveNewsHisToNews() throws SQLException{
+		BizObject bak = new BizObject("news_his_bak");
+		bak.setID(this._objId);
+		bak.refresh();
+
+		BizObject news  = bak.duplicate();
+		BaseJob.currentSession().addOrUpdate(news);
+		BaseJob.currentSession().delete(bak);
+	}
+	
 //	private List<BizObject> queryUrgents(String news_urgent) throws SQLException{
 //		String[] types = news_urgent.split(",");
 //		List<BizObject> urgentList = SystemKit.getNoCachePickList("urgent");
@@ -937,7 +948,12 @@ public class NewsActionHandler extends ActionHandler {
 			news.set("isrecommend", BasicContext.IS_RECOMMEND_NO);
 			news.set("istop", BasicContext.ISTOP_NO);
 			news.set("isautotag", BasicContext.ISAUTOTAG_NO);
+			news.set("updatedate", new Date());
 		}
+		if(this.getParameter("update_date").equals("1")){
+			news.set("updatedate", new Date());
+		}
+		
 		this.getJdo().addOrUpdate(news);
 		
 		/**暂时先不用news_content表,先不移出去

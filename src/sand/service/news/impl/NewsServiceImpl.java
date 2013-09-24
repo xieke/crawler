@@ -3,6 +3,7 @@ package sand.service.news.impl;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -92,6 +93,7 @@ public class NewsServiceImpl implements NewsService {
 				news.set("istop", BasicContext.ISTOP_NO);
 				news.set("isautotag", BasicContext.ISAUTOTAG_NO);
 				news.set("his_news_id", his_news.getId());
+				news.set("updatedate", new Date());
 				ActionHandler.currentSession().add(news);
 				//自动打标签
 				this.hitTagging(news,news.getString("content"));
@@ -127,6 +129,7 @@ public class NewsServiceImpl implements NewsService {
 		news.set("istop", BasicContext.ISTOP_NO);
 		news.set("isautotag", BasicContext.ISAUTOTAG_NO);
 		news.set("his_news_id", his_news.getId());
+		news.set("updatedate", new Date());
 		/**暂时先不用news_content表,先不移出去
 //		news.set("content", "");
 		**/
@@ -154,6 +157,31 @@ public class NewsServiceImpl implements NewsService {
 		List<BizObject> tagRuleList = tagRuleService.queryTagRules();
 		
 		for(BizObject tagRule : tagRuleList){
+			
+			if(news.getString("isweibo").equals("1")){
+				String[] uids = tagRule.getString("weibo_uid").split(",");
+				for(String uid : uids){
+					if(uid.equals("")) continue;
+					
+						if(news.getString("author_id").indexOf(uid)>=0){
+//							news.set("title", news.getString("title").replace(keyword, "<font style='background-color:#CF3'>"+keyword+"</font>"));
+							//news.set("content", content.replace(keyword, "<span style=\"background-color:#CF3\">"+keyword+"</span>"));
+							String[] tag_ids = tagRule.getString("tag_id").split(",");
+							for(String s : tag_ids){
+								if(news.getString("tag_ids").indexOf(s)==-1) {
+									news.set("tags", (StringUtils.isBlank(news.getString("tags"))?"":news.getString("tags"))+tagService.getById(s).getString("name")+",");
+									news.set("tag_ids", (StringUtils.isBlank(news.getString("tag_ids"))?"":news.getString("tag_ids"))+s+",");
+									
+								}
+		//						tagService.addReBillTag(s, news.getId());
+							}
+							BaseJob.currentSession().update(news);
+						}
+					
+				}
+			}
+			
+			
 			if(tagRule.getString("type").equals(BasicContext.TAGRULE_TYPE_CONTENT)){
 				String[] keywords = tagRule.getString("keyword").split(",");
 				for(String keyword : keywords){
@@ -166,10 +194,11 @@ public class NewsServiceImpl implements NewsService {
 								if(news.getString("tag_ids").indexOf(s)==-1) {
 									news.set("tags", (StringUtils.isBlank(news.getString("tags"))?"":news.getString("tags"))+tagService.getById(s).getString("name")+",");
 									news.set("tag_ids", (StringUtils.isBlank(news.getString("tag_ids"))?"":news.getString("tag_ids"))+s+",");
-									BaseJob.currentSession().update(news);
+									
 								}
 		//						tagService.addReBillTag(s, news.getId());
 							}
+							BaseJob.currentSession().update(news);
 						}
 					}
 				}
@@ -185,10 +214,11 @@ public class NewsServiceImpl implements NewsService {
 								if(news.getString("tag_ids").indexOf(s)==-1) {
 									news.set("tags", (StringUtils.isBlank(news.getString("tags"))?"":news.getString("tags"))+tagService.getById(s).getString("name")+",");
 									news.set("tag_ids", (StringUtils.isBlank(news.getString("tag_ids"))?",":news.getString("tag_ids"))+s+",");
-									BaseJob.currentSession().update(news);
+									
 								}
 		//						tagService.addReBillTag(s, news.getId());
 							}
+							BaseJob.currentSession().update(news);
 						}
 					}
 				}
@@ -395,7 +425,7 @@ public class NewsServiceImpl implements NewsService {
 	
 	public int moveNews() throws SQLException{
 		Calendar c = Calendar.getInstance();
-		c.add(Calendar.DAY_OF_YEAR, -180);
+		c.add(Calendar.DAY_OF_YEAR, -NewsService.history_dates);
 		String updatedate = "";
 		String sql = "select * from basic.news where createdate<=STR_TO_DATE('"+DateUtils.formatDate(c.getTime(), DateUtils.PATTERN_YYYYMMDD)+"','%Y-%m-%d %H:%i:%s') limit 0,100";
 		System.out.println("sql is :"+sql);

@@ -4,7 +4,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import basic.BasicContext;
 
 import sand.actionhandler.system.ActionHandler;
 import sand.actionhandler.weibo.UdaClient;
@@ -59,7 +62,7 @@ public class WeiBoJob extends BaseJob {
 		b.resetObjType("news");
 		b.set("createdate", s.getCreatedAt());
 		b.set("posttime", s.getCreatedAt());
-		//b.set("author", s.getUser().getId());	
+		b.set("author_id", s.getUser().getId());	
 		b.set("author", s.getUser().getName());
 		this.log(" text :" +s.getText().length());
 		//b.set("mid", s.getMid());	
@@ -189,4 +192,6 @@ public class WeiBoJob extends BaseJob {
 		return super.OK+"，共入库 "+i+"条微博";
 	}
 
+
+		
 }

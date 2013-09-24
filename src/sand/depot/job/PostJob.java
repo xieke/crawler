@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -148,6 +150,54 @@ public class PostJob extends BaseJob {
 		return date;
 		
 	}
+	
+	public static String parseTag(String tag,String lang){
+		String[] s=tag.split("/");
+		System.out.println(s[0]+"          "+s[1]);
+		if(s.length!=2)
+			return tag;
+		
+		if(lang.equals("e")){
+			
+			if(s[0].indexOf('(')>=0){
+				return s[0]+")";
+			}
+			else
+				return s[0];
+					
+		}
+		if(lang.equals("c")){
+			
+			if(s[0].indexOf('(')>=0){
+				return s[0].substring(0,s[0].indexOf('(')+1)+s[1];
+			}
+			else{
+				return s[1];
+			}
+					
+		}
+		return tag;
+		
+	}
+	private  String parseFont(String font){
+		   String result = "";
+		       
+		       String regex = "<\\s*font\\s+([^>]*)\\s*>"; //以<img开头，接着一个或多个空格，接着是一些非 > 的字符，最后以>结尾
+		     //  String regex2 = "([a-z]+)\\S*=\\s*\"([^\"]+)\""; //以<img开头，接着一个或多个空格，接着是一些非 > 的字符，最后以>结尾
+		       Pattern p1 = Pattern.compile(regex);
+		     //  Pattern p2 = Pattern.compile(regex2);
+		       Matcher m1 = p1.matcher(font);
+		       while (m1.find()) {
+		          result = m1.group(1);
+		        //  parseFont2(result);
+		           System.out.println("it is "+result);
+		       
+		       }
+		       //String replacement = pocessImgWidth(img);
+		       //restult = restult.replaceAll(img, replacement);       
+		       return result;   
+
+		}
 	/**
 	 * 取待发送的post列表。 每次限取20条
 	 * 按重要度排序，列表数应该有一个最大的限制
@@ -190,10 +240,10 @@ public class PostJob extends BaseJob {
 				sql=sql+" and "+" importance>="+importance.trim();
 			
 			if(StringUtils.isNotBlank(lastposttime))
-				sql=sql+(" and modifydate>=STR_TO_DATE('")+(lastposttime)+("','%Y-%m-%d %H:%i:%s')");
+				sql=sql+(" and updatedate>=STR_TO_DATE('")+(lastposttime)+("','%Y-%m-%d %H:%i:%s')");
 			
 			
-			sql=sql+"  order by  importance asc , modifydate desc limit 0,"+limit;
+			sql=sql+"  order by  importance asc , updatedate desc limit 0,"+limit;
 			log("sql is "+sql);
 			List<BizObject> allv = QueryFactory.executeQuerySQL(sql);
 			
@@ -251,7 +301,7 @@ public class PostJob extends BaseJob {
 						tag.setID(tid);
 						tag.refresh();
 						tagname=tag.getString("name");
-						
+						tagname=parseTag(tagname, lang);
 						b.set("tag", tagname);
 						//if()
 						String summary = b.getString("summary");
@@ -380,9 +430,11 @@ public class PostJob extends BaseJob {
 	}
 	
 
-	
-	
 	public static void main(String args[]){
+		System.out.println(new PostJob().parseTag("Vipshop/唯品会", "c"));
+	}
+	
+	public static void main2(String args[]){
 		String s= "@name agfadsfadf";
 		s=s.replaceAll("@name", "xxxx");
 		System.out.print(s);
@@ -709,6 +761,8 @@ public class PostJob extends BaseJob {
 		return super.OK+","+postjob.getString("memo");
 		
 	}
+	
+
 	
 //	public String run2() throws Exception {
 //		

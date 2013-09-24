@@ -41,6 +41,10 @@
         <td><input type="text" name="tag_rule$keyword" value="${obj.keyword}" /></td>
     </tr>
     <tr>
+        <td>博主uid：</td>
+        <td><input type="text" name="tag_rule$weibo_uid" value="${obj.weibo_uid}"/></td>
+    </tr>    
+    <tr>
         <td>标签：</td>
         <td>
 <input type="hidden" id="tags" name="tag_rule$tag_name" />
