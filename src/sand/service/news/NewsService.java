@@ -11,7 +11,7 @@ public interface NewsService {
 	public static final String NEWS_CONTENT = "news_content";
 	public static final String COPYFORM_TABLE_NAME = "ben.origin_news";
 	
-	public static final int history_dates = 90;
+	public static final int history_dates = 180;
 	
 	/**
 	 * 获取源新闻

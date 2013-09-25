@@ -156,9 +156,9 @@ $(function(){
         	<c:if test="${orderby=='createdate' && order=='desc'}">order_up</c:if>
             <c:if test="${orderby=='createdate' && order=='asc'}">order_down</c:if>
             ">采集时间</a></th>
-        <th><a href="javascript:setorderby('modifydate')" id="modifydate_orderby" class="order_ 
-        	<c:if test="${orderby=='modifydate' && order=='desc'}">order_up</c:if>
-            <c:if test="${orderby=='modifydate' && order=='asc'}">order_down</c:if>
+        <th><a href="javascript:setorderby('updatedate')" id="modifydate_orderby" class="order_ 
+        	<c:if test="${orderby=='updatedate' && order=='desc'}">order_up</c:if>
+            <c:if test="${orderby=='updatedate' && order=='asc'}">order_down</c:if>
             ">更新时间</a></th>
         <!--<th>分类</th>
         <th width="7px"><a href="javascript:setorderby('urgent')" id="urgent_orderby" class="order_ 
@@ -183,7 +183,7 @@ $(function(){
     <td><m:out type="" value="${detail.copyfrom}" maxSize="4" /></td>
     <td><fmt:formatDate value="${detail.posttime}" pattern="yyyy-MM-dd HH:mm"/></td>
     <td><fmt:formatDate value="${detail.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
-    <td><fmt:formatDate value="${detail.modifydate}" pattern="yyyy-MM-dd HH:mm" /></td>
+    <td><fmt:formatDate value="${detail.updatedate}" pattern="yyyy-MM-dd HH:mm" /></td>
     <!--<td><c:if test="${detail.sort=='1'}">I</c:if><c:if test="${detail.sort=='0'}">K</c:if></td>
     <td><m:out type="urgent" value="${detail.urgent}" /></td>
     <td><m:out type="importance" value="${detail.importance}" /></td>
