@@ -12,6 +12,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import sand.actionhandler.system.ActionHandler;
 import sand.annotation.Ajax;
+import sand.annotation.CandoCheck;
 import sand.depot.tool.system.ErrorException;
 import sand.depot.tool.system.SystemKit;
 import sand.service.basic.service.TagService;
@@ -92,6 +93,7 @@ public class TagActionHandler extends ActionHandler {
 		return ret;
 	}	
 	
+	@CandoCheck("editTag")
 	public void save() throws SQLException{
 		this.getJdo().beginTrans();
 		BizObject tag = this.getBizObjectFromMap("tag");
@@ -120,6 +122,7 @@ public class TagActionHandler extends ActionHandler {
 		this.list();
 	}
 	
+	@CandoCheck("editTag")
 	public void edit() throws SQLException{
 		this.getJdo().beginTrans();
 		BizObject tag = this.getBizObjectFromMap("tag");
@@ -178,6 +181,7 @@ public class TagActionHandler extends ActionHandler {
 		}
 	}
 	
+	@CandoCheck("editTag")
 	public void saveOrderBy() throws SQLException{
 		List<BizObject> list = this.getBizObjectWithType("tags");
 		this.getJdo().beginTrans();
@@ -189,6 +193,7 @@ public class TagActionHandler extends ActionHandler {
 		this.list();
 	}
 	
+	@CandoCheck("editTag")
 	public void show() throws SQLException{
 		List<BizObject> list = this.getTagService().openAllWithSelectedTag("");
 		this._request.setAttribute("objList", list);
@@ -201,6 +206,7 @@ public class TagActionHandler extends ActionHandler {
 		this._nextUrl = "/template/tag/edit2.jsp";
 	}
 	
+	@CandoCheck("editTag")
 	public void delete() throws SQLException{
 		String id = this.getParameter("id");
 		if(StringUtils.isBlank(id)) throw new ErrorException("要删除的标签不存在,请重新操作!");
@@ -224,6 +230,7 @@ public class TagActionHandler extends ActionHandler {
 		this.deleteCascade(tag.getId());
 	}
 	
+	@CandoCheck("editTag")
 	public void deletes() throws SQLException{
 		this.getJdo().beginTrans();
 		String[] ids = this.getParameters("delid");

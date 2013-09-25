@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 
 import sand.actionhandler.system.ActionHandler;
+import sand.annotation.CandoCheck;
 import sand.depot.tool.system.ErrorException;
 import tool.dao.BizObject;
 import tool.dao.QueryFactory;
@@ -22,6 +23,7 @@ public class CustomerActionHandler extends ActionHandler {
 		this._moduleId = "customer";
 	}
 
+	@CandoCheck("editCustmoer")
 	public void list() throws SQLException{
 		super.setHardcoreFilter("status=1");
 		super.listObj();
@@ -38,6 +40,7 @@ public class CustomerActionHandler extends ActionHandler {
 		this._nextUrl = "/template/customer/list.jsp";
 	}
 	
+	@CandoCheck("editCustmoer")
 	public void show() throws SQLException{
 		if(StringUtils.isNotBlank(this._objId)){
 			String sql = "select GROUP_CONCAT(p.name) jobs from basic.postjob p where status='1' and customers like '%"+this._objId+"%'";
@@ -51,6 +54,7 @@ public class CustomerActionHandler extends ActionHandler {
 		this._nextUrl = "/template/customer/edit.jsp";
 	}
 	
+	@CandoCheck("editCustmoer")
 	public void save() throws SQLException{
 		BizObject customers = this.getBizObjectFromMap("customers");
 		if(StringUtils.isBlank(customers.getId()))customers.set("status", 1);
@@ -69,6 +73,7 @@ public class CustomerActionHandler extends ActionHandler {
 		this.show();
 	}
 	
+	@CandoCheck("editCustmoer")
 	public void deletes()throws SQLException{
 		String[] ids = this.getParameters("delid");
 		for(String s : ids) this.delete(s);

@@ -426,8 +426,8 @@ public class NewsServiceImpl implements NewsService {
 	public int moveNews() throws SQLException{
 		Calendar c = Calendar.getInstance();
 		c.add(Calendar.DAY_OF_YEAR, -NewsService.history_dates);
-		String updatedate = "";
-		String sql = "select * from basic.news where createdate<=STR_TO_DATE('"+DateUtils.formatDate(c.getTime(), DateUtils.PATTERN_YYYYMMDD)+"','%Y-%m-%d %H:%i:%s') limit 0,100";
+
+		String sql = "select * from basic.news where createdate<=STR_TO_DATE('"+DateUtils.formatDate(c.getTime(), DateUtils.PATTERN_YYYYMMDD)+" 23:59:59','%Y-%m-%d %H:%i:%s') limit 0,100";
 		System.out.println("sql is :"+sql);
 		List<BizObject> list = null;
 		BizObject bak = new BizObject("news_his_bak");
@@ -435,9 +435,11 @@ public class NewsServiceImpl implements NewsService {
 		while(true){
 			list = QueryFactory.executeQuerySQL(sql);
 			if(list==null || list.size()<=0) break;
+			i+=list.size();
 			for(BizObject biz : list){
-				i+=list.size();
+				
 				bak = biz.duplicate();
+				bak.resetObjType("news_his_bak");
 				
 				BaseJob.currentSession().addOrUpdate(bak);
 				BaseJob.currentSession().delete(biz);

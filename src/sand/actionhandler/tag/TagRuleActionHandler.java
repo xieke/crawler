@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import sand.actionhandler.system.ActionHandler;
+import sand.annotation.CandoCheck;
 import sand.depot.tool.system.ErrorException;
 import sand.service.basic.service.TagService;
 import tool.dao.BizObject;
@@ -56,6 +57,7 @@ public class TagRuleActionHandler extends ActionHandler {
 		return str.toString();
 	}
 	
+	@CandoCheck("editTagRule")
 	public void add() throws SQLException{
 		BizObject tag_rule = this.getBizObjectFromMap("tag_rule");
 		if(StringUtils.isBlank(tag_rule.getString("type"))) throw new ErrorException("条件域不能为空,请重新操作!");
@@ -76,6 +78,7 @@ public class TagRuleActionHandler extends ActionHandler {
 		this._nextUrl = "/template/tagging_rule/edit2.jsp";
 	}
 	
+	@CandoCheck("editTagRule")
 	public void delete() throws SQLException{
 		String id = this.getParameter("id");
 		if(StringUtils.isBlank(id)) throw new ErrorException("要删除的记录不存在,请重新操作!");
@@ -87,6 +90,7 @@ public class TagRuleActionHandler extends ActionHandler {
 		this.list();
 	}
 	
+	@CandoCheck("editTagRule")
 	public void deletes() throws SQLException{
 		this.getJdo().beginTrans();
 		String[] ids = this.getParameters("delid");

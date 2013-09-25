@@ -23,6 +23,7 @@ import freemarker.template.TemplateException;
 
 import sand.actionhandler.system.ActionHandler;
 import sand.annotation.Ajax;
+import sand.annotation.CandoCheck;
 import sand.depot.job.PostJob;
 import sand.depot.tool.system.ControllableException;
 import sand.depot.tool.system.ErrorException;
@@ -46,7 +47,7 @@ public class PostJobAH extends ActionHandler {
 	}
 	
 
-	
+	@CandoCheck("postjob")
 	public void list() throws SQLException{
 		//BizObject postjob = this.getBizObjectFromMap("postjob");
 		//postjob.setMap("posttime")
@@ -55,7 +56,7 @@ public class PostJobAH extends ActionHandler {
 		this._nextUrl="/template/post/listPostJob.jsp";		
 	}
 	
-	
+	@CandoCheck("posted")
 	public void listPosted() throws SQLException{
 		//BizObject postjob = this.getBizObjectFromMap("postjob");
 		//postjob.setMap("posttime")
@@ -106,6 +107,7 @@ public class PostJobAH extends ActionHandler {
 		}
 		return names;	
 		}	
+	@CandoCheck("postjob")
 	public void show() throws SQLException{
 
 		BizObject b = new BizObject("postjob");
@@ -136,7 +138,7 @@ public class PostJobAH extends ActionHandler {
 //		String customer_id[]=customer_ids.split(",");
 //		
 //	}
-	
+	@CandoCheck("postjob")
 	public void save() throws SQLException{
 		String customer_ids = this.getParameter("custom_ids");
 		String tactics_ids = this.getParameter("tactics_ids");
@@ -166,6 +168,7 @@ public class PostJobAH extends ActionHandler {
 		this.list();
 
 	}
+	@CandoCheck("postjob")
 	public void deleteAll() throws SQLException{
 		String ids[]=this.getParameters("outids");
 		for(String id:ids){
@@ -179,6 +182,7 @@ public class PostJobAH extends ActionHandler {
 		this.list();
 
 	}	
+	@CandoCheck("postjob")
 	public void sendAll() throws SQLException, TemplateException{
 		String ids[]=this.getParameters("outids");
 		String result="";
@@ -193,7 +197,7 @@ public class PostJobAH extends ActionHandler {
 		this.list();
 		this.setTipInfo(result);
 	}	
-
+	@CandoCheck("postjob")
 	public void disable() throws SQLException{
 		BizObject b = new BizObject("postjob");
 		b.setID(this._objId);
@@ -207,6 +211,7 @@ public class PostJobAH extends ActionHandler {
 		this.clearQueryParam();
 		this.list();
 	}
+	@CandoCheck("postjob")
 	public void changeAll(String status) throws SQLException{
 		
 		String ids[]=this.getParameters("outids");
@@ -227,9 +232,11 @@ public class PostJobAH extends ActionHandler {
 		this.clearQueryParam();
 		this.list();
 	}	
+	@CandoCheck("postjob")
 	public void disableAll() throws SQLException{
 		this.changeAll("0");
 	}	
+	@CandoCheck("postjob")
 	public void enableAll() throws SQLException{
 		this.changeAll("1");
 	}	

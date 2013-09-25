@@ -204,7 +204,7 @@ public class NewsActionHandler extends ActionHandler {
 		//this._request.setAttribute("tags", list);
 		this._nextUrl = "/template/news/listmail.jsp";
 	}
-	@CandoCheck("session")
+	@CandoCheck("listmail")
 	@TokenCheck
 	public void listMail() throws SQLException{
 		//this.list();
@@ -328,7 +328,7 @@ public class NewsActionHandler extends ActionHandler {
 		this._nextUrl = "/template/news/list.jsp";
 	}
 	
-	@CandoCheck("session")
+	@CandoCheck("editNews")
 	public void delete(String id) throws SQLException{
 		BizObject news = new BizObject("news");
 		news.setID(id);
@@ -348,7 +348,7 @@ public class NewsActionHandler extends ActionHandler {
 		this.getJdo().delete(news);
 	}
 	
-	@CandoCheck("session")
+	@CandoCheck("editNews")
 	public void deletes() throws SQLException{
 	//	this.getJdo().beginTrans();
 		String[] ids = this.getParameters("delid");
@@ -484,7 +484,7 @@ public class NewsActionHandler extends ActionHandler {
 //		if(StringUtils.isBlank(tag_ids2)) 
 			sql.append("select DISTINCT n.id,n.title,n.posttime,n.fname,n.author,n.copyfrom,n.copyfromurl," +
 				"n.category_id,n.status,n.issue,n.hits,n.isrecommend,n.istop,n.isautotag,n.summary,n.c_summary,n.importance," +
-				"n.urgent,n.sort,n.his_news_id,n.tags,n.createdate,n.modifydate from ").append(tableName).append(" n where 1=1 ");
+				"n.urgent,n.sort,n.his_news_id,n.tags,n.createdate,n.updatedate from ").append(tableName).append(" n where 1=1 ");
 //		else sql.append("select DISTINCT n.id,n.title,n.posttime,n.fname,n.author,n.copyfrom,n.copyfromurl," +
 //				"n.category_id,n.status,n.issue,n.hits,n.isrecommend,n.istop,n.isautotag,n.summary,n.c_summary,n.tags,n.importance," +
 //				"n.urgent,n.sort,n.his_news_id,n.createdate from basic.news n left join basic.re_bill_tag r on n.id=r.bill_id where r.tag_id in (")
@@ -508,8 +508,8 @@ public class NewsActionHandler extends ActionHandler {
 //				.append(tag_ids2).append(")");
 		
 		//STR_TO_DATE('2013-05-27','%Y-%m-%d')>=posttime
-		if(StringUtils.isNotBlank(startDate1)) sql.append(" and n.modifydate>=STR_TO_DATE('").append(startDate1).append("','%Y-%m-%d %H:%i:%s')");
-		if(StringUtils.isNotBlank(endDate1)) sql.append(" and n.modifydate<=STR_TO_DATE('").append(endDate1).append("','%Y-%m-%d %H:%i:%s')");
+		if(StringUtils.isNotBlank(startDate1)) sql.append(" and n.updatedate>=STR_TO_DATE('").append(startDate1).append("','%Y-%m-%d %H:%i:%s')");
+		if(StringUtils.isNotBlank(endDate1)) sql.append(" and n.updatedate<=STR_TO_DATE('").append(endDate1).append("','%Y-%m-%d %H:%i:%s')");
 		if(StringUtils.isNotBlank(startDate)) sql.append(" and n.posttime>=STR_TO_DATE('").append(startDate).append("','%Y-%m-%d %H:%i:%s')");
 		if(StringUtils.isNotBlank(endDate)) sql.append(" and n.posttime<=STR_TO_DATE('").append(endDate).append("','%Y-%m-%d %H:%i:%s')");
 		if(StringUtils.isNotBlank(status)) sql.append(" and n.status='").append(status).append("'");
@@ -624,6 +624,7 @@ public class NewsActionHandler extends ActionHandler {
 		this._request.setAttribute("esummary", esummary);
 		this._request.setAttribute("isweibo", isweibo);
 	}
+	
 	public void switchIssue() throws SQLException{
 		BizObject b = new BizObject("news");
 		b.setID(this._objId);
@@ -830,12 +831,13 @@ public class NewsActionHandler extends ActionHandler {
         this.log("结束 show_operator:"+usetime);
 	}
 	
+	@CandoCheck("resumeNews")
 	public void resume() throws SQLException{
 		BizObject biz = new BizObject("his_news");
 		biz.setID(this._objId);
 		biz.refresh();
 		
-		if(biz==null) throw new ErrorException("当前要恢复的原文章不存,请重复操作!");
+		if(biz==null) throw new ErrorException("当前要恢复的原文章不存在,请重复操作!");
 
 		biz.set("status", BasicContext.STATUS_DISPOSE_NO);
 		this.getJdo().update(biz);
@@ -856,14 +858,19 @@ public class NewsActionHandler extends ActionHandler {
 		this._nextUrl = super._msgUrl;
 	}
 	
+	@CandoCheck("moveNews")
 	public void moveNewsHisToNews() throws SQLException{
 		BizObject bak = new BizObject("news_his_bak");
 		bak.setID(this._objId);
 		bak.refresh();
 
 		BizObject news  = bak.duplicate();
+		news.resetObjType("news");
 		BaseJob.currentSession().addOrUpdate(news);
 		BaseJob.currentSession().delete(bak);
+
+		this._tipInfo = "移动成功！";
+		this.list_bak();
 	}
 	
 //	private List<BizObject> queryUrgents(String news_urgent) throws SQLException{
@@ -893,7 +900,7 @@ public class NewsActionHandler extends ActionHandler {
 	 * 
 	 * @throws SQLException
 	 */
-	@CandoCheck("session")
+	@CandoCheck("editNews")
 	public void showAdd() throws SQLException{
 		List<BizObject> list = this.getTagService().openAllWithSelectedTag(this._objId);
 		this._request.setAttribute("objList", list);
@@ -911,7 +918,8 @@ public class NewsActionHandler extends ActionHandler {
 		this._request.setAttribute("obj", biz);
 		this._nextUrl = "/template/news/view_his.jsp";
 	}
-	@CandoCheck("session")
+	
+	@CandoCheck("editNews")
 	public void save() throws SQLException{
 		//this.getJdo().beginTrans();
 //		log("进入save:"+new Date());
@@ -993,7 +1001,7 @@ public class NewsActionHandler extends ActionHandler {
 //		this.list();
 	}
 	
-	@CandoCheck("session")
+	@CandoCheck("editNews")
 	public void addComments() throws SQLException{
 	//	this.getJdo().beginTrans();
 		BizObject biz = this.getBizObjectFromMap("NEWCOMMENTS");
@@ -1020,7 +1028,7 @@ public class NewsActionHandler extends ActionHandler {
 	 * 删除备忘
 	 * @throws SQLException
 	 */
-	@CandoCheck("session")
+	@CandoCheck("editNews")
 	public void delComments() throws SQLException{
 		BizObject biz = new BizObject("NEWCOMMENTS");
 		biz.setID(this.getParameter("comId"));
@@ -1040,7 +1048,7 @@ public class NewsActionHandler extends ActionHandler {
 	//	this.getJdo().commit();
 	}
 	
-	@CandoCheck("session")
+	@CandoCheck("hittingTag")
 	public void doHitting()	throws SQLException, ParseException{
 		String startDate = this.getParameter("startDate");
 		String endDate = this.getParameter("endDate");
@@ -1202,6 +1210,7 @@ public class NewsActionHandler extends ActionHandler {
 	 * @throws SQLException
 	 * @throws TemplateException
 	 */
+	@CandoCheck("sendmail")
 	public void sendMail() throws IOException, ServletException, SQLException, TemplateException{
 		
 		BizObject email = new BizObject("email");
@@ -1270,6 +1279,7 @@ public class NewsActionHandler extends ActionHandler {
 		log("output is .................."+new String(b));
 		return new String(b);
 	}
+	@CandoCheck("preview")
 	public  void render2() throws IOException, ServletException, SQLException, TemplateException{
 	   
 		log("in render 2   ok  ,  tags is "+this.getParameter("tags2"));

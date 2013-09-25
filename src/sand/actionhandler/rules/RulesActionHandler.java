@@ -12,6 +12,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import sand.actionhandler.system.ActionHandler;
 import sand.annotation.Ajax;
+import sand.annotation.CandoCheck;
 import sand.depot.tool.system.ErrorException;
 import sand.depot.tool.system.SystemKit;
 import sand.service.basic.service.TagService;
@@ -27,6 +28,7 @@ public class RulesActionHandler extends ActionHandler {
 		this._objType = "rules";
 	}
 	
+	@CandoCheck("editRules")
 	public void show() throws SQLException{
 		BizObject rules = QueryFactory.getInstance("rules").getByID(this._objId);
 		List<BizObject> list = this.getTagService().openAllWithSelectedTag("");
@@ -76,6 +78,7 @@ public class RulesActionHandler extends ActionHandler {
 		this._nextUrl = "/template/rules/edit.jsp";
 	}
 	
+	@CandoCheck("editRules")
 	public void save() throws SQLException{
 		BizObject rules = this.getBizObjectFromMap("rules");
 		rules.set("tags", this.getParameter("tags"));
@@ -86,6 +89,7 @@ public class RulesActionHandler extends ActionHandler {
 		this.list();
 	}
 
+	@CandoCheck("editRules")
 	@Ajax
 	public String editItem() {
 		try{
@@ -124,6 +128,7 @@ public class RulesActionHandler extends ActionHandler {
 		}
 	}
 	
+	@CandoCheck("editRules")
 	public void deletes()throws SQLException{
 		String[] ids = this.getParameters("delid");
 		for(String s : ids) this.delete(s);
@@ -139,6 +144,7 @@ public class RulesActionHandler extends ActionHandler {
 		this.getJdo().update(rules);
 	}
 	
+	@CandoCheck("editRules")
 	public void list() throws SQLException{
 		super.setHardcoreFilter("status=1");
 		super.listObj();

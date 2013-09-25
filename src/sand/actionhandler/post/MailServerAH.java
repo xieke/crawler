@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import sand.actionhandler.system.ActionHandler;
+import sand.annotation.CandoCheck;
 import tool.dao.BizObject;
 
 public class MailServerAH extends ActionHandler{
@@ -15,6 +16,7 @@ public class MailServerAH extends ActionHandler{
 		// TODO Auto-generated constructor stub
 	}
 	
+	@CandoCheck("serverconfig")
 	public void list() throws SQLException{
 		//BizObject postjob = this.getBizObjectFromMap("postjob");
 		//postjob.setMap("posttime")
@@ -23,6 +25,7 @@ public class MailServerAH extends ActionHandler{
 		this._nextUrl="/template/post/listMailServer.jsp";		
 	}
 	
+	@CandoCheck("serverconfig")
 	public void save() throws SQLException{
 	
 		BizObject b = this.getBizObjectFromMap("mailserver");
@@ -34,7 +37,7 @@ public class MailServerAH extends ActionHandler{
 		this.list();
 		//this._nextUrl="/template/post/showPostJob.jsp";
 	}
-	
+	@CandoCheck("serverconfig")
 	public void delete() throws SQLException{
 		BizObject b = new BizObject("mailserver");
 		b.setID(this._objId);
@@ -43,7 +46,7 @@ public class MailServerAH extends ActionHandler{
 		this.list();
 
 	}	
-	
+	@CandoCheck("serverconfig")
 	public void show() throws SQLException{
 
 		BizObject b = new BizObject("mailserver");
