@@ -28,7 +28,7 @@
 
 <form method="post" action="/basic.RoleAH.save" id="post_form">
 <input type="hidden" name="objId" value="${obj.roleid}" />
-
+<input type="hidden" name="role$roleid" value="${obj.roleid}" />
   <table class="ui edit">
     <tr class="title">
       <td colspan="2">
