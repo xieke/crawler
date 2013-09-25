@@ -39,7 +39,7 @@
 
 <table class="ui list effect">
   <tr class="title">
-            <th>角色代号</th>
+            
             <th>角色名</th>
             <th>备注</th>
             <th>修改</th>
@@ -47,7 +47,7 @@
   </tr>
 <c:forEach var="obj" items="${objList}" varStatus="status">
 <tr>
-            <td><c:out value="${obj.roleid}"/></td>
+            
             <td><c:out value="${obj.rolename}"/></td>
             <td><c:out value="${obj.remark}"/></td>
             <td><a title="修改" class="ico_button ico_edit" href="/basic.RoleAH.showRole?objId=${obj.roleid}">修改</a></td>
