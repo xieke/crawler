@@ -238,9 +238,25 @@ public class NewsActionHandler extends ActionHandler {
 	
 	
 	public void listPhone() throws SQLException{
-		this.list();
+		//String newsids = this.getPosted().getString("newsids");
+		String allids =this.getPosted().getString("newsids");
+		logger.info(allids);
+		String ids[]=allids.split(",");
+		log("1 objid is "+_objId);
+		List v=new ArrayList();
+		
+		for(int i=0;i<ids.length;i++){
+			if(ids[i].equals("")) continue;
+			BizObject b = new BizObject("news");
+			b.setID(ids[i]);
+			b.refresh();
+			v.add(b);
+		}
+		this.setAttribute("objList", v);
+		//this.list();
 		this._nextUrl="/template/mobile/list.jsp";
 	}
+
 	@CandoCheck("session")
 	
 	public void list() throws SQLException{
@@ -635,6 +651,7 @@ public class NewsActionHandler extends ActionHandler {
 			b.set("issue", "1");
 		
 		this.getJdo().update(b);
+		log("切换状态的ID:"+b.getId()+",标题为:"+b.getString("title"));
 		this.listMail();
 			
 	}
@@ -1080,7 +1097,6 @@ public class NewsActionHandler extends ActionHandler {
 		return newsService;
 	}
 	
-	
 	public  String clickIt(String operator) throws SQLException{
 		
 		String email=this.getParameter("email");
@@ -1098,7 +1114,7 @@ public class NewsActionHandler extends ActionHandler {
 			
 			
 			if(b.getQF().getOne(b)!=null){
-				return "您已经点过了";
+				return "ok";
 			}
 			
 			b.set("senddate",this.getPosted().getDate("lastposttime"));
@@ -1111,24 +1127,17 @@ public class NewsActionHandler extends ActionHandler {
 					b.set("customerid", customer.getId());
 					//customer.set("operate", customer.getString(operat)+","+this._objId);
 			}
-			
-//			BizObject posted = new BizObject("posted");
-//			posted.set("cemails", email);
-//			posted.set("newsids", newsid);
-//			List<BizObject> v = posted.getQF().mquery(posted);//(posted);
-//			if(v.size()>0){
-//				posted=v.get(0);
-//				b.set("senddate", posted.getDate("lastposttime"));
-//			}
+
 			b.set("operator", operator);
 			b.set("clickdate",new Date());
 			this.getJdo().addOrUpdate(b);
-			return "谢谢您的参与";
+			return "ok";
 
 		}
 		logger.info("email "+email+"  newsid "+newsid);
 		return "错误的参数";		
 	}
+
 	
 	@Ajax
 	public String like() throws SQLException{

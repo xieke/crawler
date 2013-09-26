@@ -264,20 +264,6 @@ public class PostJob extends BaseJob {
 			
 			int  total=0;
 
-			/**
-			 * 此处计算所有的newsid
-			 */
-//			String allids="";
-//			for(int i=0;i<allv.size();i++){
-//				
-//				BizObject b=allv.get(i);
-//				if (allids.equals(""))
-//					allids=b.getId();
-//				else
-//					allids=allids+","+b.getId();
-//				if(i>0) b.set("lastid", allv.get(i-1).getId());
-//				if(i<allv.size()-1) b.set("nextid", allv.get(i+1).getId());
-//			}
 
 			for(String tid:tagid){
 				
