@@ -123,7 +123,7 @@
 </tr>
 <tr>
 	<td>是否发邮件：</td>
-    <td><m:radio type="issue" name="news$issue" value="${obj.issue}" defaultValue="0" /></td>
+    <td><m:radio type="news_status" name="news$issue" value="${obj.issue}" defaultValue="0" /></td>
 </tr>
 <tr>
 	<td>客户重要度：</td>
