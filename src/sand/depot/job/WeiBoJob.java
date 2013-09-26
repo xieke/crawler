@@ -175,7 +175,7 @@ public class WeiBoJob extends BaseJob {
 
 					User user = s.getUser();
 					insertUser(user);
-					insertStatus(s);
+					//insertStatus(s);
 					insertNews(s);
 					i++;
 					//result = result + s.getUser().getName()+":"+s.getText()+"<br>";

@@ -214,7 +214,7 @@
     <td>${detail.tags} </td>
     <td>${detail.author}</td>
     
-    <td><fmt:formatDate value="${detail.modifydate}" pattern="yyyy-MM-dd HH:mm"/></td>
+    <td><fmt:formatDate value="${detail.updatedate}" pattern="yyyy-MM-dd HH:mm"/></td>
     <td><fmt:formatDate value="${detail.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
     <!-- 
     <td><c:if test="${detail.sort=='1'}">I</c:if><c:if test="${detail.sort=='0'}">K</c:if></td>
