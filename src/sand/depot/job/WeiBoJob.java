@@ -67,6 +67,7 @@ public class WeiBoJob extends BaseJob {
 		this.log(" text :" +s.getText().length());
 		//b.set("mid", s.getMid());	
 		b.set("content", s.getText());
+		b.set("title", s.getSource());
 		b.set("copyfrom", s.getSource().getName());
 		//b.set("favorited", s.isFavorited());
 		//b.set("inReplyToStatusId", s.getInReplyToStatusId());
