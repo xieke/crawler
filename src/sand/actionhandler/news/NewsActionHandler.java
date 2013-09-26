@@ -951,7 +951,6 @@ public class NewsActionHandler extends ActionHandler {
 			this.getJdo().addOrUpdate(his_news);
 			news.setID(his_news.getId());
 			news.set("his_news_id", his_news.getId());
-			news.set("issue", BasicContext.ISSUE_NO);
 			news.set("hits", 0);
 			news.set("isrecommend", BasicContext.IS_RECOMMEND_NO);
 			news.set("istop", BasicContext.ISTOP_NO);
@@ -991,12 +990,12 @@ public class NewsActionHandler extends ActionHandler {
 		}
 		
 	//	this.getJdo().commit();
-		this.clearQueryParam();
 //		log("结束save:"+new Date());
 		long endmillinow = Calendar.getInstance().getTimeInMillis();
         long usetime = endmillinow - millinow;
         this.log("编辑的文章id:"+news.getId()+",编辑的文章标签:"+news.getString("title"));
         this.log("结束save:"+usetime);
+		this.clearQueryParam();
 		this.show_operator();
 //		this.list();
 	}
