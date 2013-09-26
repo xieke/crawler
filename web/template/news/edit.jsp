@@ -123,7 +123,7 @@
 </tr>
 <tr>
 	<td>是否发邮件：</td>
-    <td><label><input type="radio" id="issue" name="news$issue" <c:if test="${obj.issue=='1'}">checked</c:if> value="1" />Y</label>&nbsp;<label><input type="radio" id="issue" name="news$issue" <c:if test="${obj.issue=='0'||obj.issue==null}">checked</c:if> value="0" />N</label></td>
+    <td><m:radio type="issue" name="news$issue" value="${obj.issue}" defaultValue="0" /></td>
 </tr>
 <tr>
 	<td>客户重要度：</td>

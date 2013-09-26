@@ -921,33 +921,19 @@ public class NewsActionHandler extends ActionHandler {
 	
 	@CandoCheck("editNews")
 	public void save() throws SQLException{
-		//this.getJdo().beginTrans();
-//		log("进入save:"+new Date());
 		long millinow = Calendar.getInstance().getTimeInMillis();
 		this.log("进入save:"+millinow);
-//        long usetime = endmillinow - millinow;
-//        _log.set("USETIME", Long.valueOf(usetime));
 		String tagId = this.getParameter("tag_ids");
 		BizObject news = this.getBizObjectFromMap("news");
 		this.log("tags is "+this.getParameter("tags"));
 		news.set("tags", this.getParameter("tags"));
 		news.set("tag_ids", tagId);
-//		String[] importances = (String[])news.get("importance");
-//		String[] urgents = (String[])news.get("urgent");
-//		String importance="";
-//		String urgent="";
-//		for(String s : importances) importance+=s+",";
-//		for(String s : urgents) urgent+=s+",";
-//		
-//		news.set("importance", importance);
-//		news.set("urgent", urgent);
 		
 		if(StringUtils.isBlank(news.getId())){
 			news.set("posttime", new Date());
 			
 			BizObject his_news = news.duplicate();
 			his_news.resetObjType("his_news");
-//			his_news.setID("");
 			this.getJdo().addOrUpdate(his_news);
 			news.setID(his_news.getId());
 			news.set("his_news_id", his_news.getId());
@@ -960,7 +946,6 @@ public class NewsActionHandler extends ActionHandler {
 		if(this.getParameter("update_date").equals("1")){
 			news.set("updatedate", new Date());
 		}
-		
 		this.getJdo().addOrUpdate(news);
 		
 		/**暂时先不用news_content表,先不移出去
@@ -970,14 +955,6 @@ public class NewsActionHandler extends ActionHandler {
 		this.getJdo().addOrUpdate(news_content);
 		**/
 		
-		//先删除已标置的标签
-//		if(StringUtils.isNotBlank(news.getId()))
-//			this.getTagService().deleteReBillTagsByBillId(news.getId());		
-//		
-//		this.log("tagIds is "+tagId);
-//		String[] tagIds = tagId.split(",");
-//		this.getTagService().addReBillTags(tagIds, news.getId());
-
 		//保存备忘
 		BizObject biz = this.getBizObjectFromMap("NEWCOMMENTS");
 		if(StringUtils.isNotBlank(biz.getString("content"))){
@@ -989,15 +966,12 @@ public class NewsActionHandler extends ActionHandler {
 			this.getJdo().commit();
 		}
 		
-	//	this.getJdo().commit();
-//		log("结束save:"+new Date());
 		long endmillinow = Calendar.getInstance().getTimeInMillis();
         long usetime = endmillinow - millinow;
         this.log("编辑的文章id:"+news.getId()+",编辑的文章标签:"+news.getString("title"));
         this.log("结束save:"+usetime);
 		this.clearQueryParam();
 		this.show_operator();
-//		this.list();
 	}
 	
 	@CandoCheck("editNews")
