@@ -3,6 +3,9 @@
 <%@ include file="head.jsp"%>
 <div class="content">
   <div class="result-text"></div>
+  <script type="text/javascript">
+
+  </script>
 
   <tr class="effect">
     <td></td>
@@ -25,14 +28,14 @@
       <div class="archive-top-right"> <a class="post-arrow" href="javascript:void(0);"></a> </div>
       <div class="archive-top-left month-05"> <fmt:formatDate value="${detail.posttime}" pattern="yyyy-MM-dd HH:mm"/> </div>
     </div>
-    <a class="h2" href="javascript:void(0)" onclick="show('${detail.id}')">${detail.title}</a>
+    <a class="h2" href=<m:out value='www_url' type='system_core'/>/news.NewsActionHandler.showIt?jobid=${param.jobid}&email=${param.email}&objId=${detail.id} }">${detail.title}</a>
     <div class="post-author"> <span class="lead">By</span> ${detail.author}<br />
       <span class="lead">Tags:</span> <a href="#" title="信息技术" rel="category">${detail.tags}</a><br />
     </div>
     <div class="clearer"></div>
     <div id="entry-671" style="display:none" class="mainentry left-justified">
-      ${detail.content}
-      <a class="read-more" href="javascript:void(0)" onclick="show('${detail.id}'">Read This Post</a> </div>
+      ${detail.content}      
+      <a class="read-more" href="javascript:void(0)" onclick="">Read This Post</a> </div>
   </div>
 </c:forEach>
   <div id="call_list" class="ajax-load-more">
