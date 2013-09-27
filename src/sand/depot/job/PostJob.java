@@ -153,9 +153,9 @@ public class PostJob extends BaseJob {
 	
 	public static String parseTag(String tag,String lang){
 		String[] s=tag.split("/");
-		System.out.println(s[0]+"          "+s[1]);
 		if(s.length!=2)
 			return tag;
+		System.out.println(s[0]+"          "+s[1]);
 		
 		if(lang.equals("e")){
 			
@@ -208,7 +208,7 @@ public class PostJob extends BaseJob {
 	 * @throws SQLException
 	 */
 	public static  Map<String,List> getQryPostNews(BizObject rule) throws SQLException{
-		Map<String,Object> renderMap = new HashMap();
+		
 		//BizObject post;
 		String tagids=rule.getString("tag_ids");
 		//String cycle=post.getString("cycle");
@@ -224,7 +224,7 @@ public class PostJob extends BaseJob {
 		String key = tagids+lastposttime+importance+urgent+ limit+lang+now;
 		log("key is "+key+"   ");
 		
-		
+		Map<String,Object> renderMap = new HashMap();
 		if(renderMap.get(key)==null){
 			
 			//Map<String ,List> m=new HashMap();			
@@ -247,91 +247,108 @@ public class PostJob extends BaseJob {
 			log("sql is "+sql);
 			List<BizObject> allv = QueryFactory.executeQuerySQL(sql);
 			
-
+			Map<String,List> tagsMap = renderMap(allv,tagids,lang);
 			
-			if(tagids.trim().equals("")) 
-				tagids=GpMailAH.expTagIds();
-			
-			//log("tags is "+tags);
-			String tagid[]=tagids.split(",");
-			
-			Map<String,List> tagsMap = new LinkedHashMap ();
-			
-			
-			
-			//if(tagstr.equals("")) tagstr=this.getParameter("tags");
-			//String tag[] = tagstr.split(",");
-			
-			int  total=0;
-
-
-			for(String tid:tagid){
-				
-				if(tid.equals("")) continue;
-				List<BizObject> onetags = new ArrayList();
-				
-				
-				BizObject tag= new BizObject("tag");
-				String tagname="";
-				
-				
-				for(int i=0 ; i<allv.size();i++){
-					BizObject b=allv.get(i);					
-				//	b.set("allids", allids);
-					//log("lastid "+b.getString("lastid")+"  nextid "+b.getString("nextid"));
-					/**
-					 * 根据配置文件决定文章归在哪一类tag,并决定语言显示summary
-					 */
-					if(b.getString("tag_ids").indexOf(tid)>=0){
-						
-						tag.setID(tid);
-						tag.refresh();
-						tagname=tag.getString("name");
-						tagname=parseTag(tagname, lang);
-						b.set("tag", tagname);
-						//if()
-						String summary = b.getString("summary");
-						String c_summary=b.getString("c_summary");
-						logger.info("lang is "+lang+ "  summary is "+summary+"  c_summary is "+c_summary);
-						if(lang==null||lang.equals("c")||lang.equals("")){
-							b.set("summary",c_summary);
-						}
-						else if(lang.equals("e")){
-							b.set("summary",summary);
-						}
-						else if(lang.equals("ce")){
-							b.set("summary",c_summary+"<br>"+summary);
-						}
-						else if(lang.equals("ec")){
-							b.set("summary",summary+"<br>"+c_summary);
-						}
-						logger.info("summary is "+b.getString("summary"));
-						//log("put  "+s+"  "+);
-						onetags.add(b);
-						allv.remove(b);
-						i--;
-					}
-				}	
-				//log("put "+s+"  "+onetags.size());
-				if(onetags.size()>0){
-					total = total +onetags.size();
-					tagsMap.put(tagname, onetags);
-					log(tagname+"   "+onetags.size());
-				}
-				
-			
-			
-			//return v;
-			//return post.getQF().query(post,pv);
-			
-		}
-			log("total is "+total );
+			//log("total is "+total );
 			renderMap.put(key,tagsMap);
 			return tagsMap;
 		
 	}
 		else
 		return (Map<String,List>) renderMap.get(key);
+	}
+	
+	public static Map renderMap(List<BizObject> allv, String tagids,String lang) throws SQLException{
+		
+		Map<String,List> tagsMap = new LinkedHashMap ();
+		if(tagids.trim().equals("")) 
+			tagids=GpMailAH.expTagIds();
+		
+		//log("tags is "+tags);
+		String tagid[]=tagids.split(",");
+
+		for(String tid:tagid){
+			
+			if(tid.equals("")) continue;
+			List<BizObject> onetags = new ArrayList();
+			
+			
+			BizObject tag= new BizObject("tag");
+			BizObject ptag= new BizObject("tag");
+			String tagname="";
+			String ptagname="";
+			String oldptagname="";
+			tag.setID(tid);
+			tag.refresh();
+			ptag=tag.getBizObj("parent_id");
+			tagname=tag.getString("name");						
+			tagname=parseTag(tagname, lang);
+			ptagname=ptag.getString("name");
+			ptagname=parseTag(ptagname, lang);
+			
+			logger.info("tagname is "+tagname+"  ptagname is "+ptagname+"  oldptagname is "+oldptagname);
+			
+//			if(ptagname.equals(oldptagname)){
+//				ptagname="";
+//				//b.set("tag",tagname);
+//			}
+//			else{
+//				oldptagname=ptagname;
+//				tagname=ptagname+"<br>"+tagname;
+//				//b.set("tag", ptagname+"<br>"+tagname);
+//			}
+			
+			
+			for(int i=0 ; i<allv.size();i++){
+				
+				
+				BizObject b=allv.get(i);					
+			//	b.set("allids", allids);
+				//log("lastid "+b.getString("lastid")+"  nextid "+b.getString("nextid"));
+				/**
+				 * 根据配置文件决定文章归在哪一类tag,并决定语言显示summary
+				 */
+				if(b.getString("tag_ids").indexOf(tid)>=0){
+					
+					
+					//if()
+					String summary = b.getString("summary");
+					String c_summary=b.getString("c_summary");
+//					logger.info("lang is "+lang+ "  summary is "+summary+"  c_summary is "+c_summary);
+					if(lang==null||lang.equals("c")||lang.equals("")){
+						b.set("summary",c_summary);
+					}
+					else if(lang.equals("e")){
+						b.set("summary",summary);
+					}
+					else if(lang.equals("ce")){
+						b.set("summary",c_summary+"<br>"+summary);
+					}
+					else if(lang.equals("ec")){
+						b.set("summary",summary+"<br>"+c_summary);
+					}
+	//				logger.info("summary is "+b.getString("summary"));
+					//log("put  "+s+"  "+);
+					onetags.add(b);
+					allv.remove(b);
+					i--;
+				}
+			}	
+			//log("put "+s+"  "+onetags.size());
+			if(onetags.size()>0){
+				tagsMap.put(ptagname, new ArrayList()); //放一个父标签
+				//total = total +onetags.size();
+				tagsMap.put(tagname, onetags);
+				log(tagname+"   "+onetags.size());
+			}
+			
+		
+		
+		//return v;
+		//return post.getQF().query(post,pv);
+		
+	}
+		return tagsMap;
 	}
 	public  static String render(Map<String ,List> postv, String greeting, String ending,String email,String jobid) throws IOException, TemplateException, SQLException{
 		
