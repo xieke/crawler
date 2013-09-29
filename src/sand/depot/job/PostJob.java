@@ -261,10 +261,10 @@ public class PostJob extends BaseJob {
 	public static Map renderMap(List<BizObject> allv, String tagids,String lang) throws SQLException{
 		
 		Map<String,List> tagsMap = new LinkedHashMap ();
-		if(tagids.trim().equals("")) 
+		if(tagids.trim().equals("")||tagids.trim().equals(",")) 
 			tagids=GpMailAH.expTagIds();
 		
-		//log("tags is "+tags);
+		logger.info("tags is "+tagids);
 		String tagid[]=tagids.split(",");
 
 		for(String tid:tagid){
@@ -280,11 +280,15 @@ public class PostJob extends BaseJob {
 			String oldptagname="";
 			tag.setID(tid);
 			tag.refresh();
-			ptag=tag.getBizObj("parent_id");
+			
 			tagname=tag.getString("name");						
 			tagname=parseTag(tagname, lang);
-			ptagname=ptag.getString("name");
-			ptagname=parseTag(ptagname, lang);
+			ptag=tag.getBizObj("parent_id");
+			if(ptag!=null){
+				ptagname=ptag.getString("name");
+				ptagname=parseTag(ptagname, lang);
+				
+			}
 			
 			logger.info("tagname is "+tagname+"  ptagname is "+ptagname+"  oldptagname is "+oldptagname);
 			
@@ -336,7 +340,8 @@ public class PostJob extends BaseJob {
 			}	
 			//log("put "+s+"  "+onetags.size());
 			if(onetags.size()>0){
-				tagsMap.put(ptagname, new ArrayList()); //放一个父标签
+				if(!ptagname.equals(""))
+					tagsMap.put(ptagname, new ArrayList()); //放一个父标签
 				//total = total +onetags.size();
 				tagsMap.put(tagname, onetags);
 				log(tagname+"   "+onetags.size());
