@@ -1413,10 +1413,39 @@ public class NewsActionHandler extends ActionHandler {
 	@Ajax
 	public String post() {
 		BizObject news = this.getBizObjectFromMap("news");
-		if(StringUtils.isBlank(news.getString("title")) || StringUtils.isBlank(news.getString("content"))){
-			log("标题或者内容为空,不入库:"+news);
+		
+		if(StringUtils.isBlank(news.getString("title")) ){
+			BizObject err_web_site = new BizObject("err_web_site");
+			try {
+				err_web_site.set("reson", "标题为空");
+				err_web_site.set("status", BasicContext.STATUS_DISPOSE_NO);
+				err_web_site.set("copyfrom",news.getString("copyfrom"));
+				err_web_site.set("copyfromurl",news.getString("copyfromurl"));
+				err_web_site.set("catalog",news.getString("catalog"));
+				
+				this.getJdo().add(err_web_site);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			log("标题为空,不入库:"+news);
+			return "ok";
+		}else if (StringUtils.isBlank(news.getString("content"))){
+			BizObject err_web_site = new BizObject("err_web_site");
+			try {
+				err_web_site.set("reson", "内容为空");
+				err_web_site.set("status", BasicContext.STATUS_DISPOSE_NO);
+				err_web_site.set("copyfrom",news.getString("copyfrom"));
+				err_web_site.set("copyfromurl",news.getString("copyfromurl"));
+				err_web_site.set("catalog",news.getString("catalog"));
+				
+				this.getJdo().add(err_web_site);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			log("内容为空,不入库:"+news);
 			return "ok";
 		}
+		
 		try{
 			if(StringUtils.isBlank(news.getString("posttime")))
 				news.set("posttime", new Date());
