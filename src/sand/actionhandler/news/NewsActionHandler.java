@@ -252,7 +252,8 @@ public class NewsActionHandler extends ActionHandler {
 			b.refresh();
 			v.add(b);
 		}
-		this.setAttribute("objList", v);
+		List v2=SystemKit.page(v,this.preparePageVar());
+		this.setAttribute("objList", v2);
 		//this.list();
 		this._nextUrl="/template/mobile/list.jsp";
 	}
@@ -707,6 +708,17 @@ public class NewsActionHandler extends ActionHandler {
 		BizObject biz = qf.getByID(this._objId);
 		if(biz==null) throw new InfoException("没有文章了");
 		biz.set("hits",biz.getInt("hits",0)+1);
+		String tags = biz.getString("tags");
+		//b.set("senddate",this.getPosted().getDate("lastposttime"));
+		//BizObject posted = this.getPosted();
+		String lang= this.getPosted().getBizObj("ruleid").getString("lang");
+		String tags2 = PostJob.parseTags(tags, lang);
+		PostJob.parseSummary(biz, lang);
+		//tags.substring(tags.length()-1,tags.length())
+		if(tags.charAt(tags.length()-1)==','){
+			tags=tags.substring(0,tags.length()-1);
+			biz.set("tags", tags);
+		}
 //		String email = this.getParameter("email");
 		String email=this.getParameter("email");
 

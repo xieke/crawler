@@ -17,12 +17,12 @@
         &rsaquo; Thank you</div>
       <form action="/news.GpMailAH.sendMail" method="post" id="commentform">
         <h3 id="respond">Feedback</h3>
-        <p>
+        <!--<p>
           <input type="text" name="author" id="author" value="" size="22" tabindex="1" />
           <label for="author">Name *</label>
-        </p>
+        </p>-->
         <p>
-          <input name="email" id="email" type="email" value="" size="22" tabindex="2" />
+          <input name="email" id="email" type="email" value="${param.email}" size="22" tabindex="2" />
           <label for="email">Mail *</label>
         </p>
         <div id="errors" style="display:none">There was an error posting your comment. Maybe it was too short?</div>

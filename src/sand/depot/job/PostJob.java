@@ -151,6 +151,22 @@ public class PostJob extends BaseJob {
 		
 	}
 	
+	public static String parseTags(String tags,String lang){
+		String [] ts = tags.split(",");
+		String ret="";
+		for(String s:ts ){
+			
+			if(s.equals("")) continue;
+			if(ret.equals("")){
+				ret=ret+parseTag(s,lang);
+			}
+			else{
+				ret=ret+","+parseTag(s,lang);
+			}
+				
+		}
+		return ret;
+	}
 	public static String parseTag(String tag,String lang){
 		String[] s=tag.split("/");
 		if(s.length!=2)
@@ -258,6 +274,25 @@ public class PostJob extends BaseJob {
 		return (Map<String,List>) renderMap.get(key);
 	}
 	
+	public static void parseSummary(BizObject b,String lang){
+		String summary = b.getString("summary");
+		String c_summary=b.getString("c_summary");
+//		logger.info("lang is "+lang+ "  summary is "+summary+"  c_summary is "+c_summary);
+		if(lang==null||lang.equals("c")||lang.equals("")){
+			b.set("summary",c_summary);
+		}
+		else if(lang.equals("e")){
+			b.set("summary",summary);
+		}
+		else if(lang.equals("ce")){
+			b.set("summary",c_summary+"<br>"+summary);
+		}
+		else if(lang.equals("ec")){
+			b.set("summary",summary+"<br>"+c_summary);
+		}
+
+	}
+	
 	public static Map renderMap(List<BizObject> allv, String tagids,String lang) throws SQLException{
 		
 		Map<String,List> tagsMap = new LinkedHashMap ();
@@ -314,24 +349,9 @@ public class PostJob extends BaseJob {
 				 */
 				if(b.getString("tag_ids").indexOf(tid)>=0){
 					
-					
+					parseSummary(b,lang);
 					//if()
-					String summary = b.getString("summary");
-					String c_summary=b.getString("c_summary");
-//					logger.info("lang is "+lang+ "  summary is "+summary+"  c_summary is "+c_summary);
-					if(lang==null||lang.equals("c")||lang.equals("")){
-						b.set("summary",c_summary);
-					}
-					else if(lang.equals("e")){
-						b.set("summary",summary);
-					}
-					else if(lang.equals("ce")){
-						b.set("summary",c_summary+"<br>"+summary);
-					}
-					else if(lang.equals("ec")){
-						b.set("summary",summary+"<br>"+c_summary);
-					}
-	//				logger.info("summary is "+b.getString("summary"));
+//aaa	//				logger.info("summary is "+b.getString("summary"));
 					//log("put  "+s+"  "+);
 					onetags.add(b);
 					allv.remove(b);

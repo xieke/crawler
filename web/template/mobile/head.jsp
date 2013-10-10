@@ -107,9 +107,9 @@ addEventListener('load', function() { setTimeout(hideURLbar, 0); }, false );
     <!-- This fetches the admin selection logo icon for the header, which is also the bookmark icon --> 
     <img onclick="window.location='http://www.goldpebble.com'" id="logo-icon" src="/images/mobile/Default.png" alt="Goldpebble" />
     <a style="float:left" href="http://www.goldpebble.com/bigdata">Goldpebble Hiden</a>
-    <a style="float:left; padding-left:30px; margin-top:3px; font-size:14px; font-family: Verdana, Geneva, sans-serif" href="<m:out value='www_url' type='system_core'/>/news.NewsActionHandler.listPhone?jobid=${param.jobid}&email=${param.email}">All News</a>
-    <a style="float:right; padding-right:20px; margin-top:3px; font-size:14px; font-family: Verdana, Geneva, sans-serif" idsssss="searchopen" class="top feedback" href="/template/mobile/feedback.jsp">Feedback</a></div>
+    <a style="float:left; padding-left:50px; margin-top:3px; font-size:14px; font-family: Verdana, Geneva, sans-serif" href="<m:out value='www_url' type='system_core'/>/news.NewsActionHandler.listPhone?jobid=${param.jobid}&email=${param.email}">All News</a>
+    <a style="float:right; padding-right:20px; margin-top:3px; font-size:14px; font-family: Verdana, Geneva, sans-serif" idsssss="searchopen" class="top feedback" href="/template/mobile/feedback.jsp?email=${param.email}">Feedback</a></div>
   <div id="headerbar-menu" style="display:none"> <a href="javascript:return false;"></a> </div>
 </div>
 
-<div id="drop-fade"> <a style="display:none" idsssss="searchopen" class="top feedback" href="/template/mobile/feedback.jsp">Feedback</a></div>
+<div id="drop-fade"> <a style="display:none" idsssss="searchopen" class="top feedback" href="/template/mobile/feedback.jsp?email=${param.email}">Feedback</a></div>
