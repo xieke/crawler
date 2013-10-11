@@ -38,9 +38,13 @@
       <a class="read-more" href="<m:out value='www_url' type='system_core'/>/news.NewsActionHandler.showIt?jobid=${param.jobid}&email=${param.email}&objId=${detail.id} }" onclick="">Read This Post</a> </div>
   </div>
 </c:forEach>
+<c:if test="${pageVariable.hasNextPage}">
   <div id="call_list" class="ajax-load-more">
-    <div id="more_list" class="spin" style="display:none"></div>
-    <a class="ajax" href="javascript:return false;" onclick="$wpt('#more_list').fadeIn(200); $wpt('#ajax_list').load('/news.NewsActionHandler.listPhone?jobid=${param.jobid}&email=${param.email}&page=${pageVariable.npage} }', {}, function(){ $wpt('#call_list').fadeOut();});"> 载入更多新闻... </a> </div>
+    
+    <div id="more_list" class="spin" style="display:none"></div>    
+    
+    <a class="ajax" href="javascript:return false;" onclick="$wpt('#more_list').fadeIn(200); $wpt('#ajax_list').load('/news.NewsActionHandler.listPhone?jobid=${param.jobid}&email=${param.email}&page=${pageVariable.npage+1} }', {}, function(){ $wpt('#call_list').fadeOut();});"> 载入更多新闻... </a> </div>
+    </c:if>
   <div id="ajax_list"></div>
 </div>
 

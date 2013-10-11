@@ -813,6 +813,7 @@ public class LoginAH extends ActionHandler {
 		System.out.println("in Login");
 
 		String result = "0";
+		//_curuser.getId();
 
 		QueryFactory userQuery = new QueryFactory("employee");
 		// BizObject user = new BizObject();

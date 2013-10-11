@@ -739,6 +739,7 @@ public class PostJob extends BaseJob {
 		//result = result+" 发送文章："+newscount+" , ";
 		job.set("content", content_posted);
 		job.resetObjType("posted");
+		job.set("lang", rule.getString("lang"));
 		job.setID(postid);//这里是新的postid
 		jdo.add(job);   
 						

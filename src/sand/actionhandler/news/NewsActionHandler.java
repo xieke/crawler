@@ -711,7 +711,12 @@ public class NewsActionHandler extends ActionHandler {
 		String tags = biz.getString("tags");
 		//b.set("senddate",this.getPosted().getDate("lastposttime"));
 		//BizObject posted = this.getPosted();
-		String lang= this.getPosted().getBizObj("ruleid").getString("lang");
+		String lang="";
+		if(this.getPosted().getBizObj("ruleid")!=null)
+			lang= this.getPosted().getBizObj("ruleid").getString("lang");
+		else
+			lang=this.getPosted().getString("lang");
+		
 		String tags2 = PostJob.parseTags(tags, lang);
 		PostJob.parseSummary(biz, lang);
 		//tags.substring(tags.length()-1,tags.length())
@@ -1400,7 +1405,9 @@ public class NewsActionHandler extends ActionHandler {
         //\result=result + emailaddress +"  发送结果：  "+success+" , ";
         posted.set("content", s);
         posted.set("memo", email);
-        posted.set("lastposttime", new Date());        
+        posted.set("lastposttime", new Date());
+        String lang=this.getParameter("lang");
+        posted.set("lang", lang);
       //  posted.set("posttime", new Date());
         posted.set("no","manual");
         posted.set("limits", 0);
