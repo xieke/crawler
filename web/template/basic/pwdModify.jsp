@@ -42,7 +42,7 @@
 <form action="<c:url value='/GeneralHandleSvt'/>" method="post" name="form1" onsubmit="return checkform();">
 <m:token/>
 <input type=hidden name="reqType" value="basic.PublicActionHandler.modifyPwd">
-<input type=hidden name="EMPLOYEE$loginname"  value="${sessionScope.curuser.showname}">
+<input type=hidden name="EMPLOYEE$loginname"  value="${sessionScope.curuser.loginname}">
 <table class="ui edit">
 <tr class="title"><td colspan="2">登录密码修改</td></tr>
     <tr>

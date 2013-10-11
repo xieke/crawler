@@ -1431,7 +1431,7 @@ public class NewsActionHandler extends ActionHandler {
 			try {
 				err_web_site.set("reson", "标题为空");
 				err_web_site.set("status", BasicContext.STATUS_DISPOSE_NO);
-				err_web_site.set("copyfrom",news.getString("copyfrom"));
+				err_web_site.set("copyfrom",news.getString("web_site"));
 				err_web_site.set("copyfromurl",news.getString("copyfromurl"));
 				err_web_site.set("catalog",news.getString("catalog"));
 				
@@ -1446,7 +1446,7 @@ public class NewsActionHandler extends ActionHandler {
 			try {
 				err_web_site.set("reson", "内容为空");
 				err_web_site.set("status", BasicContext.STATUS_DISPOSE_NO);
-				err_web_site.set("copyfrom",news.getString("copyfrom"));
+				err_web_site.set("copyfrom",news.getString("web_site"));
 				err_web_site.set("copyfromurl",news.getString("copyfromurl"));
 				err_web_site.set("catalog",news.getString("catalog"));
 				

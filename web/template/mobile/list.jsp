@@ -40,7 +40,7 @@
 </c:forEach>
   <div id="call_list" class="ajax-load-more">
     <div id="more_list" class="spin" style="display:none"></div>
-    <a class="ajax" href="javascript:return false;" onclick="$wpt('#more_list').fadeIn(200); $wpt('#ajax_list').load('/?paged=2', {}, function(){ $wpt('#call_list').fadeOut();});"> 载入更多新闻... </a> </div>
+    <a class="ajax" href="javascript:return false;" onclick="$wpt('#more_list').fadeIn(200); $wpt('#ajax_list').load('/news.NewsActionHandler.listPhone?jobid=${param.jobid}&email=${param.email}&page=${pageVariable.npage} }', {}, function(){ $wpt('#call_list').fadeOut();});"> 载入更多新闻... </a> </div>
   <div id="ajax_list"></div>
 </div>
 
