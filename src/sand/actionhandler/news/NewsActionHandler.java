@@ -252,10 +252,16 @@ public class NewsActionHandler extends ActionHandler {
 			b.refresh();
 			v.add(b);
 		}
+		PageVariable pv = this.preparePageVar();
+		
 		List v2=SystemKit.page(v,this.preparePageVar());
+		
 		this.setAttribute("objList", v2);
 		//this.list();
-		this._nextUrl="/template/mobile/list.jsp";
+		if (pv.npage>0)
+			this._nextUrl="/template/mobile/list2.jsp";
+		else
+			this._nextUrl="/template/mobile/list.jsp";
 	}
 
 	@CandoCheck("session")

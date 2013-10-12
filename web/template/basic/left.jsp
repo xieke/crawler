@@ -103,6 +103,10 @@ $(function(){
 				</tr>
 				<tr>
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
+				  <td width="91%"><a href="/news.ErrWebSiteActionHandler.list?err_web_site$status=0" target="mainFrame" class="left-font03 class_2">出错的源信息</a></td>
+				</tr>
+				<tr>
+				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
 				  <td width="91%"><a href="/weibo.WeiBoAH.listWeibo" target="mainFrame" class="left-font03 class_2">微博数据</a></td>
 				</tr>
 	  </table>
