@@ -27,6 +27,6 @@
 <c:if test="${pageVariable.hasNextPage}">
 <div id="page${param.page}" class="ajax-load-more">
   <div id="s${param.page}" class="spin"	 style="display:none"></div>
-  <a class="ajax" href="javascript:return false;" onClick="$wpt('#s${param.page}').fadeIn(200); $wpt('#a${param.page}').load('/news.NewsActionHandler.listPhone?jobid=${param.jobid}&email=${param.email}&page=${param.page+1}', {}, function(){ $wpt('#page${param.page}').fadeOut();});"> Load more entries... </a> </div>
+  <a class="ajax" href="javascript:return false;" onClick="$wpt('#s${param.page}').fadeIn(200); $wpt('#a${param.page}').load('/news.NewsActionHandler.listPhone?jobid=${param.jobid}&email=${param.email}&page=${param.page+1}', {}, function(){ $wpt('#page${param.page}').fadeOut();});"> 载入更多新闻... </a> </div>
 <div id="a${param.page}"></div>
 </c:if>

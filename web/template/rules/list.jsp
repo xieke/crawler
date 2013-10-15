@@ -98,7 +98,7 @@ $(".unselect_all").click(function(){
 		
 	})
 </script>
-<!--
+
 <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
       <td height="6"><img src="/images/spacer.gif" width="1" height="1" /></td>
@@ -107,12 +107,12 @@ $(".unselect_all").click(function(){
       <td height="33"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="right-font08">
           <tr>
             <td width="150">共 <span class="right-text09">${pageVariable.totalpage}</span> 页 | 第 <span class="right-text09">${pageVariable.npage+1}</span> 页</td>
-            <td align="right"><m:page action="basic.TagActionHandler.list" size="30" /></td>
+            <td align="right"><m:page action="rules.RulesActionHandler.list" size="30" /></td>
           </tr>
       </table></td>
     </tr>
 </table>
--->
+
 </form>
 </body>
 </html>
