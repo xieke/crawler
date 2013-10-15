@@ -20,7 +20,7 @@
 
 
 
-<form method="post" action="/GeneralHandleSvt" id="form1">
+<form method="post" action="/GeneralHandleSvt" id="form1" name="form1">
 <input type="hidden" id="reqType" name="reqType" value="rules.RulesActionHandler.list" />
 <input type="hidden" id="id" name="tag$id" value="" />
 
