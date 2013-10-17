@@ -1009,6 +1009,7 @@ public class NewsActionHandler extends ActionHandler {
 		long endmillinow = Calendar.getInstance().getTimeInMillis();
         long usetime = endmillinow - millinow;
         this.log("编辑的文章id:"+news.getId()+",编辑的文章标签:"+news.getString("title"));
+        this.log(news.toString());
         this.log("结束save:"+usetime);
 		this.clearQueryParam();
 		this.show_operator();
