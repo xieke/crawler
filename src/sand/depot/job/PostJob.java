@@ -353,9 +353,17 @@ public class PostJob extends BaseJob {
 					//if()
 //aaa	//				logger.info("summary is "+b.getString("summary"));
 					//log("put  "+s+"  "+);
-					onetags.add(b);
-					allv.remove(b);
-					i--;
+					
+					//summary为空，不发邮件
+					if(b.getString("summary").equals("")) {
+						logger.info("issue 为 1 的记录  summar  却为  空！！！！！！！！！！！！！！！！！！！！！！！   "+b);
+						continue;
+					}
+					else{
+						onetags.add(b);
+						allv.remove(b);
+						i--;						
+					}
 				}
 			}	
 			//log("put "+s+"  "+onetags.size());
