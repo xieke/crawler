@@ -28,7 +28,7 @@
       <div class="archive-top-right"> <a class="post-arrow" href="javascript:void(0);"></a> </div>
       <div class="archive-top-left month-05"> <fmt:formatDate value="${detail.posttime}" pattern="yyyy-MM-dd HH:mm"/> </div>
     </div>
-    <a class="h2" href="<m:out value='www_url' type='system_core'/>/news.NewsActionHandler.showIt?jobid=${param.jobid}&email=${param.email}&objId=${detail.id} }">${detail.title}</a>
+    <a class="h2" href="<m:out value='www_url' type='system_core'/>/news.NewsActionHandler.showIt?jobid=${param.jobid}&email=${param.email}&objId=${detail.id}">${detail.title}</a>
     <div class="post-author"><!-- <span class="lead">By</span> ${detail.author}<br />-->
       <span class="lead">Tags:</span> <a href="#" title="信息技术" rel="category">${detail.tags}</a><br />
     </div>
