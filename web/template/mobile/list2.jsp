@@ -21,7 +21,7 @@
     <div class="clearer"></div>
     <div id="bb${detail.id}" style="display:none" class="mainentry left-justified">
       ${detail.summary}      
-      <a class="read-more" href="<m:out value='www_url' type='system_core'/>/news.NewsActionHandler.showIt?jobid=${param.jobid}&email=${param.email}&objId=${detail.id} }" onclick="">Read This Post</a> </div>
+      <a class="read-more" href="<m:out value='www_url' type='system_core'/>/news.NewsActionHandler.showIt?jobid=${param.jobid}&email=${param.email}&objId=${detail.id}" onclick="">Read This Post</a> </div>
   </div>
 </c:forEach>
 <c:if test="${pageVariable.hasNextPage}">
