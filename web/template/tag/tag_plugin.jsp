@@ -6,11 +6,11 @@
 <style type="text/css">
 /*选择人员控件*/
 .select_label{ line-height:26px; padding:5px; overflow-y:auto; overflow-x:hidden;border: 1px solid #ABADB3;float: left;height: 40px;margin-right: 20px;width: 50%;}
-.select_label .mb{ background:#eaf5ff; border:1px solid #bfe0ff; text-decoration:none; padding:0 10px; position:relative; margin:2px; display:block; float:left}
-.select_label .mb_holder{ background:#fff; border:1px dashed #ccc; padding:0 10px; position:relative; margin:2px; display:block; float:left}
+.select_label .mb{ background:#eaf5ff; border:1px solid #bfe0ff; text-decoration:none; padding:0 20px 0 10px; position:relative; margin:2px; display:block; float:left}
+.select_label .mb_holder{ background:#fff; border:1px dashed #ccc; padding:0 20px 0 10px; position:relative; margin:2px; display:block; float:left}
 .select_label .mb:hover{ background:#b5daff; border:1px solid #9acdff;}
-.select_label .mb span.del{ width:7px; height:7px; background:url(images/label_close.gif) no-repeat; position:absolute; top:0; right:0;display:block; margin:1px}
-.select_label .mb:hover span.del{ background-position:0 -7px}
+.select_label .mb span.del{ width:17px; height:17px; background:url(images/label_close.gif) no-repeat; position:absolute; top:0; right:0;display:block; margin:1px}
+.select_label .mb:hover span.del{ background-position:0 -17px}
 .select_label .mb:hover span.del:hover{ background-position:0 bottom}
 </style>
 <input type="button" value="选择标签" id="select_tag" class="button" style="display:inline; float:none" /><input type="button" value="全部清除" id="clear_tags" class="button" style="display:inline; float:none" />
@@ -104,7 +104,7 @@ function search_tag(obj){
 }
 function tags_add_or_del(obj){
 	if($(obj).attr("checked")){
-		$("#tags_result").html($("#tags_result").html()+'<li tagsname="'+$(obj).attr("tagsname")+'" tagsid="'+$(obj).attr("tagsid")+'" class="mb">'+$(obj).attr("tagsname")+'<span class="del" onclick="del_parent_node(this)"></span></li>');
+		$("#tags_result").html($("#tags_result").html()+'<li tagsname="'+$(obj).attr("tagsname")+'" tagsid="'+$(obj).attr("tagsid")+'" class="mb">'+$(obj).attr("tagsname")+'<span class="del" onMouseDown="del_parent_node(this)"></span></li>');
 	}else{
 		$("#tags_result").find("li[tagsid='"+$(obj).attr("tagsid")+"']").remove();
 	}

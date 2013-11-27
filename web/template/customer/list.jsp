@@ -29,8 +29,8 @@
     <tr>
         <td>客户姓名：</td>
         <td><input type="text" name="customers$name" value="${param.customers$name}" /></td>
-        <td>客户地址：</td>
-        <td><input type="text" name="customers$address" value="${param.customers$address}" /></td>
+        <td>邮箱地址：</td>
+        <td><input type="text" name="customers$email" value="${param.customers$email}" /></td>
     </tr>
     <tr>
         <td>创建时间：</td>
@@ -63,7 +63,7 @@
         <td><input type="checkbox" value="${detail.id}" name="delid"/></td>
         <td>${status.index+1}</td>
         <td>${detail.name}</td>
-        <td><m:out type="" value="${detail.address}" maxSize="10" /></td>
+        <td><m:out type="" value="${detail.email}" maxSize="10" /></td>
         <td><fmt:formatDate value="${detail.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
         <td><m:out type="" value="${detail.jobs}" maxSize="15" /></td>
         <td>${detail.lastposttime}</td>
