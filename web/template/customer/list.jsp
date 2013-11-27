@@ -63,7 +63,7 @@
         <td><input type="checkbox" value="${detail.id}" name="delid"/></td>
         <td>${status.index+1}</td>
         <td>${detail.name}</td>
-        <td><m:out type="" value="${detail.email}" maxSize="10" /></td>
+        <td>${detail.email}</td>
         <td><fmt:formatDate value="${detail.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
         <td><m:out type="" value="${detail.jobs}" maxSize="15" /></td>
         <td>${detail.lastposttime}</td>
