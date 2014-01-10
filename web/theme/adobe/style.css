@@ -50,7 +50,7 @@ table.edit td.content_side{background:#f1f1f1; border-left:1px solid #ccc; paddi
 div.title{ background:#6795B4; border-top:1px solid #ccc; padding:4px 12px; color:#fff}
 table.edit td table.item_sa td{ padding:2px 4px}
 table.edit td.content_side textarea{ width:288px; font-size:12px}
-.tag_plugin{width:282px; height:204px; overflow:hidden; background:#fff;display:none; position:absolute; border:1px solid #87a3c1; margin-top:-7px;margin-left:40%}
+.tag_plugin{width:282px; height:204px; overflow:hidden; background:#fff;display:none; position:absolute; border:1px solid #87a3c1}
 .tag_plugin .search{ height:28px; width:280px; padding:2px 0 0 2px; overflow:hidden; background:#87a3c1}
 .tag_plugin .result{width:270px; height:170px;overflow-x:hidden; overflow-y:scroll;padding:2px 6px;}
 .tag_plugin .result input[type='checkbox']{ float:right}
