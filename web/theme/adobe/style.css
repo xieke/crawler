@@ -71,3 +71,5 @@ div.ui-dialog .ui-dialog-title{ margin:0}
 div.ui-widget-overlay{ background:#000; opacity: .15;filter:Alpha(Opacity=15); }
 div.ui-dialog a.ui-state-hover{  border:0}
 div.ui-dialog a.ui-dialog-titlebar-close:hover{ padding:1px}
+
+.full_winodws{ width:auto; height:auto; margin:0; position: absolute; left:0; right:0; top:0; bottom:0}

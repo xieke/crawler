@@ -21,9 +21,11 @@ $(function(){
 		if($(this).val()=="选择标签"){
 			$(this).val("完成选择").css("color","red");
 			$("#tag_text").slideDown();
+			$("#tags_result").addClass("full_winodws");
 		}else{
 			$(this).val("选择标签").css("color","#174B73");;
 			$("#tag_text").slideUp();
+			$("#tags_result").removeClass("full_winodws");
 		}
 	});
 	
