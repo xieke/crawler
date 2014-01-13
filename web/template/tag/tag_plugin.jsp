@@ -12,6 +12,7 @@
 .select_label .mb span.del{ width:17px; height:17px; background:url(images/label_close.gif) no-repeat; position:absolute; top:0; right:0;display:block; margin:1px}
 .select_label .mb:hover span.del{ background-position:0 -17px}
 .select_label .mb:hover span.del:hover{ background-position:0 bottom}
+.tags_single_line{float: none;height: 80px;width: 660px;}
 .full_winodws{ width:auto; height:auto; margin:0; position: absolute; left:0; right:0; top:0; bottom:0; background:#fff}
 </style>
 <input type="button" value="选择标签" id="select_tag" class="button" style="display:inline; float:none" /><input type="button" value="全部清除" id="clear_tags" class="button" style="display:inline; float:none" />

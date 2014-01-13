@@ -111,7 +111,7 @@
         <td>标签：</td>
         <td colspan="3">
 <input type="hidden" id="tags" name="tags2" value="${tags2}" />
-<ul style="float: none;height: 80px;width: 660px;" id="tags_result" class="tags_result select_label"></ul>
+<ul id="tags_result" class="tags_result select_label"></ul>
 <c:set var="tagsList_pf" value="${tags}" />
 <%@ include file="/template/tag/tag_plugin.jsp"%>
 <style type="text/css">
