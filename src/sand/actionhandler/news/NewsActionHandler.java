@@ -71,104 +71,25 @@ public class NewsActionHandler extends ActionHandler {
 		log(" lang is "+this.getParameter("lang"));
 		String lang=this.getParameter("lang");
 		
-		List<BizObject> v= new ArrayList();
+		List<BizObject> v= new ArrayList();  
 		if(outids==null) throw new ErrorException("没有文章");
 		for(String id:outids){
 			BizObject b = new BizObject("news");
 			b.setID(id);
 			b.refresh();
-//			if (lang.equals("")) lang="c";
-//			if(lang.equals("c")){
-//				b.set("summary",b.getString("c_summary"));
-//			}
-//			else if(lang.equals("e")){
-//				b.set("summary",b.getString("summary"));
-//			}
-//			else if(lang.equals("ce")){
-//				b.set("summary",b.getString("c_summary")+"<br>"+b.getString("summary"));
-//			}
-//			else if(lang.equals("ec")){
-//				b.set("summary",b.getString("summary")+"<br>"+b.getString("c_summary"));
-//			}
 			v.add(b);
 		}
-
+		//至此，v代表所有要显示的新闻列表
+		
 		List<BizObject> list = this.getTagService().openAllWithSelectedTag("");
 		String tagids=this.getParameter("tag_ids2");
-		//String[] tagids = this.getParameter("tag_ids2").split(",");
-		
-//		if(this.getParameter("tag_ids2").trim().equals("")) 
-//			tagids=GpMailAH.expTagIds().split(",");
-//		
-		//String tagstr="";
-		
-//		if(tagids!=null && tagids.length>0){
-//			List<String> tagList = new ArrayList<String>();
-//			for(String s : tagids) tagList.add(s);
-//			
-			
-//			for(BizObject biz : list){
-//				if(tagList.contains(biz.getId())) {
-//					
-//					biz.set("checked", "checked");
-//					String tagname=biz.getString("name");
-//					//tagstr=tagstr+","+tagname;
-//					
-//
-//				}
-//			}
-			
-	//	}
+
 		Map<String,List> newtags = PostJob.renderMap(v, tagids, lang);
 		
-		//if(tagstr.equals("")) tagstr=this.getParameter("tags");
-		
-		//log("ok  ,  tags is "+tagstr);
-		
-//		if(tagstr.equals("")){			
-//			tagstr=GpMailAH.expTags();
-//		} 
-		//throw new ErrorException("您没有选择 tag");
-		//String tag[] = tagstr.split(",");
-	//	int j=0;
-//		for(String tid:tagids){
-//			if(tid.equals("")) continue;
-//			
-//			List<BizObject> onetags = new ArrayList();
-//			
-//			for(int i=0 ; i<v.size();i++){
-//				BizObject b=v.get(i);
-//				//log("tags is "+b.getString("tags"));
-//				String mtags[] = b.getString("tag_ids").split(",");
-//				for(String mtag:mtags){
-//					if(mtag.equals(tid)){
-//						b.set("tag", s);
-//						onetags.add(b);
-//						v.remove(b);
-//						j++;
-//						i--;
-//						break;
-//					}
-//				}
-////				if(b.getString("tags").indexOf(s)>=0){
-////				}
-//			}	
-//			if(onetags.size()>0){
-//				log("put "+tid+"  "+onetags.size());
-//				newtags.put(PostJob.parseTag(s, lang), onetags);				
-//			}
-//		}
-//		log("j is "+j+"   v size is "+v.size());
-//		for(BizObject b:v){
-//			log(b.getString("tags")+"   "+b.getString("title"));
-//		}
-		
+
 		this._request.setAttribute("objList",newtags);
 		
-	//	this._request.setAttribute("taglist", tagList);
 		this.setParam();
-		//this.log("tagstr is "+tagstr);
-		//this._request.setAttribute("tags", tagstr);
 		
 		this._nextUrl = "/template/news/render.jsp";
 	}

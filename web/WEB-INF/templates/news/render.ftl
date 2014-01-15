@@ -21,7 +21,7 @@ ${greeting!""}<br><br>
 					 
 [${key}]<br>
 							<#list item as e>
-${(e.summary)?default("")}    <a href="${www_url}/news.NewsActionHandler.showIt?objId=${e.id}&email=${email}&jobid=${(jobid)?default('')}" class="more" target="_blank">more</a><br><br>
+<#if e.updatedate??>${e.modifydate?string("yyyy/MM/dd")}</#if>  ${e.urgent},${e.importance}  ${(e.summary)?default("")}    <a href="${www_url}/news.NewsActionHandler.showIt?objId=${e.id}&email=${email}&jobid=${(jobid)?default('')}" class="more" target="_blank">more</a>  ${e.tags2}<br><br>
 							</#list>
                             <br>
 					

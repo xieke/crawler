@@ -158,10 +158,10 @@ public class PostJob extends BaseJob {
 			
 			if(s.equals("")) continue;
 			if(ret.equals("")){
-				ret=ret+parseTag(s,lang);
+				ret=ret+"["+parseTag(s,lang)+"]";
 			}
 			else{
-				ret=ret+","+parseTag(s,lang);
+				ret=ret+",["+parseTag(s,lang)+"]";
 			}
 				
 		}
@@ -274,6 +274,11 @@ public class PostJob extends BaseJob {
 		return (Map<String,List>) renderMap.get(key);
 	}
 	
+	public static void parseTags(BizObject b,String lang){
+		String tags=b.getString("tags");		
+		String tags2 = PostJob.parseTags(tags, lang);
+		b.set("tags2", tags2);
+	}
 	public static void parseSummary(BizObject b,String lang){
 		String summary = b.getString("summary");
 		String c_summary=b.getString("c_summary");
@@ -327,15 +332,6 @@ public class PostJob extends BaseJob {
 			
 			logger.info("tagname is "+tagname+"  ptagname is "+ptagname+"  oldptagname is "+oldptagname);
 			
-//			if(ptagname.equals(oldptagname)){
-//				ptagname="";
-//				//b.set("tag",tagname);
-//			}
-//			else{
-//				oldptagname=ptagname;
-//				tagname=ptagname+"<br>"+tagname;
-//				//b.set("tag", ptagname+"<br>"+tagname);
-//			}
 			
 			
 			for(int i=0 ; i<allv.size();i++){
@@ -350,9 +346,7 @@ public class PostJob extends BaseJob {
 				if(b.getString("tag_ids").indexOf(tid)>=0){
 					
 					parseSummary(b,lang);
-					//if()
-//aaa	//				logger.info("summary is "+b.getString("summary"));
-					//log("put  "+s+"  "+);
+					parseTags(b,lang);
 					
 					//summary为空，不发邮件
 					if(b.getString("summary").equals("")) {
