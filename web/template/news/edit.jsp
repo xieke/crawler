@@ -110,7 +110,7 @@
         <td width="300" valign="top" class="content_side">
 <div class="title">分类标签</div>
 <input type="hidden" id="tags" name="tags" value="${obj.tags}" />
-<ul style="height: 120px;margin: 0;width: 288px; background:#fff" id="tags_result" class="tags_result select_label"></ul>
+<ul id="tags_result" class="tags_result select_label tag_single_edit"></ul>
 <c:set var="tagsList_pf" value="${objList}" />
 <%@ include file="/template/tag/tag_plugin.jsp"%>
 
