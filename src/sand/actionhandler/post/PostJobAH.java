@@ -82,11 +82,30 @@ public class PostJobAH extends ActionHandler {
 		QueryFactory qf = csts.getQF();
 		qf.setHardcoreFilter(" status=1 ");
 		List<BizObject> v = qf.query();
+		String customerids="";
+		String cnames="";
+		
 		for(BizObject b:v){
 			b.set("name",b.getString("name")+"("+b.getString("email")+")");
-			if(pj.getString("customers").indexOf(b.getId())>=0)
+			if(pj.getString("customers").indexOf(b.getId())>=0){
+				
+				if(customerids.equals(""))
+					customerids=b.getId();
+				else
+					customerids=customerids+","+b.getId();
+
+				if(cnames.equals(""))
+					cnames=b.getString ("name");
+				else
+					cnames=cnames+","+b.getString("name");				
+				
+				
 				b.set("checked", "checked");
+			}
+				
 		}
+		pj.set("customers",customerids);
+		pj.set("cnames",cnames);
 		return v;	
 		}
 	private String getCustomerInfos(String customer_ids,String info) throws SQLException{

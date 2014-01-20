@@ -636,6 +636,15 @@ public class PostJob extends BaseJob {
 		return tree;
 		
 	}		
+	
+	/**
+	 * 处理单个邮件发送任务
+	 * @param job
+	 * @param jdo
+	 * @return
+	 * @throws SQLException
+	 * @throws TemplateException
+	 */
 	public static String processJob(BizObject job,JDO jdo) throws SQLException, TemplateException{
 
 		String result ="";
@@ -676,6 +685,10 @@ public class PostJob extends BaseJob {
 			c.refresh();
 			log("begin 处理 客户 "+c.getString("name"));
 			
+			if(c.getString("status").equals("0")){
+				log(" 客户 "+c.getString("name")+"  已被删除，忽略");
+				continue;
+			}
 			String emailaddress=c.getString("email");
 			String greeting=rule.getString("head").replaceAll("@name",c.getString("name"));
 			
