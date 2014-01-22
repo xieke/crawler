@@ -1410,6 +1410,7 @@ public class NewsActionHandler extends ActionHandler {
 		
 		try {
 		//	Thread.sleep(200);
+			this.checkParam(news);
 			this.getNewsService().addNews(news);
 		} catch (SQLException e){
 			log("",e);
