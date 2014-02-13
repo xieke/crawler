@@ -14,7 +14,6 @@ ${tree!""}
 ${greeting!""}<br><br>
 
 
-
             <#if objList?exists>
                 <#list objList?keys as key>
 					<#assign item = objList[key]>
