@@ -1,6 +1,7 @@
 package sand.actionhandler.tag;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import sand.actionhandler.system.ActionHandler;
 import sand.annotation.CandoCheck;
 import sand.depot.tool.system.ErrorException;
+import sand.depot.tool.system.SystemKit;
 import sand.service.basic.service.TagService;
 import tool.dao.BizObject;
 import tool.dao.QueryFactory;
@@ -34,6 +36,9 @@ public class TagRuleActionHandler extends ActionHandler {
 //		for(BizObject biz : list){
 //			biz.set("tag_name", this.setTagName(biz.getString("tag_id").split(",")));
 //		}
+
+		this._request.setAttribute("urgentList", SystemKit.getNoCachePickList("urgent"));
+		this._request.setAttribute("importanceList", SystemKit.getNoCachePickList("importance"));
 		this._request.setAttribute("tagsList", list);
 		this._nextUrl = "/template/tagging_rule/edit.jsp";
 	}
@@ -62,7 +67,10 @@ public class TagRuleActionHandler extends ActionHandler {
 		BizObject tag_rule = this.getBizObjectFromMap("tag_rule");
 		if(StringUtils.isBlank(tag_rule.getString("type"))) throw new ErrorException("条件域不能为空,请重新操作!");
 		if(StringUtils.isBlank(tag_rule.getString("keyword"))) throw new ErrorException("关键字不能为空,请重新操作!");
-		if(StringUtils.isBlank(tag_rule.getString("tag_id"))) throw new ErrorException("自动要打的标签不能为空,请重新操作!");
+		if(StringUtils.isBlank(tag_rule.getString("tag_id")) 
+				&& StringUtils.isBlank(tag_rule.getString("urgent")) 
+				&& StringUtils.isBlank(tag_rule.getString("importance"))) 
+			throw new ErrorException("自动要打的标签、GP重要度、客户重要度，三者必须有一个不能为空,请重新操作!");
 		
 		this.getJdo().addOrUpdate(tag_rule);
 		this.clearQueryParam();
@@ -73,8 +81,23 @@ public class TagRuleActionHandler extends ActionHandler {
 		QueryFactory qf = new QueryFactory("tag_rule");
 		BizObject tag_rule = qf.getByID(this._objId);
 		List<BizObject> list = this.getTagService().openAllWithSelectedTagByTagIds(tag_rule.getString("tag_id"));
+
+//		List<BizObject> urgentList = SystemKit.getNoCachePickList("urgent");
+//		List<BizObject> importanceList = SystemKit.getNoCachePickList("importance");
+//		String[] urgents = tag_rule.getString("urgent").split(",");
+//		String[] importances = tag_rule.getString("importance").split(",");
+//		List<String> urs = new ArrayList<String>();
+//		List<String> ims = new ArrayList<String>();
+//		if(urgents!=null && urgents.length>0) for(String s : urgents) if(StringUtils.isNotBlank(s)) urs.add(s);
+//		if(importances!=null && importances.length>0) for(String s : importances) if(StringUtils.isNotBlank(s)) ims.add(s);
+//		
+//		for(BizObject urgent : urgentList) if(urs.contains(urgent.getId())) urgent.set("checkValue", urgent.getId());
+//		for(BizObject importance : importanceList) if(ims.contains(importance.getId())) importance.set("checkValue", importance.getId());
+		
 		this._request.setAttribute("tagsList", list);
 		this._request.setAttribute("obj", tag_rule);
+//		this._request.setAttribute("urgentList", urgentList);
+//		this._request.setAttribute("importanceList", importanceList);
 		this._nextUrl = "/template/tagging_rule/edit2.jsp";
 	}
 	
@@ -102,6 +125,32 @@ public class TagRuleActionHandler extends ActionHandler {
 		}
 		this.getJdo().commit();
 		this.list();
+	}
+	
+	public void saveDupRule() throws SQLException{
+		this.getJdo().addOrUpdate(this.getBizObjectFromMap("dup_rule"));
+		this.showDupRule();
+	}
+	
+	public void showDupRule() throws SQLException{
+		QueryFactory qf = new QueryFactory("dup_rule");
+		List<BizObject> list = qf.query();
+		BizObject biz = null;
+		if(list.size()>0){
+			biz = list.get(0);
+		}
+		
+		List<BizObject> importanceList = SystemKit.getNoCachePickList("importance");
+		if(biz!=null){
+			String[] importances = biz.getString("importance").split(",");
+			List<String> ims = new ArrayList<String>();
+			if(importances!=null && importances.length>0) for(String s : importances) if(StringUtils.isNotBlank(s)) ims.add(s);
+			
+			for(BizObject importance : importanceList) if(ims.contains(importance.getId())) importance.set("checkValue", importance.getId());
+		}
+		this._request.setAttribute("obj", biz);
+		this._request.setAttribute("importanceList", importanceList);
+		this._nextUrl = "/template/dup_rule/edit.jsp";
 	}
 	
 	public TagService getTagService() {

@@ -34,6 +34,10 @@ public class GDataActionHandler extends ActionHandler {
 	private static boolean RUNNING=false;
 	private static int i=0;
 	
+	/**
+	 * 已经不用了
+	 * @return
+	 */
 	@SuppressWarnings("finally")
 	@Ajax
 	@CandoCheck("session")
@@ -97,6 +101,11 @@ public class GDataActionHandler extends ActionHandler {
 		
 	}
 	
+	/**
+	 * 去重的方法
+	 * 
+	 * @return
+	 */
 	@Ajax
 	public String nlpirProcess() {
 //		logger.info("-------------------------");

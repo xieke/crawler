@@ -85,6 +85,10 @@ $(function(){
 				  <td width="91%"><a href="/tag.TagRuleActionHandler.list" target="mainFrame" class="left-font03 class_2">自动Tag规则</a></td>
 				</tr>
 				<tr>
+				  <td width="9%" height="21" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
+				  <td width="91%"><a href="/tag.TagRuleActionHandler.showDupRule" target="mainFrame" class="left-font03 class_2">去重规则</a></td>
+				</tr>
+				<tr>
 				  <td width="9%" height="20" ><img class="c2_img" src="/images/ico06.gif" width="8" height="12" /></td>
 				  <td width="91%"><a href="/news.GpMailAH.expTags" target="mainFrame" class="left-font03 class_2">导出所有tag列表</a></td>
 				</tr>

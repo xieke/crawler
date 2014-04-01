@@ -1357,6 +1357,10 @@ public class NewsActionHandler extends ActionHandler {
 		//return _SUBMIT_TYPE;
 	}
 
+	/**
+	 * 最新的post的采集入库
+	 * @return
+	 */
 	@Ajax
 	public String post() {
 		BizObject news = this.getBizObjectFromMap("news");
