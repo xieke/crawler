@@ -209,6 +209,7 @@ public class NewsActionHandler extends ActionHandler {
 	}
 	
 	@CandoCheck("session")
+	@TokenCheck
 	public void list_bak() throws SQLException{
 		this.setPageSize(200);
 		List<BizObject> objList = queryList("basic.news_his_bak");
@@ -231,7 +232,6 @@ public class NewsActionHandler extends ActionHandler {
 	}
 	
 	@CandoCheck("session")
-	@TokenCheck
 	public void toList_bak() throws SQLException{
 //		List<BizObject> objList = queryList();
 		String[] str = this.getParameter("tag_ids2").split(",");
