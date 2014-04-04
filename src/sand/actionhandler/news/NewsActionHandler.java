@@ -231,6 +231,7 @@ public class NewsActionHandler extends ActionHandler {
 	}
 	
 	@CandoCheck("session")
+	@TokenCheck
 	public void toList_bak() throws SQLException{
 //		List<BizObject> objList = queryList();
 		String[] str = this.getParameter("tag_ids2").split(",");
