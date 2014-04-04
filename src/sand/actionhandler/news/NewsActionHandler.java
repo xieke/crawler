@@ -186,7 +186,7 @@ public class NewsActionHandler extends ActionHandler {
 	}
 
 	@CandoCheck("session")
-	
+	@TokenCheck
 	public void list() throws SQLException{
 		this.setPageSize(200);
 		List<BizObject> objList = queryList("basic.news");
