@@ -678,6 +678,7 @@ public class PostJob extends BaseJob {
 		String selectTree=getSelectedTagTree(rule.getId());
 		String uselectTree=getUnSelectedTagTree(rule.getId());
 		String allTree=getAllTagTree();
+		boolean success=false;
 		for(String cid:c_ids){
 			if(cid.equals("")) continue;
 			BizObject c = new BizObject("customers");
@@ -730,13 +731,15 @@ public class PostJob extends BaseJob {
 			log("begin send mail ,content: "+email.getString("content").length());
 			//boolean success =MailServer.sendMailSyn(email);//.sendMailSyn(email);
 			
-			boolean success=false;
+			
 			if(!job.getString("mailserver").equals("")){
 				MailSender mailSender = new MailSender(job.getString("mailserver"));	
 				success=mailSender.sendMailSyn(email);
 				result=result + emailaddress +"  发送结果：  "+success+" , ";
 
 			}
+			else
+				success=false;
 			
 			memo=memo+" ,\r\n"+c.getString("name")+"-"+c.getString("email")+"-"+new Date()+"-"+success;
 					
@@ -748,7 +751,9 @@ public class PostJob extends BaseJob {
 		String newsids = getAllNewsId(m);
 
 		job.set("memo",memo);					
-		job.set("lastposttime", new Date());
+		//如果发送成功，才更新最后发送时间
+		if(success)
+			job.set("lastposttime", new Date());
 		jdo.update(job);
 		job.set("newsids", newsids);
 		//result = result+" 发送文章："+newscount+" , ";

@@ -52,6 +52,14 @@
             <td align="center"><a title="删除" class="ico_button ico_del" href="/basic.ModuleAH.delModule?objId=${obj.Moduleid}" onclick="return confirm('你确实要删除吗?不可恢复');"><img alt="点击删除" src="/images/del_icon2.gif" /></a></td>
 </tr>
 </c:forEach>
+
+<div class="pages_bar">
+<div class="pages_left">共 <span class="orange">${pageVariable.totalpage}</span> 页 | 第 <span class="orange">${pageVariable.npage+1}</span> 页</div>
+<div class="pages_right"><m:page action="basic.UserAH.listUser" /></div>
+</div>
+
+</form>
+
 </table>
 
 

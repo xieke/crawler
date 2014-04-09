@@ -35,7 +35,6 @@
         <input type="button" id="resetb" value="重填" /></td>
     </tr>
   </table>
-</form>
 
 <table class="ui list effect">
   <tr class="title">
@@ -58,7 +57,12 @@
 
 
 
+<div class="pages_bar">
+<div class="pages_left">共 <span class="orange">${pageVariable.totalpage}</span> 页 | 第 <span class="orange">${pageVariable.npage+1}</span> 页</div>
+<div class="pages_right"><m:page action="basic.UserAH.listUser" /></div>
+</div>
 
+</form>
 
 
 
