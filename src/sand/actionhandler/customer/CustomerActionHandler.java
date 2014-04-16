@@ -68,9 +68,20 @@ public class CustomerActionHandler extends ActionHandler {
 				job.set("cnames", (StringUtils.isBlank(job.getString("customers"))?"":(job.getString("customers")+","))+customers.getString("name"));
 				this.getJdo().update(job);
 			}
+			this.countCustomers(job);
+			
 		}
 		this._objId = customers.getId();
 		this.show();
+	}
+	
+	public void countCustomers(BizObject job) throws SQLException{
+		//重新计算客户数
+		int ccounts=0;
+		String[] str=job.getString("customers").split(",");
+		for(String s:str) if(StringUtils.isNotBlank(s)) ccounts+=1;
+		job.set("ccounts", ccounts);
+		this.getJdo().update(job);
 	}
 	
 	@CandoCheck("editCustmoer")
@@ -92,6 +103,7 @@ public class CustomerActionHandler extends ActionHandler {
 		for(BizObject biz : list){
 			biz.set("customers", biz.getString("customers").replaceAll(customer.getId(), ""));
 			this.getJdo().update(biz);
+			this.countCustomers(biz);
 		}
 		
 		customer.set("status", 0);
@@ -109,5 +121,10 @@ public class CustomerActionHandler extends ActionHandler {
 		for(BizObject biz : list) biz.setFk("newsid", "news");
 		this._request.setAttribute("operator", operator);
 		this._nextUrl = "/template/customer/feedbackList.jsp";
+	}
+	
+	public static void main(String[] args) {
+		String ss ="a,,b,c, d";
+		System.out.println(ss.split(",").length);
 	}
 }
