@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import basic.BasicContext;
-
 import sand.actionhandler.system.ActionHandler;
 import sand.actionhandler.weibo.UdaClient;
 import sand.depot.tool.system.SystemKit;
@@ -152,45 +151,60 @@ public class WeiBoJob extends BaseJob {
 		this._jdo.addOrUpdate(b);
 	}
 	@Override
-	public String run() throws Exception {
+	public String run() {
 		// TODO Auto-generated method stub
 		
-		List<BizObject> users = SystemKit.getCachePickList("weibo_users");
-		int i=0;
-		for(BizObject b:users){
-			
-			AccessToken accesstoken =UdaClient.getToken(b.getString("id"), b.getString("name"));
-			this.log("accesstoken "+accesstoken);
-			if(accesstoken==null)
-				this.log("error   ,   accesstoken is null  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    exit  ...................");
+		List<BizObject> users;
+		String error="";
+		try {
+			users = SystemKit.getCachePickList("weibo_users");
 
-			String access_token = accesstoken.getAccessToken();
-			Timeline tm = new Timeline();
-			tm.client.setToken(access_token);
-		//	String result="";
-			try {
-				StatusWapper status = tm.getFriendsTimeline();
-				//result = status.getStatuses().size()+"  ";
-				List v=new ArrayList();
-				for(Status s : status.getStatuses()){
+			int i=0;
+			for(BizObject b:users){
+				
+				AccessToken accesstoken =UdaClient.getToken(b.getString("id"), b.getString("name"));
+				this.log("accesstoken "+accesstoken);
+				if(accesstoken==null)
+					this.log("error   ,   accesstoken is null  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    exit  ...................");
 
-					User user = s.getUser();
-					insertUser(user);
-					//insertStatus(s);
-					insertNews(s);
-					i++;
-					//result = result + s.getUser().getName()+":"+s.getText()+"<br>";
+				String access_token = accesstoken.getAccessToken();
+				Timeline tm = new Timeline();
+				tm.client.setToken(access_token);
+			//	String result="";
+				try {
+					StatusWapper status = tm.getFriendsTimeline();
+					//result = status.getStatuses().size()+"  ";
+					List v=new ArrayList();
+					for(Status s : status.getStatuses()){
+
+						User user = s.getUser();
+						insertUser(user);
+						//insertStatus(s);
+						insertNews(s);
+						i++;
+						//result = result + s.getUser().getName()+":"+s.getText()+"<br>";
+					}
+
+				} catch (WeiboException e) {
+					super.log("",e);
+					e.printStackTrace();
+					return JDO.getStackTrace(e);
 				}
-
-			} catch (WeiboException e) {
-				super.log("",e);
-				e.printStackTrace();
-				return JDO.getStackTrace(e);
+				
 			}
-			
+			return super.OK+"，共入库 "+i+"条微博";
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			error=e1.getMessage();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			error=e1.getMessage();
 		}
+		return "error:"+error;
  		
-		return super.OK+"，共入库 "+i+"条微博";
+		
 	}
 
 

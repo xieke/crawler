@@ -74,6 +74,7 @@ public class PublicActionHandler extends ActionHandler {
 				String pass = crypto.des(this._request.getParameter("newPwd"));
 				user.set("pwdtype","des");
 				user.set("password", pass);
+				user.set("autologin", "0");
 				
 			
 			} catch (Exception e) {

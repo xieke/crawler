@@ -29,7 +29,6 @@ import tool.dao.BizObject;
 import tool.dao.JDO;
 import tool.dao.QueryFactory;
 import tool.dao.UidGenerator;
-
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -736,7 +735,13 @@ public class PostJob extends BaseJob {
 				MailSender mailSender = new MailSender(job.getString("mailserver"));	
 				success=mailSender.sendMailSyn(email);
 				result=result + emailaddress +"  发送结果：  "+success+" , ";
-
+				//每次发完邮件，休息一秒钟
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			else
 				success=false;

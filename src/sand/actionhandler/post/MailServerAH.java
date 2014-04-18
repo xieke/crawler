@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import sand.actionhandler.system.ActionHandler;
 import sand.annotation.CandoCheck;
+import sand.depot.tool.system.SystemKit;
 import tool.dao.BizObject;
 
 public class MailServerAH extends ActionHandler{
@@ -32,6 +33,7 @@ public class MailServerAH extends ActionHandler{
 
 		this.checkParam(b);
 		this.getJdo().addOrUpdate(b);
+		SystemKit.removeCache("mailservers");
 		this._objId=b.getId();
 		this.clearQueryParam();
 		this.list();
@@ -42,6 +44,7 @@ public class MailServerAH extends ActionHandler{
 		BizObject b = new BizObject("mailserver");
 		b.setID(this._objId);
 		this.getJdo().delete(b);
+		SystemKit.removeCache("mailservers");
 		this.clearQueryParam();
 		this.list();
 
