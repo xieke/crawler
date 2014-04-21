@@ -678,8 +678,8 @@ public class PostJob extends BaseJob {
 			job.set("lang", rule.getString("lang"));
 			job.setID("");//这里是新的postid
 			jdo.add(job);   
-			
-			log("没有符合的记录，退出");
+			logger.info("add job "+job);
+			logger.info("没有符合的记录，退出");
 			return "没有符合的记录，退出";
 		}
 		String c_ids[]=job.getString("customers").split(",");
