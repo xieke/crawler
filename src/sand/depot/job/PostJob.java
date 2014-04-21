@@ -678,6 +678,7 @@ public class PostJob extends BaseJob {
 			job.set("lang", rule.getString("lang"));
 			job.setID("");//这里是新的postid
 			job.set("executetime", new Date());
+			job.set("result", "fail");
 			jdo.add(job);   
 			logger.info("add job "+job);
 			logger.info("没有符合的记录，退出");
@@ -772,13 +773,18 @@ public class PostJob extends BaseJob {
 
 		job.set("memo",memo);					
 		//如果发送成功，才更新最后发送时间
-		if(success)
+		if(success){
 			job.set("lastposttime", new Date());
+			job.set("result", "success");
+		}
+		else
+			job.set("result", "fail");
+			
 		
 		jdo.update(job);
 		job.set("newsids", newsids);
 		//result = result+" 发送文章："+newscount+" , ";
-		job.set("result", success);
+	//	job.set("result", success);
 		job.set("content", content_posted);
 		job.resetObjType("posted");
 		job.set("lang", rule.getString("lang"));
