@@ -61,7 +61,7 @@ public class PostJobAH extends ActionHandler {
 		//BizObject postjob = this.getBizObjectFromMap("postjob");
 		//postjob.setMap("posttime")
 		//this.setAttribute("objList", v);
-		this.setOrderBy(" lastposttime desc ");
+		this.setOrderBy(" executetime desc ");
 		this.listObj("posted");
 		this._nextUrl="/template/post/listPosted.jsp";		
 	}
@@ -215,6 +215,20 @@ public class PostJobAH extends ActionHandler {
 		}
 		this.clearQueryParam();
 		this.list();
+		this.setTipInfo(result);
+	}	
+	@CandoCheck("postjob")
+	public void sendIt() throws SQLException, TemplateException{
+		String id=this.getParameter("objId");
+		String result="";
+		BizObject b = new BizObject("posted");
+		b.setID(id);
+		b.refresh();
+		result=result+PostJob.processJob(b, this.getJdo());
+		log("result is "+result);
+		
+		this.clearQueryParam();
+		this.listPosted();
 		this.setTipInfo(result);
 	}	
 	@CandoCheck("postjob")

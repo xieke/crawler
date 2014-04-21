@@ -677,6 +677,7 @@ public class PostJob extends BaseJob {
 			job.resetObjType("posted");
 			job.set("lang", rule.getString("lang"));
 			job.setID("");//这里是新的postid
+			job.set("executetime", new Date());
 			jdo.add(job);   
 			logger.info("add job "+job);
 			logger.info("没有符合的记录，退出");

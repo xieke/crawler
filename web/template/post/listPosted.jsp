@@ -40,7 +40,15 @@
 		$("#form1").submit();
 
 	}
-	
+
+	function sendit(id){
+		//alert("afdadf");
+		//window.open("/post.PostJobAH.show?objId="+id);
+		$("#form1").attr("action","post.PostJobAH.sendIt");
+		$("#objId").attr("value",id);
+		$("#form1").submit();
+
+	}	
 	function deleteit(id){
 		$("#form1").attr("action","post.PostJobAH.delete");
 		$("#objId").attr("value",id);
@@ -151,7 +159,10 @@
     <td>${detail.ruleid.name}</td>
     <td><fmt:formatDate value="${detail.lastposttime}" pattern="yyyy-MM-dd HH:mm"/></td>
     <td>${detail.ccounts}</td>
-    <td><a href="javascript:void(0)" onclick="javascript:viewit('${detail.id}')" > view </a> 
+    <td><a href="javascript:void(0)" onclick="javascript:viewit('${detail.id}')" > view </a>
+    
+    |
+    <a href="javascript:void(0)" onclick="javascript:sendit('${detail.id}')" > send now </a>  
 	<!--
 	|  
 	
