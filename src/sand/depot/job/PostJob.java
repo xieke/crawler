@@ -774,12 +774,15 @@ public class PostJob extends BaseJob {
 		//如果发送成功，才更新最后发送时间
 		if(success)
 			job.set("lastposttime", new Date());
+		
 		jdo.update(job);
 		job.set("newsids", newsids);
 		//result = result+" 发送文章："+newscount+" , ";
+		job.set("result", success);
 		job.set("content", content_posted);
 		job.resetObjType("posted");
 		job.set("lang", rule.getString("lang"));
+		job.set("executetime", new Date());
 		job.setID(postid);//这里是新的postid
 		jdo.add(job);   
 						

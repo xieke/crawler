@@ -148,6 +148,7 @@
         <th>执行的邮件策略</th>
         <th>最近执行时间</th>
         <th>客户数</th>
+        <th>执行结果</th>
         <th>操作</th>
     </tr>
 <c:forEach var="detail" items="${objList}" varStatus="status">
@@ -157,8 +158,9 @@
     <td><m:out type="hours" value="${detail.posthour}" /> <m:out type="minutes" value="${detail.postminute}" /></td>
     <td><m:out type="active" value="${detail.status}"/> </td>
     <td>${detail.ruleid.name}</td>
-    <td><fmt:formatDate value="${detail.lastposttime}" pattern="yyyy-MM-dd HH:mm"/></td>
+    <td><fmt:formatDate value="${detail.executetime}" pattern="yyyy-MM-dd HH:mm"/></td>
     <td>${detail.ccounts}</td>
+    <td>${detail.result}</td>
     <td><a href="javascript:void(0)" onclick="javascript:viewit('${detail.id}')" > view </a>
     
     |
