@@ -665,6 +665,20 @@ public class PostJob extends BaseJob {
 		Map<String ,List> m = getQryPostNews(rule);	
 		
 		if(m.isEmpty()){
+			
+			job.set("memo","没有符合的记录，退出");					
+			//如果发送成功，才更新最后发送时间
+//			if(success)
+//				job.set("lastposttime", new Date());
+			jdo.update(job);
+			//job.set("newsids", newsids);
+			//result = result+" 发送文章："+newscount+" , ";
+			//job.set("content", content_posted);
+			job.resetObjType("posted");
+			job.set("lang", rule.getString("lang"));
+			job.setID("");//这里是新的postid
+			jdo.add(job);   
+			
 			log("没有符合的记录，退出");
 			return "没有符合的记录，退出";
 		}

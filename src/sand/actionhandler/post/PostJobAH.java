@@ -210,6 +210,7 @@ public class PostJobAH extends ActionHandler {
 			b.setID(id);
 			b.refresh();
 			result=result+PostJob.processJob(b, this.getJdo());
+			log("result is "+result);
 			//this.getJdo().delete(b);			
 		}
 		this.clearQueryParam();
