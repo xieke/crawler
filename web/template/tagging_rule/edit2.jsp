@@ -37,7 +37,6 @@
 			//if($("#copyfrom_lat_text :checked").length<=0) alert("请先选中");
 			$("#copyfrom_text").find("input:text").each(function(){
 				$(this).attr("disabled",true);
-				//$(this).attr("value","");
 			})
 
 			var v='' ;
@@ -69,11 +68,11 @@
     	<td colspan="2" id="copyfrom_lat_text">
         	<input type="hidden" name="tag_rule$copyfrom_lat" id="copyfrom_lat" value="${obj.copyfrom_lat}" />
             
-    		<input type="checkbox" id="weibo_checkbox" name="copyfrom_lat0" value="0" <c:if test="${(obj.copyfrom_lat==null || obj.copyfrom_lat=='') || (obj.weibo_uid!=null && obj.weibo_uid!='') }">checked="checked"</c:if> />&nbsp;微博UID&nbsp;&nbsp;&nbsp;&nbsp;
+    		<input type="checkbox" id="weibo_checkbox" name="copyfrom_lat0" value="0" <c:if test="${(obj.id==null || obj.id=='') || (obj.weibo_uid!=null && obj.weibo_uid!='') }">checked="checked"</c:if> />&nbsp;微博UID&nbsp;&nbsp;&nbsp;&nbsp;
             
-            <input type="checkbox" id="url_checkbox" name="copyfrom_lat1" value="1" <c:if test="${(obj.copyfrom_lat==null || obj.copyfrom_lat=='') || (obj.copyfromurl!=null && obj.copyfromurl!='') }">checked="checked"</c:if>/>&nbsp;来源url&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="checkbox" id="url_checkbox" name="copyfrom_lat1" value="1" <c:if test="${(obj.id==null || obj.id=='') || (obj.copyfromurl!=null && obj.copyfromurl!='') }">checked="checked"</c:if>/>&nbsp;来源url&nbsp;&nbsp;&nbsp;&nbsp;
             
-            <input type="checkbox" id="task_checkbox" name="copyfrom_lat2" value="2" <c:if test="${(obj.copyfrom_lat==null || obj.copyfrom_lat=='') || (obj.task_no!=null && obj.task_no!='') }">checked="checked"</c:if>/>&nbsp;火车头任务编号
+            <input type="checkbox" id="task_checkbox" name="copyfrom_lat2" value="2" <c:if test="${(obj.id==null || obj.id=='') || (obj.task_no!=null && obj.task_no!='') }">checked="checked"</c:if>/>&nbsp;火车头任务编号
         </td>
 	</tr>
 	<tr>

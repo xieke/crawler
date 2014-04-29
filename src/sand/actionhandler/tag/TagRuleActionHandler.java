@@ -163,6 +163,10 @@ public class TagRuleActionHandler extends ActionHandler {
 				&& StringUtils.isBlank(tag_rule.getString("importance"))) 
 			throw new ErrorException("自动要打的标签、GP重要度、客户重要度，三者必须有一个不能为空,请重新操作!");
 		
+		if(StringUtils.isBlank(tag_rule.getString("weibo_uid"))) tag_rule.set("weibo_uid", "");
+		if(StringUtils.isBlank(tag_rule.getString("copyfromurl"))) tag_rule.set("copyfromurl", "");
+		if(StringUtils.isBlank(tag_rule.getString("task_no"))) tag_rule.set("task_no", "");
+		if(StringUtils.isBlank(tag_rule.getString("copyfrom_lat"))) tag_rule.set("copyfrom_lat", "");
 		this.getJdo().addOrUpdate(tag_rule);
 		this.clearQueryParam();
 		this.list();

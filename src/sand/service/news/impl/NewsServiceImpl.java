@@ -186,6 +186,11 @@ public class NewsServiceImpl implements NewsService {
 	
 	private boolean validateCopyfrom(BizObject news,BizObject tagRule){
 		boolean b = false;
+		if(StringUtils.isBlank(tagRule.getString("weibo_uid"))
+				&&StringUtils.isBlank(tagRule.getString("copyfromurl"))
+				&&StringUtils.isBlank(tagRule.getString("task_no"))
+				&&StringUtils.isBlank(tagRule.getString("copyfrom_lat")))
+			return true;
 		if(this.validateWeiboUid(news, tagRule) || this.validateUrl(news, tagRule) || this.validateTaskNo(news, tagRule))
 			b = true;
 		return b;
