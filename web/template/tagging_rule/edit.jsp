@@ -107,7 +107,7 @@ $(function(){
         <td align="center">${detail.tag_name}</td>
         <td align="center"><m:out type="urgent" value="${detail.urgent}" /></td>
         <td align="center"><c:if test="${obj.importance==null || obj.importance==''}"></c:if><m:out type="importance" value="${detail.importance}" /></td>
-        <td align="center"><a href="/tag.TagRuleActionHandler.show?job=edit&objId=${detail.id}" onclick="return confirm('你确实要编辑吗?');"><img title="点击编辑" alt="点击编辑" src="/images/button_edit.png" /></a>&nbsp;<a href="/tag.TagRuleActionHandler.copy?job=edit&objId=${detail.id}" onclick="return confirm('你确实要复制吗?');"><img title="点击复制" src="/images/(00,35).png" /></a>&nbsp;<a href="/tag.TagRuleActionHandler.delete?job=delete&id=${detail.id}" onclick="return confirm('你确实要删除吗?');"><img title="点击删除" src="/images/del_icon2.gif" /></a></td>
+        <td align="center"><a href="/tag.TagRuleActionHandler.show?job=edit&objId=${detail.id}" onclick="return confirm('你确实要编辑吗?');"><img title="点击编辑" alt="点击编辑" src="/images/button_edit.png" /></a>&nbsp;<a href="/tag.TagRuleActionHandler.copy?job=edit&objId=${detail.id}" onclick="return confirm('你确实要复制吗?');"><img title="点击复制" src="/images/copy.png" /></a>&nbsp;<a href="/tag.TagRuleActionHandler.delete?job=delete&id=${detail.id}" onclick="return confirm('你确实要删除吗?');"><img title="点击删除" src="/images/del_icon2.gif" /></a></td>
     </tr>
 </c:forEach>
 	<tr class="edit">
