@@ -33,6 +33,18 @@
 			$("#urgent_hidden").val(urgent);
 		})
 		
+		$("#copyfrom_text").find("input:text").each(function(){
+			$(this).attr("disabled",true);
+		})
+
+		var v='' ;
+		$("#copyfrom_lat_text :checked").each(function(){
+			$("#copyfrom"+$(this).val()).attr("disabled",false);
+			if(v=='') v=$(this).val();
+			else v=v+","+$(this).val();
+		})
+		$("#copyfrom_lat").val(v);
+		
 		$("#copyfrom_lat_text [type='checkbox']").click(function(){
 			//if($("#copyfrom_lat_text :checked").length<=0) alert("请先选中");
 			$("#copyfrom_text").find("input:text").each(function(){
