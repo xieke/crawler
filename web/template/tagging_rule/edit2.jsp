@@ -32,6 +32,22 @@
 			})
 			$("#urgent_hidden").val(urgent);
 		})
+		
+		$("#copyfrom_lat_text [type='checkbox']").click(function(){
+			//if($("#copyfrom_lat_text :checked").length<=0) alert("请先选中");
+			$("#copyfrom_text").find("input:text").each(function(){
+				$(this).attr("disabled",true);
+				//$(this).attr("value","");
+			})
+
+			var v='' ;
+			$("#copyfrom_lat_text :checked").each(function(){
+				$("#copyfrom"+$(this).val()).attr("disabled",false);
+				if(v=='') v=$(this).val();
+				else v=v+","+$(this).val();
+			})
+			$("#copyfrom_lat").val(v);
+		})
 	})
 </script>
 <body>
@@ -44,28 +60,56 @@
 <input type="hidden" id="id" name="tag$id" value="" />
 <input type="hidden" id="tag_ids" name="tag_rule$tag_id" value="${obj.tag_id}" />
 <input type="hidden" id="tid" name="tag_rule$id" value="${obj.id}" />
+<input type="hidden" name="tag_rule$type" value="1" />
+
+
+<table class="ui edit" id="copyfrom_text">
+	<tr class="title"><td colspan="2">文章来源纬度</td></tr>
+    <tr>
+    	<td colspan="2" id="copyfrom_lat_text">
+        	<input type="hidden" name="tag_rule$copyfrom_lat" id="copyfrom_lat" value="${obj.copyfrom_lat}" />
+            
+    		<input type="checkbox" id="weibo_checkbox" name="copyfrom_lat0" value="0" <c:if test="${(obj.copyfrom_lat==null || obj.copyfrom_lat=='') || (obj.weibo_uid!=null && obj.weibo_uid!='') }">checked="checked"</c:if> />&nbsp;微博UID&nbsp;&nbsp;&nbsp;&nbsp;
+            
+            <input type="checkbox" id="url_checkbox" name="copyfrom_lat1" value="1" <c:if test="${(obj.copyfrom_lat==null || obj.copyfrom_lat=='') || (obj.copyfromurl!=null && obj.copyfromurl!='') }">checked="checked"</c:if>/>&nbsp;来源url&nbsp;&nbsp;&nbsp;&nbsp;
+            
+            <input type="checkbox" id="task_checkbox" name="copyfrom_lat2" value="2" <c:if test="${(obj.copyfrom_lat==null || obj.copyfrom_lat=='') || (obj.task_no!=null && obj.task_no!='') }">checked="checked"</c:if>/>&nbsp;火车头任务编号
+        </td>
+	</tr>
+	<tr>
+        <td width="75">微博UID：</td>
+        <td><input type="text" name="tag_rule$weibo_uid" id="copyfrom0" value="${obj.weibo_uid}" size="60" />&nbsp;<span style="color:#CCC;">多个值之间,以逗号分隔</span></td>
+    </tr>
+    <tr>
+        <td width="75">来源URL：</td>
+        <td><input type="text" name="tag_rule$copyfromurl" id="copyfrom1" value="${obj.copyfromurl}" size="60" />&nbsp;<span style="color:#CCC;">多个值之间,以逗号分隔</span></td>
+    </tr>
+    <tr>
+        <td width="75">任务编号：</td>
+        <td><input type="text" name="tag_rule$task_no" id="copyfrom2" value="${obj.task_no}" size="60" />&nbsp;<span style="color:#CCC;">多个值之间,以逗号分隔</span></td>
+    </tr>
+</table>
+
 <table class="ui edit">
-<tr class="title"><td colspan="2">修改自动Tag规则</td></tr>
-    <tr>
-        <td width="75">条件域：</td>
-        <td>
-        	<input type="radio" name="tag_rule$type" value="0" <c:if test="${obj.type=='0'}">checked="checked"</c:if> />来源URL &nbsp;&nbsp;&nbsp;&nbsp;
-        	<input type="radio" name="tag_rule$type" value="1" <c:if test="${obj.type=='1'}">checked="checked"</c:if> />正文或标题</td>
+<tr class="title"><td colspan="2">关键字纬度</td></tr>
+	<tr>
+        <td width="75">条件：</td>
+        <td><input type="radio" name="tag_rule$conditions" value="or" <c:if test="${obj.conditions=='or' || obj.conditions=='' || obj.conditions==null}">checked="checked"</c:if> />or &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="tag_rule$conditions" value="and" <c:if test="${obj.conditions=='and'}">checked="checked"</c:if> />and</td>
     </tr>
     <tr>
-        <td>条件：</td>
-        <td><input type="radio" name="tag_rule$conditions" value="or" <c:if test="${obj.conditions=='or' || obj.conditions==''}">checked="checked"</c:if> />or &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="tag_rule$conditions" value="and" <c:if test="${obj.conditions=='and'}">checked="checked"</c:if> />and</td>
+        <td width="75">包含关键字：</td>
+        <td><input type="text" name="tag_rule$keyword" value="${obj.keyword}" size="60"/>&nbsp;<span style="color:#CCC;">多个值之间,以逗号分隔</span></td>
+    </tr>
+</table>
+
+<table class="ui edit">
+<tr class="title"><td colspan="2">自动Tag</td></tr>
+	<tr>
+        <td width="75">规则名称：</td>
+        <td><input type="text" name="tag_rule$name" value="${obj.name}" size="60" /></td>
     </tr>
     <tr>
-        <td>包含关键字：</td>
-        <td><input type="text" name="tag_rule$keyword" value="${obj.keyword}" /></td>
-    </tr>
-    <tr>
-        <td>博主uid：</td>
-        <td><input type="text" name="tag_rule$weibo_uid" value="${obj.weibo_uid}"/>&nbsp;&nbsp;&nbsp;&nbsp;不受条件设置的影响,一律是or</td>
-    </tr>    
-    <tr>
-        <td>标签：</td>
+        <td width="75">标签：</td>
         <td>
 <input type="hidden" id="tags" name="tag_rule$tag_name" />
 <ul id="tags_result" class="tags_result select_label"></ul>
@@ -74,34 +118,21 @@
         </td>
     </tr>
     <tr>
-        <td>客户重要度：</td>
+        <td width="75">客户重要度：</td>
         <td><input type="radio" name="tag_rule$urgent" value="" <c:if test="${obj.urgent==null || obj.urgent==''}">checked="checked"</c:if>/>无<m:radio type="urgent" name="tag_rule$urgent" value="${obj.urgent}" /></td>
-        <!--
-        <td id="urgent_text">
-        	<c:forEach var="ur" items="${urgentList}"  varStatus="status">
-            	<m:checkbox name="${statux.index}$ur$urgent" value="${ur.id}" checkValue="${ur.checkValue}"/>${ur.name}
-            </c:forEach>
-            <input type="hidden" name="tag_rule$urgent" id="urgent_hidden" value="${obj.urgent}" />
-        </td>-->
     </tr>
     <tr>
-        <td>GP重要度：</td>
+        <td width="75">GP重要度：</td>
         <td><input type="radio" name="tag_rule$importance" value="" <c:if test="${obj.importance==null || obj.importance==''}">checked="checked"</c:if>/>无<m:radio type="importance" name="tag_rule$importance" value="${obj.importance}" /></td>
-        <!--
-        <td id="importance_text">
-        	<c:forEach var="im" items="${importanceList}"  varStatus="status">
-            	<m:checkbox name="${statux.index}$im$importance" value="${im.id}" checkValue="${im.checkValue}"/>${im.name}
-            </c:forEach>
-            <input type="hidden" name="tag_rule$importance" id="importance_hidden" value="${obj.importance}" />
-        </td>-->
     </tr>  
-    <tr>
-    	<td></td>
-        <td><input type="submit" value="提交" class="right-button08" />
-        <input type="button" value="放弃保存" onclick="window.history.go(-1);" /></td>
-    </tr>
 </table>
-
+<div><table class="ui edit" style="border:0">
+		<tr>
+        	<td width="75"></td>
+        	<td><input type="submit" value="提交" class="right-button08" /><input type="button" value="放弃保存" onclick="window.history.go(-1);" /></td>
+        </tr>
+      </table>
+</div>
 
 </form>
 </body>

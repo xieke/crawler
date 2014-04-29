@@ -155,66 +155,133 @@ public class NewsServiceImpl implements NewsService {
 	 */
 	private void hitTagging(BizObject news,String content) throws SQLException{
 		List<BizObject> tagRuleList = tagRuleService.queryTagRules();
-		boolean b = false;//false:打标签;true:不打标签
+		
 		for(BizObject tagRule : tagRuleList){
 			
-			if(news.getString("isweibo").equals("1")){
-				String[] uids = tagRule.getString("weibo_uid").split(",");
-				for(String uid : uids){
-					if(uid.equals("")) continue;
-					
-					if(news.getString("author_id").indexOf(uid)>=0){
-						String[] tag_ids = tagRule.getString("tag_id").split(",");
-						for(String s : tag_ids){
-							if(news.getString("tag_ids").indexOf(s)==-1) {
-								news.set("tags", (StringUtils.isBlank(news.getString("tags"))?"":news.getString("tags"))+tagService.getById(s).getString("name")+",");
-								news.set("tag_ids", (StringUtils.isBlank(news.getString("tag_ids"))?"":news.getString("tag_ids"))+s+",");
-							}
-						}
-						BaseJob.currentSession().update(news);
-					}
-				}
+			if(this.validateCopyfrom(news, tagRule) && this.validateKeyword(news, tagRule, content)){
+				this.updateNewsByTagRule(news, tagRule);
 			}
+//			if(news.getString("isweibo").equals("1")){
+//				String[] uids = tagRule.getString("weibo_uid").split(",");
+//				for(String uid : uids){
+//					if(uid.equals("")) continue;
+//					
+//					if(news.getString("author_id").indexOf(uid)>=0){
+//						String[] tag_ids = tagRule.getString("tag_id").split(",");
+//						for(String s : tag_ids){
+//							if(news.getString("tag_ids").indexOf(s)==-1) {
+//								news.set("tags", (StringUtils.isBlank(news.getString("tags"))?"":news.getString("tags"))+tagService.getById(s).getString("name")+",");
+//								news.set("tag_ids", (StringUtils.isBlank(news.getString("tag_ids"))?"":news.getString("tag_ids"))+s+",");
+//							}
+//						}
+//						BaseJob.currentSession().update(news);
+//					}
+//				}
+//			}
 			
 			
-			if(tagRule.getString("type").equals(BasicContext.TAGRULE_TYPE_CONTENT)){
-				String[] keywords = tagRule.getString("keyword").split(",");
-				//循环关键字
-				for(String keyword : keywords){
-					//如果当前的关键字不为空
-					if(StringUtils.isNotBlank(keyword)){
-						//如果标题或者内容包含当前的关键字
-						if(news.getString("title").indexOf(keyword)!=-1 || content.indexOf(keyword)!=-1){
-							news.set("content", content.replace(keyword, "<span style=\"background-color:#CF3\">"+keyword+"</span>"));
-							if(tagRule.getString("conditions").equals("or")){//如果当前的条件是or,也就是只要包含一个关键字就打标签,则直接打上
-								this.updateNewsByTagRule(news, tagRule);
-							}else b=true;//否则就设置当前的条件为true
-						}else b=false;//否则就设置当前的条件为false
-					}
-				}
-				if(tagRule.getString("conditions").equals("and")){//如果当前的条件是and,则看当前文章是否都包含所有的关键字
-					 if(b) this.updateNewsByTagRule(news, tagRule);
-				}
-			}else {
-				String[] keywords = tagRule.getString("keyword").split(",");
-				for(String keyword : keywords){
-					if(StringUtils.isNotBlank(keyword)){
-						if(news.getString("copyfromurl").indexOf(keyword)!=-1){
-							news.set("content", content.replace(keyword, "<span style=\"background-color:#CF3\">"+keyword+"</span>"));
-							if(tagRule.getString("conditions").equals("or")){//如果当前的条件是or,也就是只要包含一个关键字就打标签,则直接打上
-								this.updateNewsByTagRule(news, tagRule);
-							}else b=true;//否则就设置当前的条件为true
-						}else b=false;//否则就设置当前的条件为false
-					}
-				}
-				if(tagRule.getString("conditions").equals("and")){//如果当前的条件是and,则看当前文章是否都包含所有的关键字
-					 if(b) this.updateNewsByTagRule(news, tagRule);
-				}
-			}
+			
 		}
 	}
 	
-	public void updateNewsByTagRule(BizObject news,BizObject tagRule) throws SQLException{
+	private boolean validateCopyfrom(BizObject news,BizObject tagRule){
+		boolean b = false;
+		if(this.validateWeiboUid(news, tagRule) || this.validateUrl(news, tagRule) || this.validateTaskNo(news, tagRule))
+			b = true;
+		return b;
+	}
+	
+	/**
+	 * 验证weibo_uid是否满足条件(只要有一个满足即可)
+	 * 
+	 * @param news
+	 * @param tagRule
+	 * @return
+	 */
+	private boolean validateWeiboUid(BizObject news,BizObject tagRule){
+		boolean b = false;
+		String[] uids = tagRule.getString("weibo_uid").split(",");
+		for(String uid : uids){
+			if(uid.equals("")) continue;
+			if(news.getString("author").indexOf(uid)>=0) return true;
+		}
+		return b;
+	}
+	
+	/**
+	 * 验证url是否满足条件(只要有一个满足即可)
+	 * 
+	 * @param news
+	 * @param tagRule
+	 * @return
+	 */
+	private boolean validateUrl(BizObject news,BizObject tagRule){
+		boolean b = false;
+		String[] uids = tagRule.getString("copyfromurl").split(",");
+		for(String uid : uids){
+			if(uid.equals("")) continue;
+			if(news.getString("copyfromurl").indexOf(uid)>=0) return true;
+		}
+		return b;
+	}
+	
+	/**
+	 * 验证taskno是否满足条件(只要有一个满足即可)
+	 * 
+	 * @param news
+	 * @param tagRule
+	 * @return
+	 */
+	private boolean validateTaskNo(BizObject news,BizObject tagRule){
+		boolean b = false;
+		String[] uids = tagRule.getString("task_no").split(",");
+		for(String uid : uids){
+			if(uid.equals("")) continue;
+			if(news.getString("task_no").indexOf(uid)>=0) return true;
+		}
+		return b;
+	}
+	
+	public boolean validateKeyword(BizObject news,BizObject tagRule,String content){
+		boolean b = false;//false:打标签;true:不打标签
+		if(StringUtils.isBlank(tagRule.getString("keyword"))) return true;
+		String[] keywords = tagRule.getString("keyword").split(",");
+		//循环关键字
+		for(String keyword : keywords){
+			//如果当前的关键字不为空
+			if(StringUtils.isNotBlank(keyword)){
+				//如果标题或者内容包含当前的关键字
+				if(news.getString("title").indexOf(keyword)!=-1 || content.indexOf(keyword)!=-1){
+					news.set("content", content.replace(keyword, "<span style=\"background-color:#CF3\">"+keyword+"</span>"));
+					if(tagRule.getString("conditions").equals("or")){//如果当前的条件是or,也就是只要包含一个关键字就打标签,则直接打上
+						return true;//this.updateNewsByTagRule(news, tagRule);
+					}else b=true;//否则就设置当前的条件为true
+				}else b=false;//否则就设置当前的条件为false
+			}
+		}
+		return b;
+//			if(tagRule.getString("conditions").equals("and")){//如果当前的条件是and,则看当前文章是否都包含所有的关键字
+//				 if(b) this.updateNewsByTagRule(news, tagRule);
+//			}
+//		}else {
+//			String[] keywords = tagRule.getString("keyword").split(",");
+//			for(String keyword : keywords){
+//				if(StringUtils.isNotBlank(keyword)){
+//					if(news.getString("copyfromurl").indexOf(keyword)!=-1){
+//						news.set("content", content.replace(keyword, "<span style=\"background-color:#CF3\">"+keyword+"</span>"));
+//						if(tagRule.getString("conditions").equals("or")){//如果当前的条件是or,也就是只要包含一个关键字就打标签,则直接打上
+//							this.updateNewsByTagRule(news, tagRule);
+//						}else b=true;//否则就设置当前的条件为true
+//					}else b=false;//否则就设置当前的条件为false
+//				}
+//			}
+//			if(tagRule.getString("conditions").equals("and")){//如果当前的条件是and,则看当前文章是否都包含所有的关键字
+//				 if(b) this.updateNewsByTagRule(news, tagRule);
+//			}
+//		}
+	}
+	
+	private void updateNewsByTagRule(BizObject news,BizObject tagRule) throws SQLException{
 		String[] tag_ids = tagRule.getString("tag_id").split(",");
 		for(String s : tag_ids){
 			if(news.getString("tag_ids").indexOf(s)==-1) {
