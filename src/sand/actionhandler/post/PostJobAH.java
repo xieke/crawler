@@ -224,7 +224,11 @@ public class PostJobAH extends ActionHandler {
 		BizObject b = new BizObject("posted");
 		b.setID(id);
 		b.refresh();
-		result=result+PostJob.processJob(b, this.getJdo());
+		
+		BizObject pj = new BizObject("postjob");
+		pj.setID(b.getString("postjobid"));
+		pj.refresh();
+		result=result+PostJob.processJob(pj, this.getJdo());
 		log("result is "+result);
 		
 		this.clearQueryParam();
