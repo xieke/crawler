@@ -666,6 +666,8 @@ public class PostJob extends BaseJob {
 		
 		if(m.isEmpty()){
 			
+			
+			job.set("executetime", new Date());
 			job.set("memo","没有符合的记录，退出");					
 			//如果发送成功，才更新最后发送时间
 //			if(success)
@@ -678,7 +680,7 @@ public class PostJob extends BaseJob {
 			job.set("lang", rule.getString("lang"));
 			job.set("postjobid", job.getId());
 			job.setID("");//这里是新的postid
-			job.set("executetime", new Date());
+			//job.set("executetime", new Date());
 			job.set("result", "fail");
 			jdo.add(job);   
 			logger.info("add job "+job);
@@ -772,7 +774,9 @@ public class PostJob extends BaseJob {
 		
 		String newsids = getAllNewsId(m);
 
-		job.set("memo",memo);					
+		job.set("memo",memo);
+		job.set("executetime", new Date());
+		
 		//如果发送成功，才更新最后发送时间
 		if(success){
 			job.set("lastposttime", new Date());
@@ -790,7 +794,7 @@ public class PostJob extends BaseJob {
 		job.resetObjType("posted");
 		job.set("postjobid", job.getId());
 		job.set("lang", rule.getString("lang"));
-		job.set("executetime", new Date());
+		//job.set("executetime", new Date());
 		job.setID("");//这里是新的postid
 		jdo.add(job);   
 						
