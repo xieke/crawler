@@ -681,7 +681,7 @@ public class PostJob extends BaseJob {
 			job.set("postjobid", job.getId());
 			job.setID("");//这里是新的postid
 			//job.set("executetime", new Date());
-			job.set("result", "fail");
+			job.set("result", "success");
 			jdo.add(job);   
 			logger.info("add job "+job);
 			logger.info("没有符合的记录，退出");

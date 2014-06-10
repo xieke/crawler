@@ -32,7 +32,7 @@ public class RulesActionHandler extends ActionHandler {
 	public void show() throws SQLException{
 		BizObject rules = QueryFactory.getInstance("rules").getByID(this._objId);
 		List<BizObject> list = this.getTagService().openAllWithSelectedTag("");
-		List<BizObject> cyclelist = SystemKit.getCachePickList("cycle");
+		List<BizObject> cyclelist = SystemKit.getNoCachePickList("cycle");
 		if(rules!=null){
 			String[] str = rules.getString("tag_ids").split(",");
 			
@@ -83,6 +83,8 @@ public class RulesActionHandler extends ActionHandler {
 		BizObject rules = this.getBizObjectFromMap("rules");
 		rules.set("tags", this.getParameter("tags"));
 		rules.set("tag_ids", this.getParameter("tag_ids"));
+		if(StringUtils.isBlank(rules.getString("importance"))) rules.set("importance", null);
+		if(StringUtils.isBlank(rules.getString("urgent"))) rules.set("urgent", null);
 		if(StringUtils.isBlank(rules.getId())) rules.set("status", 1);
 		this.getJdo().addOrUpdate(rules);
 		this.clearQueryParam();
