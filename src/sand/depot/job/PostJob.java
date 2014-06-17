@@ -347,13 +347,14 @@ public class PostJob extends BaseJob {
 					
 					parseSummary(b,lang);
 					parseTags(b,lang);
-					logger.info("summary is "+b.getString("summary"));
+					
 					//summary为空，不发邮件
 					if(b.getString("summary").equals("")) {
 						logger.info("issue 为 1 的记录  summar  却为  空！！！！！！！！！！！！！！！！！！！！！！！   "+b.getString("title"));
 						continue;
 					}
 					else{
+						logger.info("add  summary: "+b.getString("summary"));
 						onetags.add(b);
 						//allv.remove(b);
 						//i--;						
@@ -366,7 +367,7 @@ public class PostJob extends BaseJob {
 					tagsMap.put(ptagname, new ArrayList()); //放一个父标签
 				//total = total +onetags.size();
 				tagsMap.put(tagname, onetags);
-				log(tagname+"   "+onetags.size());
+				logger.info(tagname+"   "+onetags.size());
 			}
 			
 		
@@ -689,7 +690,11 @@ public class PostJob extends BaseJob {
 			return "没有符合的记录，退出";
 		}
 		
-		logger.info("news  size is "+m.size());
+		logger.info("map  size is "+m.size());
+		for(String key:m.keySet()){
+			List v =m.get(key);
+			logger.info("key is "+key+"  size is  "+v.size());
+		}
 		String c_ids[]=job.getString("customers").split(",");
 		String content_posted="";
 		String postid=UidGenerator.getUUId();
