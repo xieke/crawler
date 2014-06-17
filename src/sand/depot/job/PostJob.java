@@ -213,6 +213,9 @@ public class PostJob extends BaseJob {
 		       return result;   
 
 		}
+	
+	
+	//static Map<String,Object> renderMap = new HashMap();
 	/**
 	 * 取待发送的post列表。 每次限取20条
 	 * 按重要度排序，列表数应该有一个最大的限制
@@ -239,8 +242,8 @@ public class PostJob extends BaseJob {
 		String key = tagids+lastposttime+importance+urgent+ limit+lang+now;
 		log("key is "+key+"   ");
 		
-		Map<String,Object> renderMap = new HashMap();
-		if(renderMap.get(key)==null){
+		//Map<String,Object> renderMap = new HashMap();
+		//if(renderMap.get(key)==null){
 			
 			//Map<String ,List> m=new HashMap();			
 			
@@ -265,12 +268,15 @@ public class PostJob extends BaseJob {
 			Map<String,List> tagsMap = renderMap(allv,tagids,lang);
 			
 			//log("total is "+total );
-			renderMap.put(key,tagsMap);
+			//renderMap.put(key,tagsMap);
 			return tagsMap;
 		
-	}
-		else
-		return (Map<String,List>) renderMap.get(key);
+//	}
+//		else{
+//			logger.info("return from cache ... ");
+//			return (Map<String,List>) renderMap.get(key);	
+//		}
+		
 	}
 	
 	public static void parseTags(BizObject b,String lang){
@@ -329,7 +335,7 @@ public class PostJob extends BaseJob {
 				
 			}
 			
-			logger.info("tagname is "+tagname+"  ptagname is "+ptagname+"  oldptagname is "+oldptagname);
+			logger.info("tagname is "+tagname+"  parent tagname is "+ptagname+"  oldptagname is "+oldptagname);
 			
 			List<BizObject> onetags = new ArrayList();
 			
@@ -343,21 +349,21 @@ public class PostJob extends BaseJob {
 				 * 根据配置文件决定文章归在哪一类tag,并决定语言显示summary
 				 */
 				if(b.getString("tag_ids").indexOf(tid)>=0){
-					logger.info("begin process tag id "+tid);
+					//logger.info("begin process tag id "+tid);
 					
 					parseSummary(b,lang);
 					parseTags(b,lang);
 					
 					//summary为空，不发邮件
 					if(b.getString("summary").equals("")) {
-						logger.info("issue 为 1 的记录  summar  却为  空！！！！！！！！！！！！！！！！！！！！！！！   "+b.getString("title"));
+						//logger.info("issue 为 1 的记录  summar  却为  空！！！！！！！！！！！！！！！！！！！！！！！   "+b.getString("title"));
 						continue;
 					}
 					else{
-						logger.info("add  summary: "+b.getString("summary"));
+						//logger.info("add  summary: "+b.getString("summary"));
 						onetags.add(b);
-						//allv.remove(b);
-						//i--;						
+						allv.remove(b);
+						i--;						
 					}
 				}
 			}	
@@ -367,7 +373,7 @@ public class PostJob extends BaseJob {
 					tagsMap.put(ptagname, new ArrayList()); //放一个父标签
 				//total = total +onetags.size();
 				tagsMap.put(tagname, onetags);
-				logger.info(tagname+"   "+onetags.size());
+				logger.info("put "+tagname+"   "+onetags.size());
 			}
 			
 		
