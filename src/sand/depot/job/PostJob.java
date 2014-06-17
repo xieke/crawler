@@ -309,7 +309,7 @@ public class PostJob extends BaseJob {
 		for(String tid:tagid){
 			
 			if(tid.equals("")) continue;
-			List<BizObject> onetags = new ArrayList();
+			
 			
 			
 			BizObject tag= new BizObject("tag");
@@ -331,7 +331,7 @@ public class PostJob extends BaseJob {
 			
 			logger.info("tagname is "+tagname+"  ptagname is "+ptagname+"  oldptagname is "+oldptagname);
 			
-			
+			List<BizObject> onetags = new ArrayList();
 			
 			for(int i=0 ; i<allv.size();i++){
 				
@@ -343,10 +343,11 @@ public class PostJob extends BaseJob {
 				 * 根据配置文件决定文章归在哪一类tag,并决定语言显示summary
 				 */
 				if(b.getString("tag_ids").indexOf(tid)>=0){
+					logger.info("begin process tag id "+tid);
 					
 					parseSummary(b,lang);
 					parseTags(b,lang);
-					
+					logger.info("summary is "+b.getString("summary"));
 					//summary为空，不发邮件
 					if(b.getString("summary").equals("")) {
 						logger.info("issue 为 1 的记录  summar  却为  空！！！！！！！！！！！！！！！！！！！！！！！   "+b.getString("title"));
@@ -354,8 +355,8 @@ public class PostJob extends BaseJob {
 					}
 					else{
 						onetags.add(b);
-						allv.remove(b);
-						i--;						
+						//allv.remove(b);
+						//i--;						
 					}
 				}
 			}	
@@ -687,6 +688,8 @@ public class PostJob extends BaseJob {
 			logger.info("没有符合的记录，退出");
 			return "没有符合的记录，退出";
 		}
+		
+		logger.info("news  size is "+m.size());
 		String c_ids[]=job.getString("customers").split(",");
 		String content_posted="";
 		String postid=UidGenerator.getUUId();
