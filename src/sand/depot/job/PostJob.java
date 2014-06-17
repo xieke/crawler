@@ -335,7 +335,7 @@ public class PostJob extends BaseJob {
 				
 			}
 			
-			logger.info("tagname is "+tagname+"  parent tagname is "+ptagname+"  oldptagname is "+oldptagname);
+			//logger.info("tagname is "+tagname+"  parent tagname is "+ptagname+"  oldptagname is "+oldptagname);
 			
 			List<BizObject> onetags = new ArrayList();
 			
@@ -369,8 +369,12 @@ public class PostJob extends BaseJob {
 			}	
 			//log("put "+s+"  "+onetags.size());
 			if(onetags.size()>0){
-				if(!ptagname.equals(""))
-					tagsMap.put(ptagname, new ArrayList()); //放一个父标签
+				if(!ptagname.equals("")){
+					logger.info("put parent tag name  "+ptagname);
+					if(tagsMap.get(ptagname)==null)
+						tagsMap.put(ptagname, new ArrayList()); //放一个父标签
+				}
+					
 				//total = total +onetags.size();
 				tagsMap.put(tagname, onetags);
 				logger.info("put "+tagname+"   "+onetags.size());
