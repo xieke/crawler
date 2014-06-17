@@ -349,7 +349,7 @@ public class PostJob extends BaseJob {
 					
 					//summary为空，不发邮件
 					if(b.getString("summary").equals("")) {
-						logger.info("issue 为 1 的记录  summar  却为  空！！！！！！！！！！！！！！！！！！！！！！！   "+b);
+						logger.info("issue 为 1 的记录  summar  却为  空！！！！！！！！！！！！！！！！！！！！！！！   "+b.getString("title"));
 						continue;
 					}
 					else{
