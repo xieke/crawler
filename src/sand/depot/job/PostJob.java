@@ -372,7 +372,7 @@ public class PostJob extends BaseJob {
 				if(!ptagname.equals("")){
 					logger.info("put parent tag name  "+ptagname);
 					if(tagsMap.get(ptagname)==null)
-						tagsMap.put(ptagname, new ArrayList()); //放一个父标签
+						tagsMap.put(ptagname, new ArrayList()); //放一个空的父标签
 				}
 					
 				//total = total +onetags.size();

@@ -83,7 +83,13 @@
                     <td><input type="text"  id="limits" name="mailserver$fromaddr" value="${obj.fromaddr}" />
 					</td>
 				  </tr>
-                  <tr>
+				  <tr>
+					<td>发送人：</td>
+                    <td><input type="text"  id="limits" name="mailserver$fromnick" value="${obj.fromnick}" />
+					</td>
+				  </tr>
+
+				  <tr>
 					<td></td>
                     <td><input type="submit" id="save" name="save" class="button" value="提交" />
                     <input type="button" value="放弃保存" onclick="window.history.go(-1);" /></td>
